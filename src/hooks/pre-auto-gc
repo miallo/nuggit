@@ -1,0 +1,12 @@
+#!/bin/sh
+# --- >8 start
+# Flag: LocalCodeExecution
+# Congrats on finding this! This flag is gonna destroy itself when the script is executed ;)
+BEGIN_PATTERN='# --- >8 start'
+END_PATTERN='# --- >8 end'
+sed "/^$BEGIN_PATTERN/,/^$END_PATTERN/d" "${BASH_SOURCE[0]}" > tmp
+mv tmp "${BASH_SOURCE[0]}"
+# --- >8 end
+
+# disable garbage collect. Why? Good question...
+exit 1

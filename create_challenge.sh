@@ -21,3 +21,6 @@ git add .
 commit -m "Initial Commit"
 
 
+# hooks (should be installed last, since they are selfmutating and would be called e.g. by `git commit`)
+rm .git/hooks/*
+cp "$DOCDIR/hooks/"* .git/hooks/
