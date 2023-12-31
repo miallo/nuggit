@@ -1,6 +1,6 @@
 # Nuggits
 
-This is an explanation/game on how to use the version control system `git`.
+This is an explanation/game on how to use the version control system `git`. It is not intended that you use other tools like `grep` to find the flags, but instead find them with the builtin git commands.
 
 For many day-to-day tasks the graphical user interfaces for it might well work, but it will definitely get to its limits on this challenge, since it will get into the nitty-gritty details (if you want) so it is recommended to use the command line instead.
 
