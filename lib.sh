@@ -32,8 +32,8 @@ commit() {
 reproducibility_setup() {
     # Setup for reproducibility
     # Don't use $HOME/.gitconfig or global config
-    GIT_CONFIG_SYSTEM=/dev/null
-    GIT_CONFIG_GLOBAL=/dev/null
+    GIT_CONFIG_SYSTEM=""
+    GIT_CONFIG_GLOBAL=""
 
     # use fixed user
     git config user.name "Nuggit Challenge"
