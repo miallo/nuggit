@@ -20,6 +20,16 @@ cp "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
 
+# branches
+git switch -c branches-explained
+cp "$DOCDIR/04_branch/branch.md" .
+git add branch.md
+commit -m "WIP: add description on branches
+
+Flag: ShowMeMore
+"
+git switch main
+
 # commit
 cp "$DOCDIR/03_commit/commit.md" .
 git add commit.md
