@@ -16,5 +16,13 @@ ROOT="$(git rev-parse --show-toplevel)"
 )
 # --- >8 end
 
-# disable garbage collect. Why? Good question...
-exit 1
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# add a flag to the commit message
+git interpret-trailers --in-place --trailer "Flag: CommitMirInsAbendteuerland" "$COMMIT_MSG_FILE"
+if test -z "$COMMIT_SOURCE"
+then
+  /usr/bin/env perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+fi

@@ -20,13 +20,18 @@ cp "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
 
+# commit
+cp "$DOCDIR/03_commit/commit.md" .
+git add commit.md
+commit -m "Add description on commit"
+
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> README.md
 UNSTAGED_FLAG='Flag: WorkInProgress'
 STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
 STAGING_FLAG='Flag: CommitmentIssues'
-COMMIT_DESCRIPTION='To commit all changes in the staging area you can run `git commit` and an editor will open where you can type a commit message.'
+COMMIT_DESCRIPTION='To commit all changes in the staging area you can run `git commit` and an editor will open where you can type a commit message. Further information can be found in "commit.md"'
 echo "$UNSTAGED_FLAG" >> README.md
 echo >> README.md # newline for readability
 echo "$STAGING_DIFF_DESCRIPTION" >> README.md
