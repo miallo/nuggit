@@ -20,7 +20,7 @@ cp "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
 
-# branches
+# branches - careful: this commit hash is refered to in src/03_commit/commit.md
 git switch -c branches-explained
 cp "$DOCDIR/04_branch/branch.md" .
 git add branch.md
