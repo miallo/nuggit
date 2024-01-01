@@ -7,7 +7,6 @@
 
 # List of places to hide
 
-- commit message
 - reverted commit
 - remote (fetch)
 - different branch
