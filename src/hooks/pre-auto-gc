@@ -1,20 +1,4 @@
 #!/usr/bin/env bash
-# --- >8 start
-# Flag: LocalCodeExecution
-# Congrats on finding this! This flag is gonna destroy itself when any of the hooks are executed ;)
-shopt -s extglob
-BEGIN_PATTERN='# --- >8 start'
-END_PATTERN='# --- >8 end'
-ROOT="$(git rev-parse --show-toplevel)"
-(
-    cd "$ROOT/.git/hooks" &&
-    for file in !(*.bak); do
-        sed "/^$BEGIN_PATTERN/,/^$END_PATTERN/d" "$file" > "$file.bak"
-        mv "$file.bak" "$file"
-        chmod +x "$file"
-    done
-)
-# --- >8 end
 
 # disable garbage collect. Why? Good question...
 exit 1
