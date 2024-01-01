@@ -16,7 +16,7 @@ echo 'CommitmentIssues in diff --staged'
 git diff --staged | grep --quiet "Flag: CommitmentIssues"
 
 echo 'CommitMirInsAbendteuerland in new commit message'
-git commit -m 'My first commit'
+git commit -m 'My first commit' --quiet
 git show | grep --quiet "Flag: CommitMirInsAbendteuerland"
 
 echo 'ShowMeMore in branch commit'
