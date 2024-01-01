@@ -19,6 +19,9 @@ echo 'CommitMirInsAbendteuerland in new commit message'
 git commit -m 'My first commit'
 git show | grep --quiet "Flag: CommitMirInsAbendteuerland"
 
+echo 'ShowMeMore in branch commit'
+exec $(sed -n '/^```sh$/,/^```$/{n;p;}' commit.md) | grep --quiet "Flag: ShowMeMore"
+
 echo 'LocalCodeExecution flag should be deleted after execution of any hook (in this case the commit)'
 if ! [[ $(grep -L "# Flag: LocalCodeExecution" .git/hooks/*) ]]; then
     error "Selfdeleting flag was not removed after execution..."
