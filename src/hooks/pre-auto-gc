@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # --- >8 start
 # Flag: LocalCodeExecution
 # Congrats on finding this! This flag is gonna destroy itself when the script is executed ;)
