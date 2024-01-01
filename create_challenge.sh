@@ -20,7 +20,7 @@ cp "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
 
-# branches - careful: this commit hash is refered to in src/03_commit/commit.md
+# branches
 git switch -c branches-explained
 cp "$DOCDIR/04_branch/branch.md" .
 git add branch.md
@@ -28,6 +28,8 @@ commit -m "WIP: add description on branches
 
 Flag: ShowMeMore
 "
+# For reference in commit.md later
+BRANCH_COMMIT="$(git rev-parse --short @)"
 
 echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally prefered.' >> branch.md
 git add branch.md
@@ -36,7 +38,7 @@ commit -m "WIP branch: add explenation on checkout"
 git switch main
 
 # commit
-cp "$DOCDIR/03_commit/commit.md" .
+sed "s/BRANCH_COMMIT/$BRANCH_COMMIT/" "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 
