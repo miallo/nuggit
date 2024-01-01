@@ -50,6 +50,22 @@
     - git cat-file -p <hash>
 
 
+# Tools
+
+- noninteractive interactive rebase (for reflog)
+    - replace content of todo file with custom content:
+        - streameditor.sh:
+            ```sh
+            #!/usr/bin/env bash
+            cat > "$1" << EOF
+            r commit
+            pick commit2
+            EOF
+            ```
+        - `GIT_EDITOR="sed -i -e 's/old text in commit msg/fancy new text/g'" GIT_SEQUENCE_EDITOR="./streameditor.sh" git rebase -i HEAD~6`
+
+
+
 ## all hooks
 
 See documentation in the git repository under Documentation/githooks.txt
