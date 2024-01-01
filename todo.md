@@ -66,7 +66,7 @@
 
 
 
-## all hooks
+## hooks left to do:
 
 See documentation in the git repository under Documentation/githooks.txt
 
@@ -75,7 +75,6 @@ See documentation in the git repository under Documentation/githooks.txt
 - post-applypatch
 - pre-commit
 - pre-merge-commit
-- prepare-commit-msg
 - commit-msg
 - post-commit
 - pre-rebase
@@ -89,7 +88,6 @@ See documentation in the git repository under Documentation/githooks.txt
 - post-update
 - reference-transaction
 - push-to-checkout
-- pre-auto-gc
 - post-rewrite
 - sendemail-validate
 - fsmonitor-watchman
