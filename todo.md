@@ -20,7 +20,6 @@
 - .git/config (e.g. author)
     - alias
 - hooks (e.g. automatically add flag to commit message)
-    - post-checkout
     - post-merge
     - post-rewrite e.g. for commit --amend
     - pre-rebase
@@ -70,7 +69,6 @@ See documentation in the git repository under Documentation/githooks.txt
 - commit-msg
 - post-commit
 - pre-rebase
-- post-checkout
 - post-merge
 - pre-push
 - pre-receive
