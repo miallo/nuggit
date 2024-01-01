@@ -5,13 +5,8 @@
 - blame
 - grep
 
-NOTE for myself: add a `pre-auto-gc` hook with non-zero exit status to avoid automatic garbage collection
-
 # List of places to hide
 
-- plain text in the README
-- unstaged deleted
-- staged deleted
 - commit message
 - reverted commit
 - remote (fetch)
@@ -55,7 +50,7 @@ NOTE for myself: add a `pre-auto-gc` hook with non-zero exit status to avoid aut
     - git cat-file -p <hash>
 
 
-## hooks
+## all hooks
 
 See documentation in the git repository under Documentation/githooks.txt
 
