@@ -1,0 +1,15 @@
+name: Test
+
+on: [push]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: build challenge
+        run: ./create_challenge.sh
+      - name: run tests
+        run: ./test.sh
+      - run: echo "🍏 This job's status is ${{ job.status }}."
+
