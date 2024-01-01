@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+PREV_HEAD="$1"
+NEXT_REF="$2"
+IS_SWITCH="$3"
+
+if [ "$NEXT_REF" = "$(git rev-parse branches-explained)" ] && [ "$IS_SWITCH" = 1 ]; then
+    echo "Flag: Switcheridoo"
+fi
