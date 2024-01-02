@@ -36,6 +36,10 @@ echo 'A slightly older alternative to `switch` is `checkout`, which also works, 
 git add branch.md
 commit -m "WIP branch: add explanation on checkout"
 
+cat "$DOCDIR/04_branch/branch_create_delete.md" >> branch.md
+git add branch.md
+commit -m "WIP branch: add explanation on how to create/delete"
+
 git switch main
 
 # commit

@@ -34,4 +34,7 @@ exec $(sed -n '/^```sh$/,/^```$/{n;p;}' commit.md) | grep --quiet "Flag: ShowMeM
 echo 'Switcheridoo when switching to "branches-explained"'
 git switch branches-explained 2>&1 | grep --quiet "Flag: Switcheridoo"
 
+echo 'MyFirstBranch when creating'
+git switch -c my-new-branch 2>&1 | grep --quiet "Flag: MyFirstBranch"
+
 echo success!
