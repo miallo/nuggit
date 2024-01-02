@@ -32,9 +32,9 @@ Flag: ShowMeMore
 # For reference in commit.md later
 BRANCH_COMMIT="$(git rev-parse --short @)"
 
-echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally prefered.' >> branch.md
+echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally preferred.' >> branch.md
 git add branch.md
-commit -m "WIP branch: add explenation on checkout"
+commit -m "WIP branch: add explanation on checkout"
 
 git switch main
 
@@ -58,7 +58,7 @@ echo "$STAGING_FLAG" >> README.md
 echo >> README.md # newline for readability
 echo "$COMMIT_DESCRIPTION" >> README.md
 git add README.md
-commit -m 'README: add explenation on status and diff'
+commit -m 'README: add explanation on status and diff'
 
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
@@ -69,7 +69,7 @@ sed "/$UNSTAGED_FLAG/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
-# hooks (should be installed last, since they are selfmutating and would be called e.g. by `git commit`)
+# hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 # Prepend the LocalCodeExecution flag with the deletion script to all hooks to avoid code duplication
 rm .git/hooks/*
 
