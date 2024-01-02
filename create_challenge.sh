@@ -50,6 +50,13 @@ sed "s/BRANCH_COMMIT/$BRANCH_COMMIT/" "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 
+git switch main -c history
+cp "$DOCDIR/06_log/log.md" .
+git add log.md
+commit -m "Add description on log"
+
+git switch main
+
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> README.md
