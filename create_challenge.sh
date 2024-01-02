@@ -51,6 +51,12 @@ git add commit.md
 commit -m "Add description on commit"
 
 git switch --detach @
+# TODO: create interactive rebase commit
+INTERACTIVE_REBASE_COMMIT="INTERACTIVE_REBASE_COMMIT"
+sed "s/INTERACTIVE_REBASE_COMMIT/$INTERACTIVE_REBASE_COMMIT/" "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
+git add combine_history.md
+commit -m "Add description on how to combine branches"
+
 cp "$DOCDIR/08_tags/tags.md" .
 git add tags.md
 commit -m 'Add description on tags

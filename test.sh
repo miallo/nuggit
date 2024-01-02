@@ -55,6 +55,11 @@ EOF
 
 it 'AnnotateMeIfYouCan in annotated tag' '
 expect "git show the-first-tag" to contain "Flag: AnnotateMeIfYouCan"
+git switch --detach -q the-first-tag
 '
+
+xit 'TODO: find title for combine_history testcase' <<EOF
+expect 'eval "\$(get_sh_codeblock combine_history.md)"' to contain "FIXME TODO"
+EOF
 
 echo success!
