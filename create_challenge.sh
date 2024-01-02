@@ -50,6 +50,14 @@ sed "s/BRANCH_COMMIT/$BRANCH_COMMIT/" "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 
+git switch --detach @
+cp "$DOCDIR/08_tags/tags.md" .
+git add tags.md
+commit -m 'Add description on tags
+
+Flag: LogCat'
+git tag -a the-first-tag -m "Flag: AnnotateMeIfYouCan"
+
 git switch main -c history
 cp "$DOCDIR/06_log/log.md" .
 git add log.md
