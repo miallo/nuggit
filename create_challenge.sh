@@ -27,8 +27,7 @@ cp "$DOCDIR/04_branch/branch.md" .
 git add branch.md
 commit -m "WIP: add description on branches
 
-Flag: ShowMeMore
-"
+Flag: ShowMeMore"
 # For reference in commit.md later
 BRANCH_COMMIT="$(git rev-parse --short @)"
 
