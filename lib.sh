@@ -12,7 +12,7 @@ warn() {
 error() {
     RED='\033[0;31m'
     NC='\033[0m' # No Color
-    printf "${RED}$@${NC}\n" >&2
+    printf "${RED}%s${NC}\n" "$@" >&2
 }
 
 # copied from https://github.com/git/git/blob/e79552d19784ee7f4bbce278fe25f93fbda196fa/t/test-lib-functions.sh#L133-L143
