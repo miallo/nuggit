@@ -22,7 +22,7 @@ test_tick () {
     then
         test_tick=1112911993
     else
-        test_tick=$(($test_tick + 60))
+        test_tick=$((test_tick + 60))
     fi
     GIT_COMMITTER_DATE="$test_tick -0700"
     GIT_AUTHOR_DATE="$test_tick -0700"
