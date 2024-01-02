@@ -39,6 +39,10 @@ cat "$DOCDIR/04_branch/branch_create_delete.md" >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on how to create/delete"
 
+cat "$DOCDIR/04_branch/branch_list.md" >> branch.md
+git add branch.md
+commit -m "WIP branch: add explanation on how to list local branches"
+
 git switch main
 
 # commit
