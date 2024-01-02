@@ -54,13 +54,15 @@ UNSTAGED_FLAG='Flag: WorkInProgress'
 STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
 STAGING_FLAG='Flag: CommitmentIssues'
 COMMIT_DESCRIPTION='To commit all changes in the staging area you can run `git commit` and an editor will open where you can type a commit message. Further information can be found in "commit.md"'
-echo "$UNSTAGED_FLAG" >> README.md
-echo >> README.md # newline for readability
-echo "$STAGING_DIFF_DESCRIPTION" >> README.md
-echo >> README.md # newline for readability
-echo "$STAGING_FLAG" >> README.md
-echo >> README.md # newline for readability
-echo "$COMMIT_DESCRIPTION" >> README.md
+{
+    echo "$UNSTAGED_FLAG"
+    echo # newline for readability
+    echo "$STAGING_DIFF_DESCRIPTION"
+    echo # newline for readability
+    echo "$STAGING_FLAG"
+    echo # newline for readability
+    echo "$COMMIT_DESCRIPTION"
+} >> README.md
 git add README.md
 commit -m 'README: add explanation on status and diff'
 
