@@ -74,28 +74,11 @@ sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
-# Prepend the LocalCodeExecution flag with the deletion script to all hooks to avoid code duplication
 rm .git/hooks/*
 
 for file in $(ls "$DOCDIR/hooks"); do
-    cat - "$DOCDIR/hooks/$file" > ".git/hooks/$file" << EOF
-#!/usr/bin/env bash
-# --- >8 start
-# Flag: LocalCodeExecution
-# Congrats on finding this! This flag is gonna destroy itself when any of the hooks are executed ;)
-shopt -s extglob
-BEGIN_PATTERN='# --- >8 start'
-END_PATTERN='# --- >8 end'
-ROOT="\$(git rev-parse --show-toplevel)"
-(
-    cd "\$ROOT/.git/hooks" &&
-    for file in !(*.bak); do
-        sed "/^\$BEGIN_PATTERN/,/^\$END_PATTERN/d" "\$file" | sed -e "1d"  > "\$file.bak"
-        mv "\$file.bak" "\$file"
-        chmod +x "\$file"
-    done
-)
-# --- >8 end
-EOF
-    chmod +x ".git/hooks/$file"
+    cp "$DOCDIR/hooks/$file" ".git/hooks/$file.orig"
 done
+while read -r hook; do
+    cp "$DOCDIR/hook_preamble.sh" ".git/hooks/$hook"
+done < "$DOCDIR/all-git-hooks"
