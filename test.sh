@@ -37,4 +37,11 @@ git switch branches-explained 2>&1 | grep --quiet "Flag: Switcheridoo"
 echo 'MyFirstBranch when creating'
 git switch -c my-new-branch 2>&1 | grep --quiet "Flag: MyFirstBranch"
 
+git switch history
+echo 'LogCat for log'
+exec $(sed -n '/^```sh$/,/^```$/{n;p;}' log.md) | grep --quiet "Flag: LogCat"
+
+echo 'AnnotateMeIfYouCan in annotated tag'
+git show the-first-tag | grep --quiet "Flag: AnnotateMeIfYouCan"
+
 echo success!
