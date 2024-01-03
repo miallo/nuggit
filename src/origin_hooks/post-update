@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+echo "nuggit: PushItToTheLimits"
+if [ "$1" = "refs/heads/working-with-others" ]; then
+    echo 'To get the latest changes, run `git pull`'
+fi

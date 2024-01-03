@@ -93,10 +93,16 @@ redeem_nuggit Switcheridoo
 it 'MyFirstBranch when creating' '
 expect "git switch -c my-new-branch 2>&1" to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
-expect "git switch history -q" to succeed
+'
+
+it 'PushItToTheLimits is shown on push' '
+expect "git switch -q working-with-others" to succeed
+expect "git push 2>&1" to contain "nuggit: PushItToTheLimits"
+redeem_nuggit PushItToTheLimits
 '
 
 it 'LogCat for log' <<EOF
+expect "git switch history -q" to succeed
 expect 'eval "\$(get_sh_codeblock log.md)"' to contain "nuggit: LogCat"
 redeem_nuggit LogCat
 EOF

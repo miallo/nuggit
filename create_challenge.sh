@@ -37,6 +37,11 @@ cd challenge
 reproducibility_setup
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter origin
+git init --bare --initial-branch=main ./.git/my-origin
+git remote add origin ./.git/my-origin
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter store nuggits
 # Create an empty commit for our own nuggits "branch"
 # don't use `git commit`, since that would find itself in the reflog
@@ -135,6 +140,15 @@ nuggit: LogCat'
 git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter push
+git switch main -c working-with-others # found via "git branch --list"
+git push origin main
+git push --set-upstream origin @
+replace_placeholders "$DOCDIR/09_push_pull/push.md" > working-with-others.md
+git add working-with-others.md
+commit -m "Explain 'git push'"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter log
 git switch main -c history
 cp "$DOCDIR/06_log/log.md" .
@@ -181,6 +195,9 @@ create_chapter finalize setup
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
 add_player_config
+
+# origin hooks
+cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise
