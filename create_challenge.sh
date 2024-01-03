@@ -143,6 +143,11 @@ sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
+create_chapter origin
+git init --bare --initial-branch=main ./.git/my-origin
+git remote add origin ./.git/my-origin
+git push --set-upstream origin @
+
 create_chapter store nuggits
 # nuggits
 # TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
