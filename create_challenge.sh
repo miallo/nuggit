@@ -173,6 +173,8 @@ remove_build_setup_from_config
 add_player_config
 
 create_chapter hooks
+# origin hooks
+cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
