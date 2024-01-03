@@ -147,6 +147,15 @@ create_chapter origin
 git init --bare --initial-branch=main ./.git/my-origin
 git remote add origin ./.git/my-origin
 git push --set-upstream origin @
+(
+    cd .git
+    git clone ./my-origin another-downstream
+    cd another-downstream
+    reproducibility_setup 2
+    echo "Some changes..." >> README.md
+    commit -a -m "nuggit: SwimmingUpstream" --no-edit
+    git push
+)
 
 create_chapter store nuggits
 # nuggits

@@ -82,6 +82,13 @@ it 'restore should not show Switcheridoo nuggit' '
 expect "git restore README.md 2>&1" not to contain "nuggit: Switcheridoo"
 '
 
+it 'SwimmingUpstream is in upstream commit' '
+expect "git show origin/main" not to contain "nuggit: SwimmingUpstream"
+expect "git fetch -q" to succeed
+expect "git show origin/main" to contain "nuggit: SwimmingUpstream"
+redeem_nuggit SwimmingUpstream
+'
+
 it 'ShowMeMore in branch commit' <<EOF
 expect 'eval "\$(get_sh_codeblock commit.md)"' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore

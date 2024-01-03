@@ -42,8 +42,8 @@ reproducibility_setup() {
     export GIT_CONFIG_GLOBAL=""
 
     # use fixed user
-    git config user.name "Nuggit Challenge"
-    git config user.email nuggit-challenge@gmail.com
+    git config user.name "Nuggit$1 Challenge"
+    git config user.email "nuggit-challenge${1:+"+$1"}@gmail.com"
 }
 
 remove_build_setup_from_config() {
