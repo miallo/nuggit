@@ -40,7 +40,12 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
 
 # Assertion
 expect() {
-    local not result error show_error
+    local not result error
+    expect_err() {
+        echo >&2
+        echo "$1" >&2
+        exit 1
+    }
     command="$1"; shift
     if [ "$1" = not ]; then
         not="not "
@@ -48,39 +53,33 @@ expect() {
     fi
     to="$1"; shift # For readability only
     if [ "$to" != to ]; then
-        error="ERROR: usage of \`expect\` requires 'to', e.g.:
+        expect_err "ERROR: usage of \`expect\` requires 'to', e.g.:
     expect \"echo hi\" ${not}to <action> [<argument of action>]"
-        show_error=1
     else
         action="$1"; shift
         case "$action" in
             contain)
                 if [ $# -ne 1 ]; then
-                    error="ERROR: usage of \`expect ${not}to contain <string>\`. E.g.:
+                    expect_err "ERROR: usage of \`expect ${not}to contain <string>\`. E.g.:
         expect \"echo hi\" ${not}to contain 'hi'
 but got
         expect '$command' ${not}to contain $*"
-                    show_error=1
-                else
-                    string="$1"
-                    output="$(eval "$command")"
-
-                    [[ $output == *"$string"* ]] || result=1
-                    error="> $command
-        ${not}Expected: $string
-        Received: $output"
                 fi
+                string="$1"
+                output="$(eval "$command")"
+
+                [[ $output == *"$string"* ]] || result=1
+                error="> $command
+    ${not}Expected: $string
+    Received: $output"
                 ;;
             *)
-                error="ERROR: unknown action '$action' in \`expect ${not}to $action ...\`"
-                show_error=1
+                expect_err "ERROR: unknown action '$action' in \`expect ${not}to $action ...\`"
                 ;;
         esac
     fi
-    if [ -n "$show_error" ] || { [ -n "$not" ] && [ -z "$result" ]; } || { [ -z "$not" ] && [ -n "$result" ]; }; then
-        echo >&2
-        echo "$error" >&2
-        return 1
+    if { [ -n "$not" ] && [ -z "$result" ]; } || { [ -z "$not" ] && [ -n "$result" ]; }; then
+        expect_err "$error"
     fi
 }
 
