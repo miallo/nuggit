@@ -36,9 +36,9 @@ it 'restore should not show Switcheridoo flag' '
 expect "git restore README.md 2>&1" not to contain "Flag: Switcheridoo"
 '
 
-# TODO: figure out a way to do this in the testing framework without escaping hell
-exec $(sed -n '/^```sh$/,/^```$/{n;p;}' commit.md) | grep --quiet "Flag: ShowMeMore"
-success 'ShowMeMore in branch commit'
+it 'ShowMeMore in branch commit' <<EOF
+expect 'eval "\$(get_sh_codeblock commit.md)"' to contain "Flag: ShowMeMore"
+EOF
 
 it 'Switcheridoo when switching to "branches-explained"' '
 expect "git switch branches-explained 2>&1" to contain "Flag: Switcheridoo"
@@ -49,9 +49,9 @@ expect "git switch -c my-new-branch 2>&1" to contain "Flag: MyFirstBranch"
 git switch history -q
 '
 
-# TODO: figure out a way to do this in the testing framework without escaping hell
-exec $(sed -n '/^```sh$/,/^```$/{n;p;}' log.md) | grep --quiet "Flag: LogCat"
-success 'LogCat for log'
+it 'LogCat for log' <<EOF
+expect 'eval "\$(get_sh_codeblock log.md)"' to contain "Flag: LogCat"
+EOF
 
 it 'AnnotateMeIfYouCan in annotated tag' '
 expect "git show the-first-tag" to contain "Flag: AnnotateMeIfYouCan"

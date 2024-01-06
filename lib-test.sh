@@ -10,6 +10,11 @@ failure() {
     exit 1
 }
 
+get_sh_codeblock() {
+    # shellcheck disable=2016
+    sed -n '/^```sh$/,/^```$/{n;p;}' "$1"
+}
+
 # skipping/commenting out a testcase
 xit() {
     testname="$1"
