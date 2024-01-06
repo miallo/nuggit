@@ -61,21 +61,23 @@ expect() {
         case "$action" in
             contain)
                 if [ $# -ne 1 ]; then
-                    expect_err "ERROR: usage of \`expect ${not}to contain <string>\`. E.g.:
-        expect \"echo hi\" ${not}to contain 'hi'
-but got
-        expect '$command' ${not}to contain $*"
+                    expect_err "\
+usage:  expect <command> ${not}to contain <string>
+E.g.:
+        expect \"echo hi\" ${not}to contain '${not}hi'
+but got:
+        expect $(pretty_escape "$command" ${not} to contain "$@")"
                 fi
                 string="$1"
                 output="$(eval "$command")"
 
-                [[ $output == *"$string"* ]] || result=1
+                [[ $output =~ "$string" ]] || result=1
                 error="> $command
     ${not}Expected: $string
     Received: $output"
                 ;;
             *)
-                expect_err "ERROR: unknown action '$action' in \`expect ${not}to $action ...\`"
+                expect_err "ERROR: unknown action '$action' in \`expect ${not}to $(pretty_escape action) ...\`"
                 ;;
         esac
     fi
@@ -84,4 +86,23 @@ but got
     fi
 }
 
-
+pretty_escape() {
+    while [ $# -gt 0 ]; do
+        if ! [[ "$(printf "%q" "$1")" == *\\* ]]; then # No special characters to escape, so print raw
+            printf "%s" "$1"
+        else
+            num_single_quote_escapes=$(($(tr -dc "'" <<< "$1" | wc -m) * 3)) # three extra chars for '\''
+            # NOTE: "!" can, but does not have to be special - we stick to the safe side and assume it is
+            # See: https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
+            # special chars: $`"\!
+            num_double_quote_escapes=$(tr -dc '$`"\!' <<< "$1" | wc -m) # special chars in single quote == num of backticks required
+            if [ $num_single_quote_escapes -gt $num_double_quote_escapes ]; then
+                printf '"%s"' "$(sed -r 's/([$`"\!])/\\\1/g' <<< "$1")"
+            else
+                printf "'%s'" "$(sed -r "s/'/'"'\\'"''/g" <<< "$1")"
+            fi
+        fi
+        shift
+        [ $# -eq 0 ] || printf " "
+    done
+}
