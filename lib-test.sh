@@ -6,7 +6,7 @@ success() {
 }
 
 failure() {
-    printf "❌ \e[3;1;31m%s\e[0m\e[1;31m failed\e[0m\n" "$1" >&2
+    printf "\n❌ \e[3;1;31m%s\e[0m\e[1;31m failed\e[0m" "$1" >&2
     trap - ERR EXIT # Remove the trap handler, so that it does not call itself
     exit 1
 }
