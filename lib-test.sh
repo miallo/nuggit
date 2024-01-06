@@ -40,31 +40,46 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
 
 # Assertion
 expect() {
-    local contains not
+    local not result error show_error
     command="$1"; shift
     if [ "$1" = not ]; then
-        not="Not "
+        not="not "
         shift
     fi
-    to="$1"; shift
-    contain="$1"; shift
-    string="$1"
-    if [ "$to" != to ] || [ "$contain" != contain ] || [ $# -ne 1 ]; then
-        echo >&2
-        printf "ERROR: usage of \`expect\`:\n    expect \"echo hi\" to contain \"hi\"\nor\n    expect \"echo ho\" not to contain hi\n" >&2
-        echo "Command: $command" >&2
-        echo "not?: $not" >&2
-        echo "To: $to" >&2
-        echo "contain: $contain" >&2
-        echo "string: $string" >&2
-        return 1
-    fi
-    output="$(eval "$command")"
+    to="$1"; shift # For readability only
+    if [ "$to" != to ]; then
+        error="ERROR: usage of \`expect\` requires 'to', e.g.:
+    expect \"echo hi\" ${not}to <action> [<argument of action>]"
+        show_error=1
+    else
+        action="$1"; shift
+        case "$action" in
+            contain)
+                if [ $# -ne 1 ]; then
+                    error="ERROR: usage of \`expect ${not}to contain <string>\`. E.g.:
+        expect \"echo hi\" ${not}to contain 'hi'
+but got
+        expect '$command' ${not}to contain $*"
+                    show_error=1
+                else
+                    string="$1"
+                    output="$(eval "$command")"
 
-    [[ $output == *"$string"* ]] || contains=1
-    if { [ -n "$not" ] && [ -z "$contains" ]; } || { [ -z "$not" ] && [ -n "$contains" ]; }; then
+                    [[ $output == *"$string"* ]] || result=1
+                    error="> $command
+        ${not}Expected: $string
+        Received: $output"
+                fi
+                ;;
+            *)
+                error="ERROR: unknown action '$action' in \`expect ${not}to $action ...\`"
+                show_error=1
+                ;;
+        esac
+    fi
+    if [ -n "$show_error" ] || { [ -n "$not" ] && [ -z "$result" ]; } || { [ -z "$not" ] && [ -n "$result" ]; }; then
         echo >&2
-        printf "> %s\n\n    %sExpected: %s\n    Received: %s\n" "$command" "$not" "$string" "$output" >&2
+        echo "$error" >&2
         return 1
     fi
 }
