@@ -6,7 +6,7 @@ success() {
 }
 
 failure() {
-    printf "❌ \e[3;1;31m%s\e[0m\e[1;31m failed\e[0m\n" "$1"
+    printf "❌ \e[3;1;31m%s\e[0m\e[1;31m failed\e[0m\n" "$1" >&2
     exit 1
 }
 
@@ -30,11 +30,12 @@ it(){
         code="$(cat -)"
     fi
     printf "running %s" "$testname"
-    if eval "$code" >/dev/null; then
-        success "$testname"
-    else
-        failure "$testname"
-    fi
+    eval "set -eE
+trap 'failure $(printf "%q" "$testname")' ERR EXIT
+$code
+trap - EXIT # Remove the trap handler, so that it does not fire at the end of the script
+" >/dev/null
+    success "$testname"
 }
 
 # Assertion
