@@ -13,3 +13,5 @@ INTERACTIVE_REBASE_EXAMPLE_PICKS
 But what does this mean? Fortunately at the bottom of the file it shows a short summary on all the possible commands.
 
 In short: when you just save and quit, it will be exactly as a normal rebase. But if you change the
+
+TODO: TODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODOTODO
