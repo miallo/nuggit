@@ -12,6 +12,7 @@ fi
 . ./src/redeem.nuggit >/dev/null 2>&1
 
 LOCAL_CODE_EXECUTION_HASH="$(success "LocalCodeExecution" | git hash-object --stdin)"
+NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
 # initial setup
 
@@ -103,8 +104,21 @@ sed "/$UNSTAGED_FLAG/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
-"$DOCDIR/store_nuggits.sh"
-cp "$DOCDIR/redeem.nuggit" .
+# nuggits
+# TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
+eval "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (aka some loose objects)
+ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
+# for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
+CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
+CREDIT_WHERE_CREDIT_IS_DUE="$(echo "
+[ \"\$redeemed_flags\" -ne $((NUMBER_OF_NUGGITS - 1)) ] ||
+    git cat-file -p $ALMOST_CREDITS_HASH;
+[ \"\$redeemed_flags\" -ne $NUMBER_OF_NUGGITS ] ||
+    git cat-file -p $CREDITS_HASH | tr 'A-Za-z' 'N-ZA-Mn-za-m';" | tr -d "\n")"
+
+replace_placeholders "$DOCDIR/redeem.nuggit" > ./redeem.nuggit
+chmod +x ./redeem.nuggit
+
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 

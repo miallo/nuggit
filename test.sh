@@ -9,9 +9,18 @@ echo "Building..."
 ./create_challenge.sh >/dev/null 2>&1
 cd challenge
 
+check_redeem_without_local_code_execution() {
+    while read -r nuggit; do
+        [ "$nuggit" != LocalCodeExecution ] || continue
+        expect "./redeem.nuggit '$nuggit'" to contain Success
+    done < "$DOCDIR/nuggits"
+    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
+}
+
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
 git commit -am "Just a test to trigger hooks"
 expect "! ./redeem.nuggit LocalCodeExecution 2>&1" to contain "Unfortunately that is not a valid nuggit"
+check_redeem_without_local_code_execution
 '
 
 echo "Building once more..."
@@ -97,6 +106,7 @@ redeem_nuggit CuriosityKilledTheCat
 
 check_redeem() {
     while read -r nuggit; do
+        expect "./redeem.nuggit '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
         expect "./redeem.nuggit '$nuggit'" to contain "already redeemed"
         expect "./redeem.nuggit '$nuggit'" not to contain Success
     done < "$DOCDIR/nuggits"

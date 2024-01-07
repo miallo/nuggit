@@ -17,6 +17,13 @@ else
         exit
     fi
 
+    redeemed_flags=1
+    while git cat-file -e "$(echo "# Redemed flags: $redeemed_flags" | git hash-object --stdin)" 2>/dev/null; do
+        redeemed_flags=$((redeemed_flags + 1))
+    done
+
+    CREDIT_WHERE_CREDIT_IS_DUE
+
     git cat-file -p "$(echo "'$nuggit' already redeemed" | git hash-object --stdin)" 2>/dev/null && exit
     git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
 
@@ -25,5 +32,7 @@ else
         echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin -w >/dev/null 2>&1
         exit 1
     }
+    echo "Number of redemed flags: $redeemed_flags"
+    echo "# Redemed flags: $redeemed_flags" | git hash-object --stdin -w >/dev/null 2>&1
     echo "'$nuggit' already redeemed" | git hash-object --stdin -w >/dev/null 2>&1
 fi
