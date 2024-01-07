@@ -11,9 +11,9 @@ failure() {
     exit 1
 }
 
-get_sh_codeblock() {
+get_sh_codeblock() { # FIXME: function name is a lie, as it only returns the first line
     # shellcheck disable=2016
-    sed -n '/^```sh$/,/^```$/{n;p;}' "$1"
+    sed -n '/^```sh$/{n;p;}' "$1"
 }
 
 # skipping/commenting out a testcase
