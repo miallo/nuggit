@@ -105,8 +105,14 @@ redeem_nuggit AnnotateMeIfYouCan
 expect "git switch --detach -q the-first-tag" to succeed
 '
 
-xit 'TODO: find title for combine_history testcase' <<EOF
-expect 'eval "\$(get_sh_codeblock combine_history.md)"' to contain "FIXME TODO"
+it 'ItsAllAboutTheRebase shown in rebase' <<EOF
+# do a rebase
+expect 'eval "\$(get_sh_codeblock combine_history.md)" 2>&1' to contain "nuggit: ItsAllAboutTheRebase"
+redeem_nuggit ItsAllAboutTheRebase
+EOF
+
+xit 'interactive rebase succeeds' <<EOF
+GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" >/dev/null
 EOF
 
 it 'An invalid nuggit should show an error' '

@@ -79,10 +79,29 @@ git add commit.md
 commit -m "Add description on commit"
 CHAPTER_COMMIT_COMMIT="$(git rev-parse --short @)"
 
+create_chapter interactive rebase
+git switch --detach main
+printf "%s" '# Interactive rebase
+
+An interactive rebase lets you (as the name suggests) interact with it instead of just step by step applying each patch. This can be incredibly useful after you created a lot of `git commit -m "WIP: Coffee break"`' > interactive-rebase.md
+git add interactive-rebase.md
+commit -m "WIP: Coffee break"
+echo " commits, but after you are done with your feature, you don't want keep them forever and you don't want to bother the reviewer (and you yourself when you will eventually try to find a bug in your code and look at the log) with them." >> interactive-rebase.md
+git add interactive-rebase.md
+commit -m "WIP: finish sentence on interactive rebases"
+INTERACTIVE_REBASE_EXAMPLE_PICKS="$(git log --oneline main..@ | sed 's/^/pick /' | sed 's/$/\\/g')
+[...]"
+# FIXME
+CHAPTER_AMEND_COMMIT=CHAPTER_AMEND_COMMIT
+replace_placeholders "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
+git add interactive-rebase.md
+commit -m "Finish describing interactive rebases
+
+TODO: squash commits..."
+INTERACTIVE_REBASE_COMMIT="$(git rev-parse --short @)"
+
 create_chapter rebase/merge
 git switch --detach main
-# TODO: create interactive rebase commit
-INTERACTIVE_REBASE_COMMIT="INTERACTIVE_REBASE_COMMIT"
 replace_placeholders "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"

@@ -79,7 +79,7 @@ add_player_config() {
 }
 
 replace_placeholders() {
-    sed -e "s/INTERACTIVE_REBASE_BASE_COMMIT/$INTERACTIVE_REBASE_BASE_COMMIT/" \
+    sed -e "s/CHAPTER_AMEND_COMMIT/$CHAPTER_AMEND_COMMIT/" \
         -e "s/BRANCH_COMMIT/$BRANCH_COMMIT/" \
         -e "s/NUMBER_OF_NUGGITS/$NUMBER_OF_NUGGITS"/ \
         -e "s/ALMOST_CREDITS_HASH/$ALMOST_CREDITS_HASH"/ \
