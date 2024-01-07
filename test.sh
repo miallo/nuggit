@@ -90,6 +90,11 @@ expect "! ./redeem.nuggit NotANuggit 2>&1" to contain "Unfortunately that is not
 expect "! ./redeem.nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
 '
 
+it 'CuriosityKilledTheCat in redeem script' '
+expect "cat redeem.nuggit" to contain CuriosityKilledTheCat
+redeem_nuggit CuriosityKilledTheCat
+'
+
 check_redeem() {
     while read -r nuggit; do
         expect "./redeem.nuggit '$nuggit'" to contain "already redeemed"
