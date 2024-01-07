@@ -45,3 +45,10 @@ reproducibility_setup() {
     git config user.name "Nuggit Challenge"
     git config user.email nuggit-challenge@gmail.com
 }
+
+replace_placeholders() {
+    sed -e "s/INTERACTIVE_REBASE_BASE_COMMIT/$INTERACTIVE_REBASE_BASE_COMMIT/" \
+        -e "s/BRANCH_COMMIT/$BRANCH_COMMIT/" \
+        -e "s/INTERACTIVE_REBASE_EXAMPLE_PICKS/$INTERACTIVE_REBASE_EXAMPLE_PICKS/" \
+        -e "s/INTERACTIVE_REBASE_COMMIT/$INTERACTIVE_REBASE_COMMIT/" "$1"
+}
