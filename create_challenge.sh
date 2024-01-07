@@ -46,14 +46,14 @@ commit -m "WIP branch: add explanation on how to list local branches"
 git switch main
 
 # commit
-sed "s/BRANCH_COMMIT/$BRANCH_COMMIT/" "$DOCDIR/03_commit/commit.md" > commit.md
+replace_placeholders "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 
 git switch --detach @
 # TODO: create interactive rebase commit
 INTERACTIVE_REBASE_COMMIT="INTERACTIVE_REBASE_COMMIT"
-sed "s/INTERACTIVE_REBASE_COMMIT/$INTERACTIVE_REBASE_COMMIT/" "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
+replace_placeholders "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"
 
@@ -103,7 +103,8 @@ rm tmp
 rm .git/hooks/*
 
 for file in $(ls "$DOCDIR/hooks"); do
-    cp "$DOCDIR/hooks/$file" ".git/hooks/$file.orig"
+    replace_placeholders "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
+    chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do
     cp "$DOCDIR/hook_preamble.sh" ".git/hooks/$hook"
