@@ -6,12 +6,12 @@ IS_SWITCH="$3"
 
 # switched to my-new-branch
 if [ "$(git rev-parse --abbrev-ref HEAD)" = "my-new-branch" ] && [ "$IS_SWITCH" = 1 ]; then
-    echo "Flag: MyFirstBranch"
+    echo "nuggit: MyFirstBranch"
     exit
 fi
 
 # switched to branches-explained
 if [ "$NEXT_REF" = "$(git rev-parse branches-explained)" ] && [ "$IS_SWITCH" = 1 ]; then
-    echo "Flag: Switcheridoo"
+    echo "nuggit: Switcheridoo"
     exit
 fi

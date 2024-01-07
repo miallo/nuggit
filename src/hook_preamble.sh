@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Flag: LocalCodeExecution
+# nuggit: LocalCodeExecution
 # Congrats on finding this! This flag is gonna destroy itself when any of the hooks are executed ;)
 shopt -s extglob
 ROOT="$(git rev-parse --show-toplevel)"
