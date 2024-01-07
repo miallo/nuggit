@@ -106,3 +106,13 @@ pretty_escape() {
         [ $# -eq 0 ] || printf " "
     done
 }
+
+debug_replace_hooks() {
+    while read -r hook; do
+        {
+            echo "#!/bin/sh"
+            printf "%s\n" 'printf "\e[32m%s\e[0m: %s\n" "$0" "$*"'
+        } > ".git/hooks/$hook"
+        chmod +x ".git/hooks/$hook"
+    done < "$DOCDIR/all-git-hooks"
+}
