@@ -96,7 +96,7 @@ pretty_escape() {
             # See: https://www.gnu.org/software/bash/manual/html_node/Double-Quotes.html
             # special chars: $`"\!
             num_double_quote_escapes=$(tr -dc '$`"\!' <<< "$1" | wc -m) # special chars in single quote == num of backticks required
-            if [ $num_single_quote_escapes -gt $num_double_quote_escapes ]; then
+            if [ "$num_single_quote_escapes" -gt "$num_double_quote_escapes" ]; then
                 printf '"%s"' "$(sed -r 's/([$`"\!])/\\\1/g' <<< "$1")"
             else
                 printf "'%s'" "$(sed -r "s/'/'"'\\'"''/g" <<< "$1")"
