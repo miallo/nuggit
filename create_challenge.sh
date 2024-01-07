@@ -9,6 +9,9 @@ if [ -e challenge ]; then
     rm -rf challenge2
     mv challenge challenge2
 fi
+. ./src/redeem.nuggit >/dev/null 2>&1
+
+LOCAL_CODE_EXECUTION_HASH="$(success "LocalCodeExecution" | git hash-object --stdin)"
 
 # initial setup
 
@@ -18,6 +21,7 @@ cd challenge
 reproducibility_setup
 
 cp "$DOCDIR/01_init/"* .
+cp "$DOCDIR/01_init/.gitignore" .
 git add .
 commit -m "Initial Commit"
 
@@ -99,6 +103,8 @@ sed "/$UNSTAGED_FLAG/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
+"$DOCDIR/store_nuggits.sh"
+cp "$DOCDIR/redeem.nuggit" .
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
@@ -107,5 +113,6 @@ for file in $(ls "$DOCDIR/hooks"); do
     chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do
-    cp "$DOCDIR/hook_preamble.sh" ".git/hooks/$hook"
+    replace_placeholders "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
+    chmod +x ".git/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"

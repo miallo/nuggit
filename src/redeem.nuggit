@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+nuggit="$1"
+
+success() {
+    echo "Success! What a nice nuggit for your collection! 🏅 $1 looks really good!"
+}
+
+
+if [ -z "$nuggit" ]; then
+    echo "no nuggit passed in..." >&2
+    echo "Useage: \`$0 TestNuggit\`" >&2
+else
+    if [ "$nuggit" = TestNuggit ]; then
+        echo "This is a test. You passed it! 👍"
+        exit
+    fi
+
+    git cat-file -p "$(echo "'$nuggit' already redeemed" | git hash-object --stdin)" 2>/dev/null && exit
+    git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
+
+    git cat-file -p "$(success "$nuggit" | git hash-object --stdin)" 2>/dev/null || {
+        echo "Unfortunately that is not a valid nuggit :/ Try again!" >&2
+        echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin -w >/dev/null 2>&1
+        exit 1
+    }
+    echo "'$nuggit' already redeemed" | git hash-object --stdin -w >/dev/null 2>&1
+fi
