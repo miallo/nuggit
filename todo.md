@@ -22,7 +22,6 @@
 - hooks (e.g. automatically add nuggit to commit message)
     - post-merge
     - post-rewrite e.g. for commit --amend
-    - pre-rebase
 - `--word-diff --word-diff-regex=.` (nuggit hidden "inbetween" two commits)
 - submodule
 - `blame` first column
@@ -68,7 +67,6 @@ See documentation in the git repository under Documentation/githooks.txt
 - pre-merge-commit
 - commit-msg
 - post-commit
-- pre-rebase
 - post-merge
 - pre-push
 - pre-receive
