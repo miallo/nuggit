@@ -21,7 +21,7 @@ git init --initial-branch=main challenge
 cd challenge
 reproducibility_setup
 
-cp "$DOCDIR/01_init/"* .
+cp -r "$DOCDIR/01_init/"* .
 cp "$DOCDIR/01_init/.gitignore" .
 git add .
 commit -m "Initial Commit"

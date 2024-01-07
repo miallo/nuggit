@@ -35,4 +35,5 @@ else
     echo "Number of redemed flags: $redeemed_flags"
     echo "# Redemed flags: $redeemed_flags" | git hash-object --stdin -w >/dev/null 2>&1
     echo "'$nuggit' already redeemed" | git hash-object --stdin -w >/dev/null 2>&1
+    echo "You found the little nuggit $nuggit at this time: $(date)" > "nuggits/$nuggit"
 fi
