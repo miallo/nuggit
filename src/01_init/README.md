@@ -8,10 +8,13 @@ By default in most Projects there exists a README file, so with opening this fil
 
 ## Game FAQ
 
-Q: How to I redeem a nuggit (flag)?
+Q: What is a nuggit?
+A: A nuggit is almost like a nugget a small golden piece, but with more git in it! It is a single word, e.g. "TestNuggit" and you will always find it in the format "nuggit: TestNuggit".
+
+Q: How to I redeem a nuggit?
 A: Just run `./redeem_nuggit <name of the nuggit>` - it will show you if you are correct or not.
 
-Q: Where do I see all my redeemed nuggits?
+Q: Where do I see all my redeemed nuggits and the time when I redeemed them?
 A: Just run `git log nuggits` :)
 
 Q: Why you get this folder in this way instead of the usual `git clone <url>`?
@@ -20,7 +23,11 @@ A: That is a good question and you will figure out the answer the more you get i
 Q: Can I use my favourite git GUI tool?
 A: Well... For a few of the nuggits, yes, but some are well hidden in the stranger parts of git, so this project assumes running git from the command line from the beginning.
 
-NOTE: This challenge uses git hooks. Because of the way you download this repository they are enabled and COULD run arbitrary code. I promise you they are just here for the benefit of the people learning git and don't do anything malicious. If you are paranoid, you should never download repositories like this!
+NOTE: This challenge uses git hooks extensively for it to work. Because of the way you downloaded this repository they are enabled by default and could run arbitrary code. I promise you they are just here for the benefit of learning git and don't do anything malicious. If it makes you feel better: For testing this challenge I have a test suite that I am regularly running on my machine that triggers all of them.
+If you are still paranoid, you should never download repositories like this! Instead you can come and take a look how this was created and help to complete it - with git there are infinitely many things to learn and we will never be done...
+
+
+Also: if your editor of choice asks you if you want to trust this project - say yes, otherwise its git integration will not work ;)
 
 # First steps with `git`
 
