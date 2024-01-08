@@ -119,11 +119,6 @@ eval "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (ak
 ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 # for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
 CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
-CREDIT_WHERE_CREDIT_IS_DUE="$(echo "
-[ \"\$redeemed_flags\" -ne $((NUMBER_OF_NUGGITS - 1)) ] ||
-    git cat-file -p $ALMOST_CREDITS_HASH;
-[ \"\$redeemed_flags\" -ne $NUMBER_OF_NUGGITS ] ||
-    git cat-file -p $CREDITS_HASH | tr 'A-Za-z' 'N-ZA-Mn-za-m';" | tr -d "\n")"
 
 replace_placeholders "$DOCDIR/redeem.nuggit" > ./redeem.nuggit
 chmod +x ./redeem.nuggit

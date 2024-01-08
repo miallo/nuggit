@@ -19,7 +19,11 @@ else
 
     redeemed_flags="$(git rev-list --count nuggits)"
 
-    CREDIT_WHERE_CREDIT_IS_DUE
+    [ "$redeemed_flags" -ne NUMBER_OF_NUGGITS ] || git cat-file -p ALMOST_CREDITS_HASH;
+
+    [ "$redeemed_flags" -ne $(( NUMBER_OF_NUGGITS + 1 )) ] || {
+        git cat-file -p CREDITS_HASH | tr 'A-Za-z' 'N-ZA-Mn-za-m';
+    }
 
     git cat-file -p "$(echo "'$nuggit' already redeemed" | git hash-object --stdin)" 2>/dev/null && exit
     git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
