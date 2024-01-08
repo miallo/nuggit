@@ -35,7 +35,7 @@ it(){
 trap 'failure $(printf "%q" "$testname")' ERR EXIT
 $code
 trap - EXIT # Remove the trap handler, so that it does not fire at the end of the script
-" >/dev/null
+"
     success "$testname"
 }
 

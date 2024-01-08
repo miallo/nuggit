@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+while [ $# -gt 0 ]; do
+    case "$1" in
+        -v|--verbose)
+            verbose=true
+            shift
+            ;;
+        *)
+            echo "ERROR! Unknown option '$1'. Useage: $0 [-v|--verbose]" >&2
+            exit 1
+            ;;
+    esac
+done
+
+if [ "$verbose" != true ]; then
+    exec 3>&1 4>&2 >/dev/null 2>&1 # store stdin / stdout filedescriptors so that we can still print in case of an error
+fi
+on_error() {
+    exec 1>&3 2>&4 # restore file descriptors
+    printf "❌ \e[3;1;31mERROR! Run again with \`-v\` for more verbose output\e[0m\n" >&2
+    exit 1
+}
+trap on_error ERR
+
 set -e
 shopt -s extglob
 . ./lib.sh
@@ -9,7 +32,7 @@ if [ -e challenge ]; then
     rm -rf challenge2
     mv challenge challenge2
 fi
-. ./src/redeem.nuggit >/dev/null 2>&1
+. ./src/redeem.nuggit
 
 LOCAL_CODE_EXECUTION_HASH="$(success "LocalCodeExecution" | git hash-object --stdin)"
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"

@@ -5,7 +5,7 @@ set -e
 . ./lib.sh
 . ./lib-test.sh
 echo "Building..."
-./create_challenge.sh >/dev/null 2>&1
+./create_challenge.sh
 cd challenge
 reproducibility_setup
 
@@ -27,7 +27,7 @@ check_redeem_without_local_code_execution
 
 echo "Building once more..."
 cd ..
-./create_challenge.sh >/dev/null 2>&1
+./create_challenge.sh
 echo "Running tests..."
 cd challenge
 reproducibility_setup
