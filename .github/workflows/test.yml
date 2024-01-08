@@ -8,8 +8,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: build challenge
-        run: ./create_challenge.sh
+        run: ./create_challenge.sh --verbose
       - name: run tests
         run: ./test.sh
-      - run: echo "🍏 This job's status is ${{ job.status }}."
 
