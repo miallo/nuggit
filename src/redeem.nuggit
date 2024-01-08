@@ -17,12 +17,15 @@ else
         exit
     fi
 
+    already_redeemed=0
+    git cat-file -e "$(echo "'$nuggit' already redeemed" | git hash-object --stdin)" 2>/dev/null && already_redeemed=1
     redeemed_flags="$(git rev-list --count nuggits)"
+    redeemed_flags=$((redeemed_flags - already_redeemed))
 
-    [ "$redeemed_flags" -ne NUMBER_OF_NUGGITS ] || git cat-file -p ALMOST_CREDITS_HASH;
+    [ "$redeemed_flags" -ne $((NUMBER_OF_NUGGITS - 1 )) ] || git cat-file -p ALMOST_CREDITS_HASH;
 
-    [ "$redeemed_flags" -ne $(( NUMBER_OF_NUGGITS + 1 )) ] || {
-        git cat-file -e "$(echo "# Redemed nuggits: $((NUMBER_OF_NUGGITS - 0))" | git hash-object --stdin)" 2>/dev/null || { echo Noughty boy!; exit 1; }
+    [ "$redeemed_flags" -ne $(( NUMBER_OF_NUGGITS + 0 )) ] || {
+        git cat-file -e "$(echo "# Redemed nuggits: $((NUMBER_OF_NUGGITS - 1))" | git hash-object --stdin)" 2>/dev/null || { echo Noughty boy!; exit 1; }
         git cat-file -p CREDITS_HASH | tr 'A-Za-z' 'N-ZA-Mn-za-m';
     }
 

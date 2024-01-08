@@ -16,6 +16,7 @@ check_redeem_without_local_code_execution() {
         expect "./redeem.nuggit '$nuggit'" not to contain "You almost got it"
     done < "$DOCDIR/nuggits"
     expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
+    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
 }
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
