@@ -143,7 +143,7 @@ ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
 
 replace_placeholders "$DOCDIR/redeem.nuggit" > ./redeem.nuggit
-chmod +x ./redeem.nuggit
+chmod a=rx ./redeem.nuggit
 
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
