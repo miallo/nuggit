@@ -17,9 +17,18 @@ NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 # initial setup
 
 # TODO: figure out how to use --template="$DOCDIR/01_init"
-git init --initial-branch=main challenge
+initial_branch=main
+git init --initial-branch="$initial_branch" challenge
 cd challenge
 reproducibility_setup
+
+# Create an empty commit and delete it, so that our own nuggits "branch" can reference the empty tree
+# TODO: figure out how to create a tree object without interacting with the index
+commit --allow-empty -m "RootOfAllNuggits
+
+Have a free nuggit!"
+# pretend this was done in our manually managed nuggits "branch" instead
+mv ".git/refs/heads/$initial_branch" ".git/nuggits"
 
 cp -r "$DOCDIR/01_init/"* .
 cp "$DOCDIR/01_init/.gitignore" .

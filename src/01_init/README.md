@@ -12,7 +12,7 @@ Q: How to I redeem a nuggit (flag)?
 A: Just run `./redeem_nuggit <name of the nuggit>` - it will show you if you are correct or not.
 
 Q: Where do I see all my redeemed nuggits?
-A: Once redeemed a file per nuggit is created in the folder "nuggits" containing the date you first redeemed it.
+A: Just run `git log nuggits` :)
 
 Q: Why you get this folder in this way instead of the usual `git clone <url>`?
 A: That is a good question and you will figure out the answer the more you get into the quests (many of which are impossible in a fresh clone).
