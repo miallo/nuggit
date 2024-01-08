@@ -12,7 +12,8 @@ cd challenge
 check_redeem_without_local_code_execution() {
     while read -r nuggit; do
         [ "$nuggit" != LocalCodeExecution ] || continue
-        expect "./redeem.nuggit '$nuggit'" to contain Success
+        [ "$nuggit" != WorkInProgress ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
+        expect "./redeem.nuggit '$nuggit'" not to contain "You almost got it"
     done < "$DOCDIR/nuggits"
     expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
 }
