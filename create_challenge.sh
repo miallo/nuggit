@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
 
 while [ $# -gt 0 ]; do
-    case "$1" in
+    opt="$1"; shift
+    case "$opt" in
         -v|--verbose)
             verbose=true
-            shift
+            ;;
+        -f|--force|--delete-existing-challenge)
+            delete_existing_dir=true
             ;;
         *)
-            echo "ERROR! Unknown option '$1'. Useage: $0 [-v|--verbose]" >&2
+            echo "ERROR! Unknown option '$1'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
             exit 1
             ;;
     esac
@@ -28,9 +31,13 @@ shopt -s extglob
 . ./lib.sh
 
 if [ -e challenge ]; then
-    warn "'challenge' already exists. moving to challenge2..."
-    rm -rf challenge2
-    mv challenge challenge2
+    if [ "$delete_existing_dir" = true ]; then
+        rm -rf challenge
+    else
+        warn "'challenge' already exists. moving to challenge2..."
+        rm -rf challenge2
+        mv challenge challenge2
+    fi
 fi
 
 LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
