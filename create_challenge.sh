@@ -123,6 +123,8 @@ CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-ob
 replace_placeholders "$DOCDIR/redeem.nuggit" > ./redeem.nuggit
 chmod +x ./redeem.nuggit
 
+# should be done as the last thing before installing the hooks
+remove_build_setup_from_config
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 

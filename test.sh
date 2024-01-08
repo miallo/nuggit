@@ -4,10 +4,10 @@ set -e
 
 . ./lib.sh
 . ./lib-test.sh
-
 echo "Building..."
 ./create_challenge.sh >/dev/null 2>&1
 cd challenge
+reproducibility_setup
 
 check_redeem_without_local_code_execution() {
     while read -r nuggit; do
@@ -29,8 +29,8 @@ echo "Building once more..."
 cd ..
 ./create_challenge.sh >/dev/null 2>&1
 echo "Running tests..."
-
 cd challenge
+reproducibility_setup
 
 redeem_nuggit() {
     expect "./redeem.nuggit '$1'" to contain Success

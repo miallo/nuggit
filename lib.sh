@@ -46,6 +46,11 @@ reproducibility_setup() {
     git config user.email nuggit-challenge@gmail.com
 }
 
+remove_build_setup_from_config() {
+    # remove the things that we only needed for the builds to be reproducible
+    git config --local --remove-section user
+}
+
 replace_placeholders() {
     sed -e "s/INTERACTIVE_REBASE_BASE_COMMIT/$INTERACTIVE_REBASE_BASE_COMMIT/" \
         -e "s/BRANCH_COMMIT/$BRANCH_COMMIT/" \
