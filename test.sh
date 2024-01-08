@@ -3,7 +3,7 @@
 set -e
 
 . ./lib.sh
-. ./lib-test.sh
+. ./test_helpers/lib-test.sh
 echo "Building..."
 ./create_challenge.sh
 cd challenge
