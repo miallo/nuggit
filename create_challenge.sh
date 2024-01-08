@@ -32,9 +32,8 @@ if [ -e challenge ]; then
     rm -rf challenge2
     mv challenge challenge2
 fi
-. ./src/redeem.nuggit
 
-LOCAL_CODE_EXECUTION_HASH="$(success "LocalCodeExecution" | git hash-object --stdin)"
+LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
 # initial setup
