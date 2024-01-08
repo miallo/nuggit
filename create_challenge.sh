@@ -110,16 +110,16 @@ git switch main
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> README.md
-UNSTAGED_FLAG='nuggit: WorkInProgress'
+UNSTAGED_NUGGIT='nuggit: WorkInProgress'
 STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
-STAGING_FLAG='nuggit: CommitmentIssues'
+STAGING_NUGGIT='nuggit: CommitmentIssues'
 COMMIT_DESCRIPTION='To commit all changes in the staging area you can run `git commit` and an editor will open where you can type a commit message. Further information can be found in "commit.md"'
 {
-    echo "$UNSTAGED_FLAG"
+    echo "$UNSTAGED_NUGGIT"
     echo # newline for readability
     echo "$STAGING_DIFF_DESCRIPTION"
     echo # newline for readability
-    echo "$STAGING_FLAG"
+    echo "$STAGING_NUGGIT"
     echo # newline for readability
     echo "$COMMIT_DESCRIPTION"
 } >> README.md
@@ -128,10 +128,10 @@ commit -m 'README: add explanation on status and diff'
 
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
-sed "/$STAGING_FLAG/{N;N;d;}" README.md > tmp
+sed "/$STAGING_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$COMMIT_DESCRIPTION/{N;N;d;}" tmp > README.md
 git add README.md
-sed "/$UNSTAGED_FLAG/{N;N;d;}" README.md > tmp
+sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 

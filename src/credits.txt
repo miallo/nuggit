@@ -1,6 +1,6 @@
 You have found all the little nuggits?! Very impressive!!! 🥳
 
-I mean most of them where quite findable, but if you solved it you know that one flag that was indeed a bit "slippery" and hard to get a grip on, right!? You have to tell me: did you get it first try? And how did it came to your mind to look there? Generally: I would like to hear from you!
+I mean most of them where quite findable, but if you solved it you know that one nuggit that was indeed a bit "slippery" and hard to get a grip on, right!? You have to tell me: did you get it first try? And how did it came to your mind to look there? Generally: I would like to hear from you!
 
 Thanks to everyone who taught me about git - especially 🐢 who taught me about the workflows and gave me a solid understanding of the core concepts of it. You seem to have that, too, so go for it! The sky is the limit!
 

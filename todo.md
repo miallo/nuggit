@@ -19,11 +19,11 @@
 - stash
 - .git/config (e.g. author)
     - alias
-- hooks (e.g. automatically add flag to commit message)
+- hooks (e.g. automatically add nuggit to commit message)
     - post-merge
     - post-rewrite e.g. for commit --amend
     - pre-rebase
-- `--word-diff --word-diff-regex=.` (flag hidden "inbetween" two commits)
+- `--word-diff --word-diff-regex=.` (nuggit hidden "inbetween" two commits)
 - submodule
 - `blame` first column
 - untracked files (`git clean --dry-run` or `git status --ignored`)
@@ -32,7 +32,7 @@
 - merge commit (`git merge --no-commit`)
 - file encrypted with filter
 - rerere for specific conflict
-- apply a number of patches (and maybe calculate the flag, so that it isn't obvious from the patches themselves?)
+- apply a number of patches (and maybe calculate the nuggit, so that it isn't obvious from the patches themselves?)
 - files in .git/info/exclude
 - custom subcommand (requires setting up the $PATH)
 - git reflog => detached commit

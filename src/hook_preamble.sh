@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # nuggit: LocalCodeExecution
-# Congrats on finding this! This flag is gonna destroy itself when any of the hooks are executed ;)
+# Congrats on finding this! This nuggit is gonna destroy itself when any of the hooks are executed ;)
 set -e
 shopt -s extglob
 ROOT="$(git rev-parse --show-toplevel)"
@@ -8,7 +8,7 @@ ROOT="$(git rev-parse --show-toplevel)"
 this_file="$0"
 
 hash="LOCAL_CODE_EXECUTION_HASH"
-# Make sure to delete the flag, so it can't be redeemed after this got triggered once
+# Make sure to delete the nuggit, so it can't be redeemed after this got triggered once
 rm ".git/objects/${hash:0:2}/${hash:2}"
 
 (

@@ -4,7 +4,7 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-# add a flag to the commit message
+# add a nuggit to the commit message
 git interpret-trailers --in-place \
     --trailer "This is the challenge nuggit speaking. Please don't mind me. I am injecting myself in a few places (like this one), so if you ever see anything starting with nuggit in this repo, I injected it and it usually wouldn't be there in a normal git repo." \
     --trailer "nuggit: CommitMirInsAbendteuerland" \

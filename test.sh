@@ -15,8 +15,8 @@ check_redeem_without_local_code_execution() {
         [ "$nuggit" != WorkInProgress ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
         expect "./redeem.nuggit '$nuggit'" not to contain "You almost got it"
     done < "$DOCDIR/nuggits"
-    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
-    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single flag left to redeem..."
+    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
+    expect "./redeem.nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
 }
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
@@ -36,7 +36,7 @@ redeem_nuggit() {
     expect "./redeem.nuggit '$1'" to contain Success
 }
 
-it 'LocalCodeExecution flag in hooks' '
+it 'LocalCodeExecution nuggit in hooks' '
 expect "cat .git/hooks/*" to contain "nuggit: LocalCodeExecution"
 redeem_nuggit LocalCodeExecution
 '
@@ -57,11 +57,11 @@ expect "git show" to contain "nuggit: CommitMirInsAbendteuerland"
 redeem_nuggit CommitMirInsAbendteuerland
 '
 
-it 'LocalCodeExecution flag should be deleted after execution of any hook (in this case the commit)' '
+it 'LocalCodeExecution nuggit should be deleted after execution of any hook (in this case the commit)' '
 expect "cat .git/hooks/*" not to contain "nuggit: LocalCodeExecution"
 '
 
-it 'restore should not show Switcheridoo flag' '
+it 'restore should not show Switcheridoo nuggit' '
 expect "git restore README.md 2>&1" not to contain "nuggit: Switcheridoo"
 '
 
