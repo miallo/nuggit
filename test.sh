@@ -99,6 +99,7 @@ EOF
 it 'An invalid nuggit should show an error' '
 expect "! ./redeem.nuggit NotANuggit 2>&1" to contain "Unfortunately that is not a valid nuggit"
 expect "! ./redeem.nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
+expect "! ./redeem.nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
 '
 
 it 'CuriosityKilledTheCat in redeem script' '
