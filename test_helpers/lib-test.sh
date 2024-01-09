@@ -120,6 +120,7 @@ pretty_escape() {
             if [ "$num_single_quote_escapes" -gt "$num_double_quote_escapes" ]; then
                 printf '"%s"' "$(sed -r 's/([$`"\!])/\\\1/g' <<< "$1")"
             else
+                # shellcheck disable=SC1003
                 printf "'%s'" "$(sed -r "s/'/'"'\\'"''/g" <<< "$1")"
             fi
         fi
