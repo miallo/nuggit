@@ -2,13 +2,28 @@
 
 set -e
 
+test_verbose=0
+create_challenge_flags=
+while [ $# -gt 0 ]; do
+    opt="$1"; shift
+    case "$opt" in
+        -v|--verbose)
+            test_verbose=$((test_verbose + 1))
+            create_challenge_flags="$create_challenge_flags -v"
+            ;;
+        *)
+            echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
+            exit 1
+            ;;
+    esac
+done
 . ./lib.sh
 . ./test_helpers/lib-test.sh
 build_challenge() {
     echo "Building challenge..."
-    ./create_challenge.sh --force "$@"
+    ./create_challenge.sh $create_challenge_flags
 }
-build_challenge "$@"
+build_challenge
 cd challenge
 reproducibility_setup
 
@@ -29,7 +44,7 @@ check_redeem_without_local_code_execution
 '
 
 cd ..
-build_challenge "$@"
+build_challenge
 echo "Running tests..."
 cd challenge
 reproducibility_setup

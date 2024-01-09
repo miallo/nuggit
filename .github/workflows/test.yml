@@ -21,5 +21,5 @@ jobs:
           path: ./challenge.tar
           if-no-files-found: error
       - name: run tests
-        run: ./test.sh
+        run: ./test.sh -v
 

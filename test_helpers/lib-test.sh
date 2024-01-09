@@ -31,6 +31,9 @@ it(){
         code="$(cat -)"
     fi
     printf "running %s" "$testname"
+    if [ "$test_verbose" -gt 0 ]; then
+        printf "\n"
+    fi
     eval "set -eE
 trap 'failure $(printf "%q" "$testname")' ERR EXIT
 $code
@@ -47,6 +50,9 @@ expect() {
         echo "$1" >&2
         exit 1
     }
+    if [ "$test_verbose" -ge 1 ]; then
+        printf "\e[34mexpect %s\e[0m " "$(pretty_escape "$@")"
+    fi
     command="$1"; shift
     if [ "$1" = not ]; then
         not="not "
@@ -77,17 +83,21 @@ but got:
     Received: $output"
                 ;;
             succeed)
-                eval "$command" || result=1
-                error="> $command should ${not}succeed"
+                output=$(eval "$command") || result=1
+                error="> $command should ${not}succeed
+    Output: $output"
                 ;;
             *)
                 expect_err "ERROR: unknown action '$action' in \`expect ${not}to $(pretty_escape action) ...\`"
                 ;;
         esac
     fi
+    if [ "$test_verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
     if { [ -n "$not" ] && [ -z "$result" ]; } || { [ -z "$not" ] && [ -n "$result" ]; }; then
+        if [ "$test_verbose" -ge 1 ]; then printf "❗️\n"; fi
         expect_err "$error"
     fi
+    if [ "$test_verbose" -ge 1 ]; then printf "☑️\n"; fi
 }
 
 pretty_escape() {
