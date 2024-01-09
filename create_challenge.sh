@@ -43,8 +43,7 @@ fi
 LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
-# initial setup
-
+create_chapter initial setup
 # TODO: figure out how to use --template="$DOCDIR/01_init"
 initial_branch=main
 git init --initial-branch="$initial_branch" challenge
@@ -63,7 +62,7 @@ cp -r "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
 
-# branches
+create_chapter branches
 git switch -c branches-explained
 cp "$DOCDIR/04_branch/branch.md" .
 git add branch.md
@@ -85,20 +84,21 @@ cat "$DOCDIR/04_branch/branch_list.md" >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on how to list local branches"
 
+create_chapter commit
 git switch main
-
-# commit
 replace_placeholders "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 
-git switch --detach @
+create_chapter rebase/merge
+git switch --detach main
 # TODO: create interactive rebase commit
 INTERACTIVE_REBASE_COMMIT="INTERACTIVE_REBASE_COMMIT"
 replace_placeholders "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"
 
+create_chapter tags
 cp "$DOCDIR/08_tags/tags.md" .
 git add tags.md
 commit -m 'Add description on tags
@@ -106,13 +106,14 @@ commit -m 'Add description on tags
 nuggit: LogCat'
 git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
 
+create_chapter log
 git switch main -c history
 cp "$DOCDIR/06_log/log.md" .
 git add log.md
 commit -m "Add description on log"
 
+create_chapter diff
 git switch main
-
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> README.md
@@ -141,6 +142,7 @@ sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
+create_chapter store nuggits
 # nuggits
 # TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
 eval "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (aka some loose objects)
@@ -155,6 +157,7 @@ chmod a=rx ./.git/redeem.nuggit
 remove_build_setup_from_config
 add_player_config
 
+create_chapter hooks
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 

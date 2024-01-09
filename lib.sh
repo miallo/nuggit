@@ -65,3 +65,8 @@ replace_placeholders() {
         -e "s/INTERACTIVE_REBASE_EXAMPLE_PICKS/$INTERACTIVE_REBASE_EXAMPLE_PICKS/" \
         -e "s/INTERACTIVE_REBASE_COMMIT/$INTERACTIVE_REBASE_COMMIT/" "$1"
 }
+
+create_chapter() {
+    chapter="$*"
+    printf "\e[32mCreating chapter '%s'\e[0m\n" "$chapter"
+}
