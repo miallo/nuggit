@@ -42,6 +42,8 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
     success "$testname"
 }
 
+string_contains() { [ -z "${1##*"$2"*}" ] && [ -n "$1" ]; }
+
 # Assertion
 expect() {
     local invert_result failed error
@@ -78,7 +80,7 @@ but got:
                 string="$1"
                 output="$(eval "$command")"
 
-                [[ $output =~ "$string" ]] || failed=true
+                string_contains "$output" "$string" || failed=true
                 error="> $command
     ${invert_result+Not }Expected: $string
     Received: $output"
