@@ -24,6 +24,8 @@ To run the tests you simply need to execute:
 ```sh
 ./test.sh
 ```
-WARNING: It will build the challenge for you, since it basically only ever makes sense to run this on a freshly built dir
+It has two levels of debugging, so by default it just prints the test cases, but if run with `-v` it will also output every expect. If run with `-v -v` it will additionally print every output of the commands it executed.
+
+WARNING: It will build the challenge for you, since it has to reset the state inbetween to check incompatible "paths" (test with triggering the LocalCodeExecution trap, or not). That means it does not matter into which state you bring the challenge directory before the run - it will be deleted and replaced by a fresh build before the first test is run.
 
 There is a small testing library roughly mimicking `jest` in its usage.
