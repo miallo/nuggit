@@ -10,7 +10,7 @@ while [ $# -gt 0 ]; do
             delete_existing_dir=true
             ;;
         *)
-            echo "ERROR! Unknown option '$1'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
+            echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
             exit 1
             ;;
     esac
