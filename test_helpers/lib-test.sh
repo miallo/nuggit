@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
 
+# Make sure to set a default value for verbosity
+: "${test_verbose:=0}"
+
 success() {
     # use \r to overwrite the line saying "running" => add spaces to the end to cover the longer line
     printf "\r✅ \e[32m%s\e[0m                 \n" "$1"
