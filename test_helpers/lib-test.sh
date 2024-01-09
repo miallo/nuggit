@@ -44,7 +44,7 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
 
 # Assertion
 expect() {
-    local not result error
+    local invert_result result error
     expect_err() {
         echo >&2
         echo "$1" >&2
@@ -55,45 +55,45 @@ expect() {
     fi
     command="$1"; shift
     if [ "$1" = not ]; then
-        not="not "
+        invert_result=true
         shift
     fi
     to="$1"; shift # For readability only
     if [ "$to" != to ]; then
         expect_err "ERROR: usage of \`expect\` requires 'to', e.g.:
-    expect \"echo hi\" ${not}to <action> [<argument of action>]"
+    expect \"echo hi\" ${invert_result+not }to <action> [<argument of action>]"
     else
         action="$1"; shift
         case "$action" in
             contain)
                 if [ $# -ne 1 ]; then
                     expect_err "\
-usage:  expect <command> ${not}to contain <string>
+usage:  expect <command> ${invert_result+not }to contain <string>
 E.g.:
-        expect \"echo hi\" ${not}to contain '${not}hi'
+        expect \"echo hi\" ${invert_result+not }to contain '${invert_result+not }hi'
 but got:
-        expect $(pretty_escape "$command" ${not} to contain "$@")"
+        expect $(pretty_escape "$command" ${invert_result+not }to contain "$@")"
                 fi
                 string="$1"
                 output="$(eval "$command")"
 
                 [[ $output =~ "$string" ]] || result=1
                 error="> $command
-    ${not}Expected: $string
+    ${invert_result+Not }Expected: $string
     Received: $output"
                 ;;
             succeed)
                 output=$(eval "$command") || result=1
-                error="> $command should ${not}succeed
+                error="> $command should ${invert_result+not }succeed
     Output: $output"
                 ;;
             *)
-                expect_err "ERROR: unknown action '$action' in \`expect ${not}to $(pretty_escape action) ...\`"
+                expect_err "ERROR: unknown action '$action' in \`expect ${invert_result+not }to $(pretty_escape action) ...\`"
                 ;;
         esac
     fi
     if [ "$test_verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
-    if { [ -n "$not" ] && [ -z "$result" ]; } || { [ -z "$not" ] && [ -n "$result" ]; }; then
+    if { [ "$invert_result" = true ] && [ -z "$result" ]; } || { [ "$invert_result" != true ] && [ -n "$result" ]; }; then
         if [ "$test_verbose" -ge 1 ]; then printf "❗️\n"; fi
         expect_err "$error"
     fi
