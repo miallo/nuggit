@@ -20,13 +20,14 @@ if [ "$verbose" != true ]; then
     exec 3>&1 4>&2 >/dev/null 2>&1 # store stdin / stdout filedescriptors so that we can still print in case of an error
 fi
 on_error() {
-    exec 1>&3 2>&4 # restore file descriptors
-    printf "❌ \e[3;1;31mERROR! Run again with \`-v\` for more verbose output\e[0m\n" >&2
+    [ "$verbose" != true ] && exec 1>&3 2>&4 # restore file descriptors
+    printf "❌ \e[3;1;31mERROR!\e[0m \e[31mAn error occured while creating chapter %s\e[0m\n" "$chapter">&2
+    [ "$verbose" != true ] && printf "%s" 'Run again with `-v` for more verbose output' >&2
     exit 1
 }
-trap on_error ERR
+set -eE
+trap on_error TERM ABRT QUIT ERR EXIT
 
-set -e
 shopt -s extglob
 . ./lib.sh
 
@@ -169,3 +170,5 @@ while read -r hook; do
     replace_placeholders "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
     chmod +x ".git/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
+
+trap - EXIT
