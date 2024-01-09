@@ -6,7 +6,7 @@ DOCDIR="$ROOT/src"
 export ROOT DOCDIR
 
 warn() {
-    echo "$@" >&2
+    printf "\e[33m%s\e[0m\n" "$*" >&2
 }
 
 error() {
