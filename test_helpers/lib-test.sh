@@ -103,6 +103,7 @@ but got:
     if [ "$test_verbose" -ge 1 ]; then printf "\r☑️\n"; fi
 }
 
+# WARNING! Contrary to it's name it just tries its best to escape shell characters, but it probably does not catch all special characters, so be careful with the output!
 pretty_escape() {
     while [ $# -gt 0 ]; do
         if ! [[ "$(printf "%q" "$1")" == *\\* ]]; then # No special characters to escape, so print raw
