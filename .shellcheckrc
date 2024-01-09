@@ -1,0 +1,3 @@
+# Don't warn about expressions not being expanded in single quotes
+# We use faaaar to many strings which are `eval`d and should only then capture the variables
+disable=SC2016
