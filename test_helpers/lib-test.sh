@@ -44,7 +44,7 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
 
 # Assertion
 expect() {
-    local invert_result result error
+    local invert_result failed error
     expect_err() {
         echo >&2
         echo "$1" >&2
@@ -77,13 +77,13 @@ but got:
                 string="$1"
                 output="$(eval "$command")"
 
-                [[ $output =~ "$string" ]] || result=1
+                [[ $output =~ "$string" ]] || failed=true
                 error="> $command
     ${invert_result+Not }Expected: $string
     Received: $output"
                 ;;
             succeed)
-                output=$(eval "$command") || result=1
+                output=$(eval "$command") || failed=true
                 error="> $command should ${invert_result+not }succeed
     Output: $output"
                 ;;
@@ -93,7 +93,7 @@ but got:
         esac
     fi
     if [ "$test_verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
-    if { [ "$invert_result" = true ] && [ -z "$result" ]; } || { [ "$invert_result" != true ] && [ -n "$result" ]; }; then
+    if { [ "$invert_result" = true ] && [ "$failed" != true ]; } || { [ "$invert_result" != true ] && [ "$failed" = true ]; }; then
         if [ "$test_verbose" -ge 1 ]; then printf "❗️\n"; fi
         expect_err "$error"
     fi
