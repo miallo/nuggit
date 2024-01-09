@@ -76,6 +76,10 @@ but got:
     ${not}Expected: $string
     Received: $output"
                 ;;
+            succeed)
+                eval "$command" || result=1
+                error="> $command should ${not}succeed"
+                ;;
             *)
                 expect_err "ERROR: unknown action '$action' in \`expect ${not}to $(pretty_escape action) ...\`"
                 ;;

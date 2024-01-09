@@ -23,7 +23,7 @@ check_redeem_without_local_code_execution() {
 }
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
-git commit -am "Just a test to trigger hooks"
+expect "git commit -am \"Just a test to trigger hooks\"" to succeed
 expect "! git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
 '
@@ -54,7 +54,7 @@ redeem_nuggit CommitmentIssues
 '
 
 it 'CommitMirInsAbendteuerland in new commit message' '
-git commit -m "My first commit" --quiet
+expect "git commit -m \"My first commit\"" to succeed
 expect "git show" to contain "nuggit: CommitMirInsAbendteuerland"
 redeem_nuggit CommitMirInsAbendteuerland
 '
@@ -80,7 +80,7 @@ redeem_nuggit Switcheridoo
 it 'MyFirstBranch when creating' '
 expect "git switch -c my-new-branch 2>&1" to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
-git switch history -q
+expect "git switch history -q" to succeed
 '
 
 it 'LogCat for log' <<EOF
@@ -91,7 +91,7 @@ EOF
 it 'AnnotateMeIfYouCan in annotated tag' '
 expect "git show the-first-tag" to contain "nuggit: AnnotateMeIfYouCan"
 redeem_nuggit AnnotateMeIfYouCan
-git switch --detach -q the-first-tag
+expect "git switch --detach -q the-first-tag" to succeed
 '
 
 xit 'TODO: find title for combine_history testcase' <<EOF
