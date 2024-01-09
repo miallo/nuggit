@@ -51,13 +51,13 @@ git init --initial-branch="$initial_branch" challenge
 cd challenge
 reproducibility_setup
 
-# Create an empty commit and delete it, so that our own nuggits "branch" can reference the empty tree
-# TODO: figure out how to create a tree object without interacting with the index
-commit --allow-empty -m "RootOfAllNuggits
+# Create an empty commit for our own nuggits "branch"
+# don't use `git commit`, since that would find itself in the reflog
+# the `printf "" | git mktree` simulates an empty tree
+# (so basically: since there was no commit before, this is an empty commit)
+git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
-Have a free nuggit!"
-# pretend this was done in our manually managed nuggits "branch" instead
-mv ".git/refs/heads/$initial_branch" ".git/nuggits"
+Have a free nuggit!" > .git/nuggits
 
 cp -r "$DOCDIR/01_init/"* .
 git add .
