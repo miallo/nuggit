@@ -51,6 +51,10 @@ remove_build_setup_from_config() {
     git config --local --remove-section user
 }
 
+add_player_config() {
+    git config --local --add alias.redeem-nuggit '!$(git rev-parse --show-toplevel)/.git/redeem.nuggit'
+}
+
 replace_placeholders() {
     sed -e "s/INTERACTIVE_REBASE_BASE_COMMIT/$INTERACTIVE_REBASE_BASE_COMMIT/" \
         -e "s/BRANCH_COMMIT/$BRANCH_COMMIT/" \

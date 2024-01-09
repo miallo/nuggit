@@ -60,7 +60,6 @@ Have a free nuggit!"
 mv ".git/refs/heads/$initial_branch" ".git/nuggits"
 
 cp -r "$DOCDIR/01_init/"* .
-cp "$DOCDIR/01_init/.gitignore" .
 git add .
 commit -m "Initial Commit"
 
@@ -149,11 +148,13 @@ ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 # for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
 CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
 
-replace_placeholders "$DOCDIR/redeem.nuggit" > ./redeem.nuggit
-chmod a=rx ./redeem.nuggit
+replace_placeholders "$DOCDIR/redeem.nuggit" > ./.git/redeem.nuggit
+chmod a=rx ./.git/redeem.nuggit
 
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
+add_player_config
+
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
