@@ -162,7 +162,8 @@ create_chapter hooks
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
-for file in $(ls "$DOCDIR/hooks"); do
+for filep in "$DOCDIR/hooks/"*; do
+    file="$(basename "$filep")"
     replace_placeholders "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
     chmod +x ".git/hooks/$file.orig"
 done
