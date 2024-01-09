@@ -4,8 +4,11 @@ set -e
 
 . ./lib.sh
 . ./test_helpers/lib-test.sh
-echo "Building..."
-./create_challenge.sh --force
+build_challenge() {
+    echo "Building challenge..."
+    ./create_challenge.sh --force "$@"
+}
+build_challenge "$@"
 cd challenge
 reproducibility_setup
 
@@ -25,9 +28,8 @@ expect "! git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately t
 check_redeem_without_local_code_execution
 '
 
-echo "Building once more..."
 cd ..
-./create_challenge.sh --force
+build_challenge "$@"
 echo "Running tests..."
 cd challenge
 reproducibility_setup
