@@ -51,6 +51,7 @@ expect() {
         exit 1
     }
     if [ "$test_verbose" -ge 1 ]; then
+        if [ "$test_verbose" -lt 2 ]; then printf "   "; fi # make room for checkbox/exclamation mark in the beginning of the line
         printf "\e[34mexpect %s\e[0m " "$(pretty_escape "$@")"
     fi
     command="$1"; shift
@@ -94,10 +95,10 @@ but got:
     fi
     if [ "$test_verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
     if { [ "$invert_result" = true ] && [ "$failed" != true ]; } || { [ "$invert_result" != true ] && [ "$failed" = true ]; }; then
-        if [ "$test_verbose" -ge 1 ]; then printf "❗️\n"; fi
+        if [ "$test_verbose" -ge 1 ]; then printf "\r❗️\n"; fi
         expect_err "$error"
     fi
-    if [ "$test_verbose" -ge 1 ]; then printf "☑️\n"; fi
+    if [ "$test_verbose" -ge 1 ]; then printf "\r☑️\n"; fi
 }
 
 pretty_escape() {
