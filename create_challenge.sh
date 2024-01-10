@@ -86,10 +86,11 @@ git add branch.md
 commit -m "WIP branch: add explanation on how to list local branches"
 
 create_chapter commit
-git switch main
+git switch --detach main
 replace_placeholders "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
+CHAPTER_COMMIT_COMMIT="$(git rev-parse --short @)"
 
 create_chapter rebase/merge
 git switch --detach main
@@ -121,7 +122,10 @@ cat "$DOCDIR/02_status_diff/status.md" >> README.md
 UNSTAGED_NUGGIT='nuggit: WorkInProgress'
 STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
 STAGING_NUGGIT='nuggit: CommitmentIssues'
-COMMIT_DESCRIPTION='To commit all changes in the staging area you can run `git commit` and an editor will open where you can type a commit message. Further information can be found in "commit.md"'
+COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
+```sh
+git diff '"$CHAPTER_COMMIT_COMMIT"' -- commit.md
+```'
 {
     echo "$UNSTAGED_NUGGIT"
     echo # newline for readability
@@ -137,7 +141,8 @@ commit -m 'README: add explanation on status and diff'
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
 sed "/$STAGING_NUGGIT/{N;N;d;}" README.md > tmp
-sed "/$COMMIT_DESCRIPTION/{N;N;d;}" tmp > README.md
+num_of_diff_commit_lines="$(( $(wc -l < tmp) - $(echo "$COMMIT_DESCRIPTION" | wc -l) + 1))"
+sed "$num_of_diff_commit_lines,$ d" tmp > README.md
 git add README.md
 sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md

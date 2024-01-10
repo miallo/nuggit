@@ -68,6 +68,12 @@ expect "git diff --staged" to contain "nuggit: CommitmentIssues"
 redeem_nuggit CommitmentIssues
 '
 
+it 'diff <commit>' '
+diff_commit_command="$(get_sh_codeblock <(git diff --staged | cut -c 2-))"
+expect "$diff_commit_command" to contain "nuggit: AbsoluteDifferentiable"
+redeem_nuggit AbsoluteDifferentiable
+'
+
 it 'CommitMirInsAbendteuerland in new commit message' '
 expect "git commit -m \"My first commit\"" to succeed
 expect "git show" to contain "nuggit: CommitMirInsAbendteuerland"
@@ -83,7 +89,7 @@ expect "git restore README.md 2>&1" not to contain "nuggit: Switcheridoo"
 '
 
 it 'ShowMeMore in branch commit' <<EOF
-expect 'eval "\$(get_sh_codeblock commit.md)"' to contain "nuggit: ShowMeMore"
+expect 'eval "\$(get_sh_codeblock <(\$diff_commit_command | cut -c 2-))"' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore
 EOF
 
