@@ -25,7 +25,13 @@ xit() {
     printf "⏭️  \e[33m%s\e[0m skipped\n" "$testname"
 }
 
-# running a testcase
+# # test case
+#
+# A test case has a name and content to evaluate. It handles printing the steps
+# and trapping the errors.
+#
+# It could also in theory to be extended to run a "before_each" function, but
+# the latter so far was not needed.
 it(){
     testname="$1"; shift
     code="$1"
@@ -47,7 +53,28 @@ trap - EXIT # Remove the trap handler, so that it does not fire at the end of th
 
 string_contains() { [ -z "${1##*"$2"*}" ] && [ -n "$1" ]; }
 
-# Assertion
+# # Assertions
+#
+# Usage examples:
+#     expect "echo hi" to contain "hi"
+#     expect "echo hi" not to contain "ho"
+#     expect "true" to succeed
+#     expect "false" not to succeed
+#
+# In contrast to e.g the test framework that `git` itself uses [1] I decided to
+# eval the command (and for "to contain" search its stdout), instead of always
+# having to output to files and then searching them (e.g [2]) since that is
+# almost always what we want to do and I don't want to have to deal with
+# writing to and then comparing these temporary files.
+#
+# On the `contain` action: In hindsight maybe it would have been a slightly
+# cleaner solution to rely on "$(echo hi)" instead and just do a string
+# comparison instead of evaling the command and searching stdout, but in our
+# use case we would have had to call it like that for almost all invocations,
+# so :shrug:
+#
+# [1] https://git.kernel.org/pub/scm/git/git.git/tree/t?h=v2.43.0
+# [2] https://git.kernel.org/pub/scm/git/git.git/tree/t/t0001-init.sh?h=v2.43.0#n171
 expect() {
     local invert_result failed error
     expect_err() {

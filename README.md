@@ -28,4 +28,17 @@ It has two levels of debugging, so by default it just prints the test cases, but
 
 WARNING: It will build the challenge for you, since it has to reset the state inbetween to check incompatible "paths" (test with triggering the LocalCodeExecution trap, or not). That means it does not matter into which state you bring the challenge directory before the run - it will be deleted and replaced by a fresh build before the first test is run.
 
-There is a small testing library roughly mimicking `jest` in its usage.
+For writing tests there is a tiny testing framework (loosely inspired by `jest`). It is by far not feature complete. Example:
+```sh
+sum() {
+    a="$1" b="$2"
+    echo "$(( a + b ))"
+}
+```
+and the test code:
+```sh
+it 'adds 1 + 2 to equal 3' '
+  expect "sum 1 2" to contain "3";
+'
+```
+(Yes, right: it is so "tiny", it does not even have a "to equal" action yet, but only a "stdout contains substring" assertion... So far it was all we needed, but feel free to extend it!)
