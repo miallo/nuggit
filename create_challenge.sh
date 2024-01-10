@@ -143,6 +143,20 @@ sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
 sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
+create_chapter origin
+git init --bare --initial-branch=main ./.git/my-origin
+git remote add origin ./.git/my-origin
+git push --set-upstream origin @
+(
+    cd .git
+    git clone ./my-origin another-downstream
+    cd another-downstream
+    reproducibility_setup 2
+    echo "Some changes..." >> README.md
+    commit -a -m "nuggit: SwimmingUpstream" --no-edit
+    git push
+)
+
 create_chapter store nuggits
 # nuggits
 # TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
@@ -159,6 +173,8 @@ remove_build_setup_from_config
 add_player_config
 
 create_chapter hooks
+# origin hooks
+cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
