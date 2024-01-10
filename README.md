@@ -18,6 +18,10 @@ If instead you want to create a local "playable" copy, you can simply run `./cre
 
 By default `./create_challenge.sh` does not show the git output to avoid leaking information. If you get an error you can run it again with `-v`/`--verbose`.
 
+# Developing
+
+If you want to work on this, <./architecture.md> gives a short introduction on how this project is structured.
+
 ## testing
 
 To run the tests you simply need to execute:
