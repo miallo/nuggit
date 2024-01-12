@@ -4,25 +4,14 @@ set -e
 
 : "${verbose:=0}"
 
-create_challenge_flags=("--force")
-while [ $# -gt 0 ]; do
-    opt="$1"; shift
-    case "$opt" in
-        -v|--verbose)
-            verbose=$((verbose + 1))
-            create_challenge_flags+=("-v")
-            ;;
-        *)
-            echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
-            exit 1
-            ;;
-    esac
-done
 . ./lib.sh
+
+parse_opts "$@"
+
 . ./test_helpers/lib-test.sh
 build_challenge() {
     echo "Building challenge..."
-    ./create_challenge.sh "${create_challenge_flags[@]}"
+    ./create_challenge.sh --force
 }
 build_challenge
 cd challenge
