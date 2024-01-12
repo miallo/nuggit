@@ -1,22 +1,8 @@
 #!/usr/bin/env bash
 
-verbose=0
+. ./lib.sh
 
-while [ $# -gt 0 ]; do
-    opt="$1"; shift
-    case "$opt" in
-        -v|--verbose)
-            verbose=$((verbose + 1))
-            ;;
-        -f|--force|--delete-existing-challenge)
-            delete_existing_dir=true
-            ;;
-        *)
-            echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
-            exit 1
-            ;;
-    esac
-done
+parse_opts "$@"
 
 if [ "$verbose" -eq 0 ]; then
     exec 3>&1 4>&2 >/dev/null 2>&1 # store stdin / stdout filedescriptors so that we can still print in case of an error
@@ -31,7 +17,6 @@ set -eE
 trap on_error TERM ABRT QUIT ERR EXIT
 
 shopt -s extglob
-. ./lib.sh
 
 if [ -e challenge ]; then
     if [ "$delete_existing_dir" = true ]; then

@@ -1,5 +1,28 @@
 #!/usr/bin/env bash
 
+: "${verbose:=0}"
+
+export verbose
+export delete_existing_dir
+
+parse_opts() {
+    while [ $# -gt 0 ]; do
+        opt="$1"; shift
+        case "$opt" in
+            -v|--verbose)
+                verbose=$((verbose + 1))
+                ;;
+            -f|--force|--delete-existing-challenge)
+                delete_existing_dir=true
+                ;;
+            *)
+                echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
+                exit 1
+                ;;
+        esac
+    done
+}
+
 ROOT="$(git rev-parse --show-toplevel)"
 DOCDIR="$ROOT/src"
 
