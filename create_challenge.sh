@@ -1,10 +1,12 @@
 #!/usr/bin/env bash
 
+verbose=0
+
 while [ $# -gt 0 ]; do
     opt="$1"; shift
     case "$opt" in
         -v|--verbose)
-            verbose=true
+            verbose=$((verbose + 1))
             ;;
         -f|--force|--delete-existing-challenge)
             delete_existing_dir=true
@@ -16,13 +18,13 @@ while [ $# -gt 0 ]; do
     esac
 done
 
-if [ "$verbose" != true ]; then
+if [ "$verbose" -eq 0 ]; then
     exec 3>&1 4>&2 >/dev/null 2>&1 # store stdin / stdout filedescriptors so that we can still print in case of an error
 fi
 on_error() {
-    [ "$verbose" != true ] && exec 1>&3 2>&4 # restore file descriptors
+    [ "$verbose" -eq 0 ] && exec 1>&3 2>&4 # restore file descriptors
     printf "❌ \e[3;1;31mERROR!\e[0m \e[31mAn error occured while creating chapter %s\e[0m\n" "$chapter">&2
-    [ "$verbose" != true ] && printf "%s" 'Run again with `-v` for more verbose output' >&2
+    [ "$verbose" -eq 0 ] && printf "%s" 'Run again with `-v` for more verbose output' >&2
     exit 1
 }
 set -eE
