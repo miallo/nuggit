@@ -2,13 +2,14 @@
 
 set -e
 
-test_verbose=0
+: "${verbose:=0}"
+
 create_challenge_flags=("--force")
 while [ $# -gt 0 ]; do
     opt="$1"; shift
     case "$opt" in
         -v|--verbose)
-            test_verbose=$((test_verbose + 1))
+            verbose=$((verbose + 1))
             create_challenge_flags+=("-v")
             ;;
         *)

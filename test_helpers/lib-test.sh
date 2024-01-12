@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Make sure to set a default value for verbosity
-: "${test_verbose:=0}"
+: "${verbose:=0}"
 
 success() {
     # use \r to overwrite the line saying "running" => add spaces to the end to cover the longer line
@@ -40,7 +40,7 @@ it(){
         code="$(cat -)"
     fi
     printf "running %s" "$testname"
-    if [ "$test_verbose" -gt 0 ]; then
+    if [ "$verbose" -gt 0 ]; then
         printf "\n"
     fi
     eval "set -eE
@@ -82,8 +82,8 @@ expect() {
         echo "$1" >&2
         exit 1
     }
-    if [ "$test_verbose" -ge 1 ]; then
-        if [ "$test_verbose" -lt 2 ]; then printf "   "; fi # make room for checkbox/exclamation mark in the beginning of the line
+    if [ "$verbose" -ge 1 ]; then
+        if [ "$verbose" -lt 2 ]; then printf "   "; fi # make room for checkbox/exclamation mark in the beginning of the line
         printf "\e[34mexpect %s\e[0m " "$(pretty_escape "$@")"
     fi
     command="$1"; shift
@@ -125,12 +125,12 @@ but got:
                 ;;
         esac
     fi
-    if [ "$test_verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
+    if [ "$verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
     if { [ "$invert_result" = true ] && [ "$failed" != true ]; } || { [ "$invert_result" != true ] && [ "$failed" = true ]; }; then
-        if [ "$test_verbose" -ge 1 ]; then printf "\r❗️\n"; fi
+        if [ "$verbose" -ge 1 ]; then printf "\r❗️\n"; fi
         expect_err "$error"
     fi
-    if [ "$test_verbose" -ge 1 ]; then printf "\r☑️\n"; fi
+    if [ "$verbose" -ge 1 ]; then printf "\r☑️\n"; fi
 }
 
 # WARNING! Contrary to it's name it just tries its best to escape shell characters, but it probably does not catch all special characters, so be careful with the output!
