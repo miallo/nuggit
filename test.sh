@@ -3,6 +3,7 @@
 set -e
 
 : "${verbose:=0}"
+: "${destination:=tutorial}"
 
 . ./lib.sh
 
@@ -14,7 +15,7 @@ build_challenge() {
     ./build.sh --force
 }
 build_challenge
-cd challenge
+cd "$destination"
 reproducibility_setup
 
 check_redeem_without_local_code_execution() {
@@ -37,7 +38,7 @@ check_redeem_without_local_code_execution
 cd ..
 build_challenge
 echo "Running tests..."
-cd challenge
+cd "$destination"
 reproducibility_setup
 
 redeem_nuggit() {

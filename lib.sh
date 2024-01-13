@@ -12,11 +12,11 @@ parse_opts() {
             -v|--verbose)
                 verbose=$((verbose + 1))
                 ;;
-            -f|--force|--delete-existing-challenge)
+            -f|--force)
                 delete_existing_dir=true
                 ;;
             *)
-                echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force|--delete-existing-challenge]" >&2
+                echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force]" >&2
                 exit 1
                 ;;
         esac

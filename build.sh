@@ -3,6 +3,7 @@
 . ./lib.sh
 
 parse_opts "$@"
+: "${destination:=tutorial}"
 
 # ------------------------------------------------------------------------------------------- #
 # setup for the script
@@ -20,20 +21,20 @@ trap on_error TERM ABRT QUIT ERR EXIT
 
 shopt -s extglob
 
-if [ -e challenge ]; then
+if [ -e "$destination" ]; then
     if [ "$delete_existing_dir" = true ]; then
-        rm -rf challenge
+        rm -rf "$destination"
     else
-        warn "'challenge' already exists. moving to challenge2..."
-        rm -rf challenge2
-        mv challenge challenge2
+        warn "'$destination' already exists. moving to ${destination}2..."
+        rm -rf "${destination}2"
+        mv "$destination" "${destination}2"
     fi
 fi
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
-git init --initial-branch=main challenge
-cd challenge
+git init --initial-branch=main tutorial
+cd tutorial
 reproducibility_setup
 
 # ------------------------------------------------------------------------------------------- #
