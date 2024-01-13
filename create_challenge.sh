@@ -33,8 +33,7 @@ NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
 create_chapter initial setup
 # TODO: figure out how to use --template="$DOCDIR/01_init"
-initial_branch=main
-git init --initial-branch="$initial_branch" challenge
+git init --initial-branch=main challenge
 cd challenge
 reproducibility_setup
 
