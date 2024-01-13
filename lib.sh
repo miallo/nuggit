@@ -58,15 +58,18 @@ commit() {
     git commit "$@"
 }
 
+# shellcheck disable=SC2120 # the parameter is optional
 reproducibility_setup() {
     # Setup for reproducibility
     # Don't use $HOME/.gitconfig or global config
     export GIT_CONFIG_SYSTEM=""
     export GIT_CONFIG_GLOBAL=""
 
-    # use fixed user
-    git config user.name "Nuggit Challenge"
-    git config user.email nuggit-challenge@gmail.com
+    nameSuffix="${1:-}"
+    emailSuffix="${nameSuffix:+"+$nameSuffix"}" # = if we have a nameSuffix: prefix it with a plus
+    # use fixed user, else empty
+    git config user.name "Nuggit$nameSuffix Challenge"
+    git config user.email "nuggit-challenge${emailSuffix}@gmail.com"
 
     # initialize the commit date
     test_tick
