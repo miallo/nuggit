@@ -31,7 +31,6 @@ if [ -e challenge ]; then
 fi
 
 LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
-NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
@@ -39,6 +38,8 @@ git init --initial-branch=main challenge
 cd challenge
 reproducibility_setup
 
+# ------------------------------------------------------------------------------------------- #
+create_chapter store nuggits
 # Create an empty commit for our own nuggits "branch"
 # don't use `git commit`, since that would find itself in the reflog
 # the `printf "" | git mktree` simulates an empty tree
@@ -47,6 +48,18 @@ git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
 Have a free nuggit!" > .git/nuggits
 
+# TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
+eval "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (aka some loose objects)
+ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
+# for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
+CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
+NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
+
+replace_placeholders "$DOCDIR/redeem.nuggit" > ./.git/redeem.nuggit
+chmod a=rx ./.git/redeem.nuggit
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter initial commit
 cp -r "$DOCDIR/01_init/"* .
 git add .
 commit -m "Initial Commit"
@@ -165,23 +178,11 @@ sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
 rm tmp
 
 # ------------------------------------------------------------------------------------------- #
-create_chapter store nuggits
-# nuggits
-# TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
-eval "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (aka some loose objects)
-ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
-# for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
-CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
-
-replace_placeholders "$DOCDIR/redeem.nuggit" > ./.git/redeem.nuggit
-chmod a=rx ./.git/redeem.nuggit
-
+create_chapter finalize setup
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
 add_player_config
 
-# ------------------------------------------------------------------------------------------- #
-create_chapter hooks
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/*
 
