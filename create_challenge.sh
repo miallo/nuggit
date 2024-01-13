@@ -32,7 +32,6 @@ LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
 create_chapter initial setup
-# TODO: figure out how to use --template="$DOCDIR/01_init"
 git init --initial-branch=main challenge
 cd challenge
 reproducibility_setup
