@@ -30,8 +30,6 @@ if [ -e challenge ]; then
     fi
 fi
 
-LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
-
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
 git init --initial-branch=main challenge
@@ -184,8 +182,9 @@ remove_build_setup_from_config
 add_player_config
 
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
-rm .git/hooks/*
+rm .git/hooks/* # remove all the .sample files, since they are just noise
 
+LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
     replace_placeholders "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
