@@ -194,5 +194,5 @@ while read -r hook; do
     replace_placeholders "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
     chmod +x ".git/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
-
-trap - EXIT
+# Did you read the comment above?
+trap - EXIT # If we get here: Success!, So remove the error handler
