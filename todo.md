@@ -8,10 +8,8 @@
 # List of places to hide
 
 - reverted commit
-- remote (fetch)
 - different branch
-    - orphan branch (no common ancestor)
-        - git log --all --decorate
+    - git log --all --decorate
 - tag
     - `git describe`
     - all tags
@@ -27,12 +25,11 @@
 - `blame` first column
 - untracked files (`git clean --dry-run` or `git status --ignored`)
 - files in .gitignore
-- COMMIT_MESSAGE
+- files in .git/info/exclude
 - merge commit (`git merge --no-commit`)
 - file encrypted with filter
 - rerere for specific conflict
 - apply a number of patches (and maybe calculate the nuggit, so that it isn't obvious from the patches themselves?)
-- files in .git/info/exclude
 - custom subcommand (requires setting up the $PATH)
 - git reflog => detached commit
 - random object in .git/objects (`git prune --dry-run` or hint of hash?)
@@ -73,9 +70,7 @@ See documentation in the git repository under Documentation/githooks.txt
 - update
 - proc-receive
 - post-receive
-- post-update
 - reference-transaction
-- push-to-checkout
 - post-rewrite
 - sendemail-validate
 - fsmonitor-watchman
