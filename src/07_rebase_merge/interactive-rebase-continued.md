@@ -25,7 +25,7 @@ In short: when you just save and quit, it will be exactly as a normal rebase. Bu
     - first create a new branch with all the changed
     - do an interactive rebase and kick out all the not needed commits
     CAREFUL: an alternative to replacing the "pick" with a "drop" is just to delete the line! This can accidentally happen (or intentionally because in my editor it is faster than replacing the "pick" 😅)
-- "edit": Allows you to amend to a previous commit TODO: explain amend
+- "edit": Allows you to add new changes to a previous commit (TODO: explain amending)
 
 git actually only cares about the action (e.g. "pick") and the following commit hash. The commit message in the end is just for decoration. Changing it in the "todo file" does nothing to the commit - use "reword" instead.
 
