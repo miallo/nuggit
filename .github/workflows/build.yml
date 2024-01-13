@@ -1,0 +1,25 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - main
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+      - name: build challenge
+        run: ./create_challenge.sh --verbose
+      - name: create tarball
+        # GitHub removes file permissions, but we need them to be there
+        # https://github.com/actions/upload-artifact/blob/cf8714cfeaba5687a442b9bcb85b29e23f468dfa/README.md#permission-loss
+        # Alternatively we could require the user to run a script that adds the permissions on first run, but that also feels broken...
+        run: tar -cvf challenge.tar ./challenge/
+      - name: upload challenge
+        uses: actions/upload-artifact@v4
+        with:
+          name: challenge
+          path: ./challenge.tar
+          if-no-files-found: error
