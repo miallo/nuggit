@@ -67,6 +67,9 @@ reproducibility_setup() {
     # use fixed user
     git config user.name "Nuggit Challenge"
     git config user.email nuggit-challenge@gmail.com
+
+    # initialize the commit date
+    test_tick
 }
 
 remove_build_setup_from_config() {
