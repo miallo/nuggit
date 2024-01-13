@@ -33,3 +33,8 @@ So what do we do then? Easy: We use the plumbing commands to create the commit a
 Once a nuggit is redeemed, we write another object to the "database" with the format `'$nuggit' already redeemed`. That way we can look it up in our "database" before we tell the user they redeemed a new one.
 
 As a side-note, we don't just rely on the number of commits in our nuggits branch, since the user could easily tinker with that. But with each newly redeemed nuggit we also write the total number of redeemed nuggits to the objects. That way we can at least cross reference a tiny bit if the player has tinkered with our system (but of course they could just open the script and reverse that as well...)
+
+## Pushing & Pulling
+
+The remote is not actually a server, but a bare repo (meaning a repo that does not have a workspace, but is basically just the content of a .git/ folder) that is found under .git/my-origin. That means a player can play this totally locally.
+But that is not the only other git repository that is needed in this game: When pushing on the branch "working-with-others" we want the user to also be able to do a meaningful `git pull`, and so in the my-origin hook "post-update", which is triggered after someone pushed to it, we want to add commits. But since a bare repo cannot be used (easily) to create commits, we shell out and have another clone under .git/another-downstream that is used to push again to .git/my-origin, so that next time the player runs `git pull` there are actually changes to fetch
