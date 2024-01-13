@@ -54,7 +54,7 @@ else
     }
     commit_nuggit "$nuggit"
 
-    echo "Number of redeemed nuggits: $redeemed_nuggits"
+    echo "Number of redeemed nuggits: $redeemed_nuggits of $((NUMBER_OF_NUGGITS))"
     already_redeemed "$nuggit" | git hash-object --stdin -w >/dev/null 2>&1
     git hash-object --stdin <<< "$redeemed_nuggits"| git hash-object --stdin -w >/dev/null 2>&1
 fi
