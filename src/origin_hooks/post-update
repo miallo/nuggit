@@ -3,4 +3,25 @@
 echo "nuggit: PushItToTheLimits"
 if [ "$1" = "refs/heads/working-with-others" ]; then
     echo 'To get the latest changes, run `git pull`'
+    if ! git log --format=%B -n 2 "refs/heads/working-with-others" | grep -q pull; then
+        # create_chapter pull
+        (
+            cd ../another-downstream || exit
+            export GIT_DIR=./.git # make sure to use downstream GIT_DIR instead of origin
+            git fetch -q
+            git switch working-with-others
+            git reset --hard "@{u}" -q
+            cat docdir/pull.md >> working-with-others.md
+            git add working-with-others.md
+            git commit -m "Describe pull" -q
+            echo '
+
+# List remote branches
+
+To list branches that are only on the server, you can run `git branch --remotes`. If you run a `git switch <branch name>` with a branch that you don'\''t have locally, but there is one in origin, git will be so kind and create a local branch for you that is based on the remote one.
+' >> working-with-others.md
+            git commit -am "Describe how to list remote branches" -q
+            git push -q
+        ) >/dev/null 2>&1
+    fi
 fi

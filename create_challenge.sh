@@ -149,11 +149,22 @@ git add working-with-others.md
 commit -m "Explain 'git push'"
 
 # ------------------------------------------------------------------------------------------- #
+# chapter pull, see origin_hooks/post_update
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter log
-git switch main -c history
-cp "$DOCDIR/06_log/log.md" .
-git add log.md
-commit -m "Add description on log"
+(
+    cd .git
+    git clone ./my-origin another-downstream
+    cd another-downstream
+    reproducibility_setup 2
+
+    git switch main -c history
+    cp "$DOCDIR/06_log/log.md" .
+    git add log.md
+    commit -m "Add description on log"
+    git push --set-upstream origin @
+)
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter diff
@@ -198,6 +209,9 @@ add_player_config
 
 # origin hooks
 cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
+
+mkdir ".git/another-downstream/docdir"
+cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise

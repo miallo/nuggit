@@ -101,6 +101,13 @@ expect "git push 2>&1" to contain "nuggit: PushItToTheLimits"
 redeem_nuggit PushItToTheLimits
 '
 
+it 'PullMeUnder is shown on pull' '
+expect "! git switch history -q 2>&1" to succeed
+expect "git pull 2>1" to succeed
+expect "cat working-with-others.md" to contain "nuggit: PullMeUnder"
+redeem_nuggit PullMeUnder
+'
+
 it 'LogCat for log' <<EOF
 expect "git switch history -q" to succeed
 expect 'eval "\$(get_sh_codeblock log.md)"' to contain "nuggit: LogCat"
