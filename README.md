@@ -12,7 +12,7 @@ cd challenge
 ```
 and then you are ready!
 
-If instead you want to create a local "playable" copy yourself, you can simply run `./create_challenge.sh` and you will find the folder "challenge".
+If instead you want to create a local "playable" copy yourself, you can simply run `./build.sh` and you will find the folder "tutorial".
 
 ## What git functions are already explained?
 
@@ -29,7 +29,7 @@ If instead you want to create a local "playable" copy yourself, you can simply r
 
 ## debugging
 
-By default `./create_challenge.sh` does not show the git output to avoid leaking information. If you get an error you can run it again with `-v`/`--verbose`.
+By default `./build.sh` does not show the git output to avoid leaking information. If you get an error you can run it again with `-v`/`--verbose`.
 
 # Developing
 

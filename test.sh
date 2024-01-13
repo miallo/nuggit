@@ -11,7 +11,7 @@ parse_opts "$@"
 . ./test_helpers/lib-test.sh
 build_challenge() {
     echo "Building challenge..."
-    ./create_challenge.sh --force
+    ./build.sh --force
 }
 build_challenge
 cd challenge

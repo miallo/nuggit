@@ -11,7 +11,7 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v4
       - name: build challenge
-        run: ./create_challenge.sh --verbose
+        run: ./build.sh --verbose
       - name: create tarball
         # GitHub removes file permissions, but we need them to be there
         # https://github.com/actions/upload-artifact/blob/cf8714cfeaba5687a442b9bcb85b29e23f468dfa/README.md#permission-loss
