@@ -12,7 +12,20 @@ cd challenge
 ```
 and then you are ready!
 
-If instead you want to create a local "playable" copy, you can simply run `./create_challenge.sh` and you will find the folder "challenge".
+If instead you want to create a local "playable" copy yourself, you can simply run `./create_challenge.sh` and you will find the folder "challenge".
+
+## What git functions are already explained?
+
+- diff (--staged)
+- (add) <= maybe needs to be improved?
+- commit
+- show
+- switch (-c)
+- push
+- pull
+- log
+- rebase
+- (merge) <= only explained, but not interactively
 
 ## debugging
 
