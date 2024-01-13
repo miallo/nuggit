@@ -75,6 +75,7 @@ BRANCH_COMMIT="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter working with branches
+git switch branches-explained
 echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally preferred nowadays.' >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on checkout"
