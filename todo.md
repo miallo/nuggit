@@ -1,3 +1,32 @@
+# important basics left to explain
+
+- status (basics are explained, but not in depth...)
+- commit --amend
+- reset
+- restore
+- nomenclature of HEAD/repository/^/~/@{u}/...
+- cherry-pick
+- merge
+- (clone - hard to do sensibly)
+- range-diff
+
+## less important basics
+
+- add -p
+- tag (interactively)
+- revert
+- config
+    - alias (explains redeem-nuggit)
+- submodule
+- rm / mv
+- worktree
+- remote
+- bisect
+- merge-base
+- ranges (HEAD...FETCH_HEAD)
+- log -S
+- grep
+
 # "fancy" ideas for clues
 
 - range-diff (merge-base)
