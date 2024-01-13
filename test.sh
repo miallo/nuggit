@@ -42,6 +42,7 @@ reproducibility_setup
 
 redeem_nuggit() {
     expect "git redeem-nuggit '$1'" to contain Success
+    expect "git show nuggits" to contain "$1"
 }
 
 it 'LocalCodeExecution nuggit in hooks' '
@@ -132,6 +133,7 @@ check_redeem() {
         expect "git redeem-nuggit '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
         expect "git redeem-nuggit '$nuggit'" to contain "already redeemed"
         expect "git redeem-nuggit '$nuggit'" not to contain Success
+        expect "git log nuggits" to contain "$nuggit"
     done < "$DOCDIR/nuggits"
 }
 
