@@ -58,7 +58,7 @@ ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
-replace_placeholders "$DOCDIR/redeem.nuggit" > ./.git/redeem.nuggit
+replace_placeholders "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #
