@@ -213,6 +213,14 @@ cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 mkdir ".git/another-downstream/docdir"
 cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 
+# # debug origin hooks
+# while read -r hook; do
+#     echo '#/bin/sh
+# echo "$0: $@"
+#     ' >> ".git/my-origin/hooks/$hook"
+#     chmod +x ".git/my-origin/hooks/$hook"
+# done < "$DOCDIR/all-git-hooks"
+
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise
 
