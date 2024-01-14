@@ -127,8 +127,8 @@ expect 'eval "\$(get_sh_codeblock combine_history.md)" 2>&1' to contain "nuggit:
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 
-xit 'interactive rebase succeeds' <<EOF
-GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" >/dev/null
+it 'interactive rebase succeeds' <<EOF
+expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" 2>&1' to succeed
 EOF
 
 it 'An invalid nuggit should show an error' '

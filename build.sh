@@ -63,6 +63,12 @@ replace_placeholders "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter final commit
+END_BLOB_HASH="$(git hash-object -w "$DOCDIR/credits/the-end.md")"
+END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktree)"
+END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter initial commit
 cp -r "$DOCDIR/01_init/"* .
 git add .
@@ -116,7 +122,7 @@ commit -m "WIP: finish sentence on interactive rebases"
 INTERACTIVE_REBASE_EXAMPLE_PICKS="$(git log --oneline main..@ | sed 's/^/pick /' | sed 's/$/\\/g')
 [...]"
 # FIXME
-CHAPTER_AMEND_COMMIT=CHAPTER_AMEND_COMMIT
+CHAPTER_AMEND_COMMIT="$END_COMMIT"
 replace_placeholders "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
 git add interactive-rebase.md
 commit -m "Finish describing interactive rebases
