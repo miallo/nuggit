@@ -23,6 +23,9 @@ A: That is a good question and you will figure out the answer the more you get i
 Q: Can I use my favourite git GUI tool?
 A: Well... For a few of the nuggits, yes, but some are well hidden in the stranger parts of git, so this project assumes running git from the command line from the beginning.
 
+Q: I want to learn more about a command - how?
+A: As a first step, just run `git <command> --help` - otherwise: the internet is your friend.
+
 NOTE: This tutorial uses git hooks extensively for it to work. Because of the way you downloaded this repository they are enabled by default and could run arbitrary code. I promise you they are just here for the benefit of learning git and don't do anything malicious. If it makes you feel better: For testing this tutorial I have a test suite that I am regularly running on my machine that triggers all of them.
 If you are still paranoid, you should never download repositories like this! Instead you can come and take a look how this was created and help to complete it - with git there are infinitely many things to learn and we will never be done...
 
