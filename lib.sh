@@ -84,15 +84,14 @@ add_player_config() {
     git config --local --add alias.redeem-nuggit '!$(git rev-parse --show-toplevel)/.git/redeem.nuggit'
 }
 
-replace_placeholders() {
-    sed -e "s/CHAPTER_AMEND_COMMIT/$CHAPTER_AMEND_COMMIT/" \
-        -e "s/BRANCH_COMMIT/$BRANCH_COMMIT/" \
-        -e "s/NUMBER_OF_NUGGITS/$NUMBER_OF_NUGGITS"/ \
-        -e "s/ALMOST_CREDITS_HASH/$ALMOST_CREDITS_HASH"/ \
-        -e "s/CREDITS_HASH/$CREDITS_HASH"/ \
-        -e "s/LOCAL_CODE_EXECUTION_HASH/$LOCAL_CODE_EXECUTION_HASH/" \
-        -e "s/INTERACTIVE_REBASE_EXAMPLE_PICKS/$INTERACTIVE_REBASE_EXAMPLE_PICKS/" \
-        -e "s/INTERACTIVE_REBASE_COMMIT/$INTERACTIVE_REBASE_COMMIT/" "$1"
+# Useage:
+# replace MV_VAR1 MY_VAR2 [...] input_file > output_file
+replace () {
+    local input_file="${!#}" # last argument
+    local variable_names=("${@:1:$#-1}") # all but the last argument
+    for var in "${variable_names[@]}"; do
+        printf "s/%s/%s/g\n" "$var" "${!var}" # search variable name and replace with variable content
+    done | sed -f- "$input_file" # read sed instructions from std-in
 }
 
 create_chapter() {

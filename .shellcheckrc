@@ -1,3 +1,6 @@
 # Don't warn about expressions not being expanded in single quotes
 # We use faaaar to many strings which are `eval`d and should only then capture the variables
 disable=SC2016
+
+# Don't warn about unused variables, since we have the helper `replace` that only takes in the variable name and dereferences it, but shellcheck does not understand that
+disable=SC2034

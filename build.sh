@@ -59,7 +59,7 @@ ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
-replace_placeholders "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
+replace NUMBER_OF_NUGGITS ALMOST_CREDITS_HASH CREDITS_HASH "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #
@@ -103,7 +103,7 @@ commit -m "WIP branch: add explanation on how to list local branches"
 # ------------------------------------------------------------------------------------------- #
 create_chapter commit
 git switch --detach main
-replace_placeholders "$DOCDIR/03_commit/commit.md" > commit.md
+replace BRANCH_COMMIT "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
 CHAPTER_COMMIT_COMMIT="$(git rev-parse --short @)"
@@ -123,7 +123,7 @@ INTERACTIVE_REBASE_EXAMPLE_PICKS="$(git log --oneline main..@ | sed 's/^/pick /'
 [...]"
 # FIXME
 CHAPTER_AMEND_COMMIT="$END_COMMIT"
-replace_placeholders "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
+replace CHAPTER_AMEND_COMMIT INTERACTIVE_REBASE_EXAMPLE_PICKS "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
 git add interactive-rebase.md
 commit -m "Finish describing interactive rebases
 
@@ -133,7 +133,7 @@ INTERACTIVE_REBASE_COMMIT="$(git rev-parse --short @)"
 # ------------------------------------------------------------------------------------------- #
 create_chapter rebase/merge
 git switch --detach main
-replace_placeholders "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
+replace INTERACTIVE_REBASE_COMMIT "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"
 
@@ -151,7 +151,7 @@ create_chapter push
 git switch main -c working-with-others # found via "git branch --list"
 git push origin main
 git push --set-upstream origin @
-replace_placeholders "$DOCDIR/09_push_pull/push.md" > working-with-others.md
+cp "$DOCDIR/09_push_pull/push.md" working-with-others.md
 git add working-with-others.md
 commit -m "Explain 'git push'"
 
@@ -234,11 +234,11 @@ rm .git/hooks/* # remove all the .sample files, since they are just noise
 LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
-    replace_placeholders "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
+    cp "$DOCDIR/hooks/$file" ".git/hooks/$file.orig"
     chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do
-    replace_placeholders "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
+    replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
     chmod +x ".git/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
 # Did you read the comment above?
