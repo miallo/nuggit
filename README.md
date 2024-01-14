@@ -33,7 +33,9 @@ By default `./build.sh` does not show the git output to avoid leaking informatio
 
 # Developing
 
-If you want to work on this, <./architecture.md> gives a short introduction on how this project is structured.
+If you want to work on this, [architecture](./architecture.md) contains a short introduction on how this project is structured.
+
+The main implementation is found in [`./build.sh`](./build.sh). Under `src/` there are many of the text snippets / hooks that are used in build.sh.
 
 ## testing
 
