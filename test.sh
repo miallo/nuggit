@@ -142,6 +142,11 @@ expect "cat .git/redeem.nuggit" to contain CuriosityKilledTheCat
 redeem_nuggit CuriosityKilledTheCat
 '
 
+it 'ThisWasATripmph shown in end chapter' '
+expect "cat success.md" to contain "nuggit: ThisWasATriumph"
+redeem_nuggit ThisWasATriumph
+'
+
 check_redeem() {
     while read -r nuggit; do
         expect "git redeem-nuggit '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
