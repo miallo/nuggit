@@ -76,7 +76,7 @@ commit -m "Initial Commit"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter branches
-git switch -c branches-explained
+git switch main -c branches-explained
 cp "$DOCDIR/04_branch/branch.md" .
 git add branch.md
 commit -m "WIP: add description on branches
