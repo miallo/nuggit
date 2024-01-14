@@ -104,7 +104,7 @@ redeem_nuggit PushItToTheLimits
 
 it 'PullMeUnder is shown on pull' '
 expect "! git switch history -q 2>&1" to succeed
-expect "git pull 2>1" to succeed
+expect "git pull 2>&1" to succeed
 expect "cat working-with-others.md" to contain "nuggit: PullMeUnder"
 redeem_nuggit PullMeUnder
 '
