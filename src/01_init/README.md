@@ -14,8 +14,11 @@ A: A nuggit is almost like a nugget a small golden piece, but with more git in i
 Q: How do I redeem a nuggit?
 A: Just run `git redeem-nuggit <name of the nuggit>` - it will show you if you are correct or not. (No, redeem-nuggit is not a builtin git command, but an "alias" in this repository, we'll come to that later...)
 
-Q: Where do I see all my redeemed nuggits and the time when I redeemed them?
-A: Just run `git log nuggits` :)
+Q: What custom commands are there for nuggits?
+A: The commands that will only work in this project are:
+- `git redeem-nuggit <name of the nuggit>` - submit a nuggit
+- `git nuggit-progress` - get an overview of how many nuggits you already collected
+- `git log nuggits` - list all the nuggits you have found
 
 Q: Why you get this folder in this way instead of the usual `git clone <url>`?
 A: That is a good question and you will figure out the answer the more you get into the quests (many of which are impossible in a fresh clone).
@@ -23,7 +26,7 @@ A: That is a good question and you will figure out the answer the more you get i
 Q: Can I use my favourite git GUI tool?
 A: Well... For a few of the nuggits, yes, but some are well hidden in the stranger parts of git, so this project assumes running git from the command line from the beginning.
 
-Q: I want to learn more about a command - how?
+Q: I want to learn more about a git command - how?
 A: As a first step, just run `git <command> --help` - otherwise: the internet is your friend.
 
 NOTE: This tutorial uses git hooks extensively for it to work. Because of the way you downloaded this repository they are enabled by default and could run arbitrary code. I promise you they are just here for the benefit of learning git and don't do anything malicious. If it makes you feel better: For testing this tutorial I have a test suite that I am regularly running on my machine that triggers all of them.
