@@ -51,23 +51,23 @@ expect "cat .git/hooks/*" to contain "nuggit: LocalCodeExecution"
 redeem_nuggit LocalCodeExecution
 '
 
-it 'WorkInProgress in diff' '
+it 'chapter diff' '
 expect "git diff" to contain "nuggit: WorkInProgress"
 redeem_nuggit WorkInProgress
 '
 
-it 'CommitmentIssues in diff --staged' '
+it 'chapter diff --staged' '
 expect "git diff --staged" to contain "nuggit: CommitmentIssues"
 redeem_nuggit CommitmentIssues
 '
 
-it 'diff <commit>' '
+it 'chapter diff <commit>' '
 diff_commit_command="$(get_sh_codeblock <(git diff --staged | cut -c 2-))"
 expect "$diff_commit_command" to contain "nuggit: AbsoluteDifferentiable"
 redeem_nuggit AbsoluteDifferentiable
 '
 
-it 'CommitMirInsAbendteuerland in new commit message' '
+it 'chapter commit' '
 expect "git commit -m \"My first commit\"" to succeed
 expect "git show" to contain "nuggit: CommitMirInsAbendteuerland"
 redeem_nuggit CommitMirInsAbendteuerland
@@ -81,57 +81,57 @@ it 'restore should not show Switcheridoo nuggit' '
 expect "git restore README.md 2>&1" not to contain "nuggit: Switcheridoo"
 '
 
-it 'ShowMeMore in branch commit' <<EOF
+it 'chapter branches' <<EOF
 expect 'eval "\$(get_sh_codeblock <(\$diff_commit_command | cut -c 2-))"' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore
 EOF
 
-it 'Switcheridoo when switching to "branches-explained"' '
+it 'chapter working with branches' '
 expect "git switch branches-explained 2>&1" to contain "nuggit: Switcheridoo"
 redeem_nuggit Switcheridoo
 '
 
-it 'MyFirstBranch when creating' '
+it 'MyFirstBranch when creating new branch' '
 expect "git switch -c my-new-branch 2>&1" to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
 '
 
-it 'PushItToTheLimits is shown on push' '
+it 'chapter push' '
 expect "git switch -q working-with-others" to succeed
 expect "git push 2>&1" to contain "nuggit: PushItToTheLimits"
 redeem_nuggit PushItToTheLimits
 '
 
-it 'PullMeUnder is shown on pull' '
+it 'chapter pull' '
 expect "! git switch history -q 2>&1" to succeed
 expect "git pull 2>&1" to succeed
 expect "cat working-with-others.md" to contain "nuggit: PullMeUnder"
 redeem_nuggit PullMeUnder
 '
 
-it 'LogCat for log' <<EOF
+it 'chapter log' <<EOF
 expect "git switch history -q" to succeed
 expect 'eval "\$(get_sh_codeblock log.md)"' to contain "nuggit: LogCat"
 redeem_nuggit LogCat
 EOF
 
-it 'AnnotateMeIfYouCan in annotated tag' '
+it 'chapter tag' '
 expect "git show the-first-tag" to contain "nuggit: AnnotateMeIfYouCan"
 redeem_nuggit AnnotateMeIfYouCan
 expect "git switch --detach -q the-first-tag" to succeed
 '
 
-it 'ItsAllAboutTheRebase shown in rebase' <<EOF
+it 'chapter rebase' <<EOF
 # do a rebase
 expect 'eval "\$(get_sh_codeblock combine_history.md)" 2>&1' to contain "nuggit: ItsAllAboutTheRebase"
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 
-it 'interactive rebase succeeds' <<EOF
+it 'chapter interactive rebase' <<EOF
 expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" 2>&1' to succeed
 EOF
 
-it 'cherry-pick should succeed' <<EOF
+it 'chapter cherry-pick' <<EOF
 expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
 expect 'eval "\$(get_sh_codeblock cherry-pick.md)"' to succeed
