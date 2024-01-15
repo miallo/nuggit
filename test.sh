@@ -13,10 +13,10 @@ parse_opts "$@"
 build_challenge() {
     echo "Building challenge..."
     ./build.sh --force
+    cd "$destination"
+    reproducibility_setup
 }
 build_challenge
-cd "$destination"
-reproducibility_setup
 
 check_redeem_without_local_code_execution() {
     while read -r nuggit; do
@@ -38,8 +38,6 @@ check_redeem_without_local_code_execution
 cd ..
 build_challenge
 echo "Running tests..."
-cd "$destination"
-reproducibility_setup
 
 redeem_nuggit() {
     expect "git redeem-nuggit '$1'" to contain Success
