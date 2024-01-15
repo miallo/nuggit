@@ -36,6 +36,14 @@ Once you are done, with it, you will hopefully be the person, people come to whe
 ![A comic of stick figures describing how beautiful git is, but they just memorize a few commands. And when they run into an issue, they don't know how to deal with it and just copy the file and delete the folder](https://imgs.xkcd.com/comics/git.png "If that doesn't fix it, git.txt contains the phone number of a friend of mine who understands git. Just wait through a few minutes of 'It's really pretty simple, just think of branches as...' and eventually you'll learn the commands that will fix everything.")
 (Credits to xkcd/Randall Munroe - I can highly recommended them)
 
+# What do I need to do?
+
+You will be guided step by step and there will be explanations and example code snippets. Hint: just try them out when you encounter them ;)
+These commands can be in some files that you will find (if you executed a command but don't find further actions, take a look at the files and see if anything new is there). But they can also be in the output of certain git commands, so make sure to read them. If there are things you don't understand yet, because it is just the way git shows them, hopefully things will become more clear later when you get a better understanding.
+In some places you might need to use a command that you previously learned, but hopefully in most places we tell you what to do.
+
+If you encounter a situation, where you don't know what to do: [open an issue](https://github.com/miallo/nuggit/issues/new).
+
 # First steps with `git`
 
 `git` takes snapshots of your code, so that you can e.g. go back in the history of a file.
