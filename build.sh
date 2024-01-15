@@ -222,6 +222,7 @@ remove_build_setup_from_config
 add_player_config
 
 # origin hooks
+rm ".git/my-origin/hooks/"* # get rid of all the ".sample" files
 cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 
 mkdir ".git/another-downstream/docdir"
