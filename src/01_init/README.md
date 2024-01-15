@@ -11,7 +11,7 @@ By default in most Projects there exists a README file, so with opening this fil
 Q: What is a nuggit?
 A: A nuggit is almost like a nugget a small golden piece, but with more git in it! It is a single word, e.g. "TestNuggit" and you will always find it in the format "nuggit: TestNuggit".
 
-Q: How to I redeem a nuggit?
+Q: How do I redeem a nuggit?
 A: Just run `git redeem-nuggit <name of the nuggit>` - it will show you if you are correct or not. (No, redeem-nuggit is not a builtin git command, but an "alias" in this repository, we'll come to that later...)
 
 Q: Where do I see all my redeemed nuggits and the time when I redeemed them?
