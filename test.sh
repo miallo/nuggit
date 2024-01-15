@@ -131,6 +131,12 @@ it 'interactive rebase succeeds' <<EOF
 expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" 2>&1' to succeed
 EOF
 
+it 'cherry-pick should succeed' <<EOF
+expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
+redeem_nuggit YoureACherryBlossom
+expect 'eval "\$(get_sh_codeblock cherry-pick.md)"' to succeed
+EOF
+
 it 'An invalid nuggit should show an error' '
 expect "! git redeem-nuggit NotANuggit 2>&1" to contain "Unfortunately that is not a valid nuggit"
 expect "! git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."

@@ -109,6 +109,15 @@ commit -m "Add description on commit"
 CHAPTER_COMMIT_COMMIT="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter cherry-pick
+git switch --detach main
+CHAPTER_CHERRY_PICK_FOLLOW="$END_COMMIT"
+replace CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/10_cherry_pick/cherry-pick.md" > cherry-pick.md
+git add cherry-pick.md
+commit -m "Describe cherry-pick"
+CHAPTER_CHERRY_PICK_COMMIT="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter interactive rebase
 git switch --detach main
 printf "%s" '# Interactive rebase
@@ -122,7 +131,7 @@ commit -m "WIP: finish sentence on interactive rebases"
 INTERACTIVE_REBASE_EXAMPLE_PICKS="$(git log --oneline main..@ | sed 's/^/pick /' | sed 's/$/\\/g')
 [...]"
 # FIXME
-CHAPTER_AMEND_COMMIT="$END_COMMIT"
+CHAPTER_AMEND_COMMIT="$CHAPTER_CHERRY_PICK_COMMIT"
 replace CHAPTER_AMEND_COMMIT INTERACTIVE_REBASE_EXAMPLE_PICKS "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
 git add interactive-rebase.md
 commit -m "Finish describing interactive rebases

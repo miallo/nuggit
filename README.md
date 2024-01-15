@@ -26,6 +26,7 @@ If instead you want to create a local "playable" copy yourself, you can simply r
 - log
 - rebase
 - (merge) <= only explained, but not interactively
+- cherry-pick
 
 ## debugging
 

@@ -5,7 +5,6 @@
 - reset
 - restore
 - nomenclature of HEAD/repository/^/~/@{u}/...
-- cherry-pick
 - merge
 - (clone - hard to do sensibly)
 - range-diff
