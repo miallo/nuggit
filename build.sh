@@ -83,7 +83,7 @@ commit -m "WIP: add description on branches
 
 nuggit: ShowMeMore"
 # For reference in commit.md later
-BRANCH_COMMIT="$(git rev-parse --short @)"
+CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter working with branches
@@ -103,10 +103,10 @@ commit -m "WIP branch: add explanation on how to list local branches"
 # ------------------------------------------------------------------------------------------- #
 create_chapter commit
 git switch --detach main
-replace BRANCH_COMMIT "$DOCDIR/03_commit/commit.md" > commit.md
+replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/03_commit/commit.md" > commit.md
 git add commit.md
 commit -m "Add description on commit"
-CHAPTER_COMMIT_COMMIT="$(git rev-parse --short @)"
+CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter cherry-pick
@@ -115,7 +115,7 @@ CHAPTER_CHERRY_PICK_FOLLOW="$END_COMMIT"
 replace CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/10_cherry_pick/cherry-pick.md" > cherry-pick.md
 git add cherry-pick.md
 commit -m "Describe cherry-pick"
-CHAPTER_CHERRY_PICK_COMMIT="$(git rev-parse --short @)"
+CHAPTER_INTERACTIVE_REBASE_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter interactive rebase
@@ -130,19 +130,17 @@ git add interactive-rebase.md
 commit -m "WIP: finish sentence on interactive rebases"
 INTERACTIVE_REBASE_EXAMPLE_PICKS="$(git log --oneline main..@ | sed 's/^/pick /' | sed 's/$/\\/g')
 [...]"
-# FIXME
-CHAPTER_AMEND_COMMIT="$CHAPTER_CHERRY_PICK_COMMIT"
-replace CHAPTER_AMEND_COMMIT INTERACTIVE_REBASE_EXAMPLE_PICKS "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
+replace CHAPTER_INTERACTIVE_REBASE_FOLLOW INTERACTIVE_REBASE_EXAMPLE_PICKS "$DOCDIR/07_rebase_merge/interactive-rebase-continued.md" >> interactive-rebase.md
 git add interactive-rebase.md
 commit -m "Finish describing interactive rebases
 
 TODO: squash commits..."
-INTERACTIVE_REBASE_COMMIT="$(git rev-parse --short @)"
+CHAPTER_REBASE_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter rebase/merge
 git switch --detach main
-replace INTERACTIVE_REBASE_COMMIT "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
+replace CHAPTER_REBASE_FOLLOW "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"
 
@@ -193,7 +191,7 @@ STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `g
 STAGING_NUGGIT='nuggit: CommitmentIssues'
 COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
 ```sh
-git diff '"$CHAPTER_COMMIT_COMMIT"' -- commit.md
+git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
 ```'
 {
     echo "$UNSTAGED_NUGGIT"

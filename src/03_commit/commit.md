@@ -25,5 +25,5 @@ A commit can be addressed by a "hash". That is a seemingly random string of numb
 
 To view the commit message and diff for a commit there exists the command `git show`. By default it will show the last commit, but you can also show a specific one like this:
 ```sh
-git show BRANCH_COMMIT
+git show CHAPTER_COMMIT_FOLLOW
 ```

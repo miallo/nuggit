@@ -1,6 +1,6 @@
 When you run
 ```sh
-git rebase -i CHAPTER_AMEND_COMMIT
+git rebase -i CHAPTER_INTERACTIVE_REBASE_FOLLOW
 ```
 (or `--interactive`), an editor will open, showing a list of all the commits that would be applied.
 

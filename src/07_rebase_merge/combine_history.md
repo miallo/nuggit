@@ -13,9 +13,9 @@ Since a commit consists not only of the diff, but is a complete snapshot of the 
 
 So to sum it up: with the rebase-workflow the end result will look like you had the changes from the main branch all along while working on the feature, which makes it a lot easier to understand what changed when and why, because you don't have to mentally keep track of all commits in the branches that were eventually merged at the same time, but can step through the history one by one. This comes at the cost of having to retroactively "rewrite the history".
 
-Suppose you want to get all the changes from the commit INTERACTIVE_REBASE_COMMIT, then you would run:
+Suppose you want to get all the changes from the commit CHAPTER_REBASE_FOLLOW, then you would run:
 ```sh
-git rebase INTERACTIVE_REBASE_COMMIT
+git rebase CHAPTER_REBASE_FOLLOW
 ```
 
 Another benefit of rebases is that the history of the branches can be cleaned up retroactively (e.g. when you want to safe snapshots of the code while developing, even though it is not completely functional yet, or it works, but after you implemented it you have ideas on how to refactor it).
