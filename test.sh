@@ -35,6 +35,21 @@ expect "! git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately t
 check_redeem_without_local_code_execution
 '
 
+extract_chapter_number() {
+    git skip-to-nuggit-chapter <<< q | sed -r "s/([0-9]+)\\)\t$1/\\1/gp;d"
+}
+
+it 'git skip-to-nuggit-chapter should work' <<EOF
+expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number branches)" 2>&1' to succeed
+expect '[ -f branch.md ]' to succeed
+expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number "push\\/pull")" 2>&1' to succeed
+expect "git push 2>&1" to succeed
+expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number log)" 2>&1' to succeed
+expect '[ -f log.md ]' to succeed
+expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number cherry-pick)" 2>&1' to succeed
+expect '[ -f cherry-pick.md ]' to succeed
+EOF
+
 cd ..
 build_challenge
 echo "Running tests..."

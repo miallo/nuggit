@@ -228,6 +228,10 @@ cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 mkdir ".git/another-downstream/docdir"
 cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 
+# Scripts for aliases
+replace CHAPTER_INTERACTIVE_REBASE_FOLLOW "$DOCDIR/skip_to_chapter.sh" > .git/skip_to_chapter.sh
+chmod +x .git/skip_to_chapter.sh
+
 # # debug origin hooks
 # while read -r hook; do
 #     echo '#/bin/sh

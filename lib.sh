@@ -82,6 +82,7 @@ remove_build_setup_from_config() {
 
 add_player_config() {
     git config --local --add alias.redeem-nuggit '!$(git rev-parse --show-toplevel)/.git/redeem.nuggit'
+    git config --local --add alias.skip-to-nuggit-chapter '!$(git rev-parse --show-toplevel)/.git/skip_to_chapter.sh'
 }
 
 # Useage:
