@@ -14,7 +14,7 @@ already_redeemed() {
 if [ -z "$nuggit" ]; then
     echo "no nuggit passed in..." >&2
     echo "Usage: \`$0 TestNuggit\`" >&2
-    exit
+    exit 1
 fi
 
 if [ "$nuggit" = TestNuggit ]; then
