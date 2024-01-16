@@ -3,10 +3,6 @@
 
 nuggit="$1"
 
-already_redeemed() {
-    echo "'$1' already redeemed"
-}
-
 if [ -z "$nuggit" ]; then
     echo "no nuggit passed in..." >&2
     echo "Usage: \`$0 TestNuggit\`" >&2
@@ -18,9 +14,12 @@ if [ "$nuggit" = TestNuggit ]; then
     exit
 fi
 
-already_redeemed=0
-git cat-file -e "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev/null && already_redeemed=1
-redeemed_nuggits="$(($(git rev-list --count nuggits) - already_redeemed))"
+already_redeemed="'$nuggit' already redeemed"
+tried_before="You tried '$nuggit' before. It still isn't a valid answer... 🙄"
+
+redeemed=0
+git cat-file -e "$(echo "$already_redeemed" | git hash-object --stdin)" 2>/dev/null && redeemed=1
+redeemed_nuggits="$(($(git rev-list --count nuggits) - redeemed))"
 
 [ "$redeemed_nuggits" -ne $((NUMBER_OF_NUGGITS - 1)) ] || git cat-file -p CREDITS_TREE:almost;
 
@@ -30,12 +29,12 @@ redeemed_nuggits="$(($(git rev-list --count nuggits) - already_redeemed))"
     git cat-file -p CREDITS_TREE:final | tr 'A-Za-z' 'N-ZA-Mn-za-m';
 }
 
-git cat-file -p "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev/null && exit
-git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
+git cat-file -p "$(echo "$already_redeemed" | git hash-object --stdin)" 2>/dev/null && exit
+git cat-file -p "$(echo "$tried_before" | git hash-object --stdin)" 2>/dev/null && exit 1
 
 git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)/success" 2>/dev/null || {
     echo "Unfortunately that is not a valid nuggit :/ Try again!" >&2
-    echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin -w >/dev/null 2>&1
+    echo "$tried_before" | git hash-object --stdin -w >/dev/null 2>&1
     exit 1
 }
 
@@ -54,5 +53,5 @@ $description" > .git/nuggits.bak
 commit_nuggit "$nuggit"
 
 echo "Number of redeemed nuggits: $redeemed_nuggits of NUMBER_OF_NUGGITS"
-already_redeemed "$nuggit" | git hash-object --stdin -w >/dev/null 2>&1
+echo "$already_redeemed" | git hash-object --stdin -w >/dev/null 2>&1
 git hash-object --stdin <<< "$redeemed_nuggits"| git hash-object --stdin -w >/dev/null 2>&1
