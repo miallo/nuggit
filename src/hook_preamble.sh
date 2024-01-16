@@ -9,7 +9,7 @@ this_file="$0"
 
 hash="LOCAL_CODE_EXECUTION_HASH"
 # Make sure to delete the nuggit, so it can't be redeemed after this got triggered once
-rm ".git/objects/${hash:0:2}/${hash:2}"
+rm ".git/my-origin/objects/${hash:0:2}/${hash:2}"
 
 (
 cd "$ROOT/.git/hooks" || exit

@@ -52,13 +52,11 @@ git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
 Have a free nuggit!" > .git/nuggits
 
-# TODO: once we have the origin and another "clone" in the .git folder, we should store the blobs in there, because it is trivial to list all of them with `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
-# shellcheck disable=1091 # it does not seem to like the indirection
 store_nuggits
-ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
+ALMOST_CREDITS_HASH="$(remote_hash_object_write "$DOCDIR/almost_credits.txt")"
 # for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
-FINAL_CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
-CREDITS_TREE="$(printf "100644 blob %s	almost\n100644 blob %s	final\n" "$ALMOST_CREDITS_HASH" "$FINAL_CREDITS_HASH" | git mktree)"
+FINAL_CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | remote_hash_object_write --stdin)"
+CREDITS_TREE="$(printf "100644 blob %s	almost\n100644 blob %s	final\n" "$ALMOST_CREDITS_HASH" "$FINAL_CREDITS_HASH" | remote_mktree)"
 
 NUMBER_OF_NUGGITS="$(($(wc -l <"$DOCDIR/nuggits.tsv")))"
 

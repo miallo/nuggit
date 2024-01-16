@@ -22,11 +22,15 @@ Creating such an interactive repo that references itself everywhere is a bit ted
 
 ### The "database" of redeemed nuggits
 
-When the player tries to redeem a nuggit, we don't want the redeeming script just to contain a list of all the nuggits, since the player could just open that file (maybe even by accident) and see the list. Instead they are stored as loose objects in the .git/objects folder themselves. but because the user could just run
+When the player tries to redeem a nuggit, we don't want the redeeming script just to contain a list of all the nuggits, since the player could just open that file (maybe even by accident) and see the list. Instead they are stored as loose objects in the .git/my-origin/objects folder themselves. but because the user could just run
 ```sh
-git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p
+cd .git/my-origin; git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p
 ```
 to get all the objects in plain text, we don't store the nuggits, but their hashes (yes, it feels a bit like hash-ception). And since we also want to store a description to show in the `git log nuggits`, we collect all the nuggits into a tree object (folder), which has trees again as children with the name of the hashed nuggit, and each of these folders contains a file "description" that we can append to the nuggit commit and a file "success" that we can use for a custom commit message per nuggit.
+
+Once a nuggit is redeemed, we write another object to the "database" with the format `'$nuggit' already redeemed`. That way we can look it up in our "database" before we tell the user they redeemed a new one.
+
+### The nuggit pseudo-branch
 
 For the player to be able to run `git log nuggits`, we have another trick up our sleeves: we have a "pseudo branch". "Pseudo branch" as in "not found under `.git/refs/heads/nuggits`", but instead at `.git/nuggits`. That way it is not found with `git branch --list` or `git tag --list`, because that would just irritate the player later in the gameplay. But for the log we rely on gits way to dereference refs where it also searches from the toplevel of the git folder. But from the content side it is indeed (just as a normal branch) a file containing a commit hash.
 
@@ -36,8 +40,6 @@ a) don't know if the player has unstaged changes,
 c) don't want to pollute the reflog.
 
 So what do we do then? Easy: We use the plumbing commands to create the commit and then manually update our "branch".
-
-Once a nuggit is redeemed, we write another object to the "database" with the format `'$nuggit' already redeemed`. That way we can look it up in our "database" before we tell the user they redeemed a new one.
 
 As a side-note, we don't just rely on the number of commits in our nuggits branch, since the user could easily tinker with that. But with each newly redeemed nuggit we also write the total number of redeemed nuggits to the objects. That way we can at least cross reference a tiny bit if the player has tinkered with our system (but of course they could just open the script and reverse that as well...)
 

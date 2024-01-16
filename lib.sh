@@ -101,6 +101,14 @@ create_chapter() {
     printf "\e[32mCreating chapter '%s'\e[0m\n" "$chapter"
 }
 
+remote_git_dir=.git/my-origin
+remote_mktree() {
+    GIT_DIR="$remote_git_dir" git mktree
+}
+remote_hash_object_write() {
+    GIT_DIR="$remote_git_dir" git hash-object -w "$@"
+}
+
 # register the nuggits in our "git database" (aka some loose objects)
 store_nuggits() {
     # To avoid the player just running
@@ -109,14 +117,14 @@ store_nuggits() {
     # We create a folder with subfolders of the names of the nuggit hashes, and
     # each of them contains a file for the `git log nuggits`-description and
     # the custom success message when redeeming it
-    NUGGIT_DESCRIPTION_TREE="$(git mktree < <(while read -r line; do
+    NUGGIT_DESCRIPTION_TREE="$(remote_mktree < <(while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         nuggit_folder_name="$(echo "$nuggit" | git hash-object --stdin)"
         nuggit_description="$(printf "%s" "$line" | cut -d "	" -f 2)"
         nuggit_success_message="$(printf "%s" "$line" | cut -d "	" -f 3)"
-        nuggit_description_file_hash="$(git hash-object -w --stdin <<< "$nuggit_description")"
-        success_file_hash="$(echo "Success! What a nice nuggit for your collection! 🏅 $nuggit_success_message" | git hash-object -w --stdin)"
-        description_tree_hash="$(printf "100644 blob %s	description\n100644 blob %s	success\n" "$nuggit_description_file_hash" "$success_file_hash"| git mktree)"
+        nuggit_description_file_hash="$(remote_hash_object_write --stdin <<< "$nuggit_description")"
+        success_file_hash="$(echo "Success! What a nice nuggit for your collection! 🏅 $nuggit_success_message" | remote_hash_object_write --stdin)"
+        description_tree_hash="$(printf "100644 blob %s	description\n100644 blob %s	success\n" "$nuggit_description_file_hash" "$success_file_hash"| remote_mktree)"
         if [ "$nuggit" = LocalCodeExecution ]; then
             printf "%s" "$description_tree_hash" > tmp
         fi
