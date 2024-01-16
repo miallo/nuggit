@@ -37,7 +37,7 @@ redeemed_nuggits=$((redeemed_nuggits - already_redeemed))
 git cat-file -p "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev/null && exit
 git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
 
-if git cat-file -e "$(echo "$nuggit" | git hash-object --stdin | git hash-object --stdin)"; then
+if git cat-file -e "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)"; then
     success "$nuggit"
 else
     echo "Unfortunately that is not a valid nuggit :/ Try again!" >&2
@@ -49,7 +49,7 @@ commit_nuggit() { # Manage our own little "branch" manually
     local tree
     # get the tree object from the last commit in nuggits
     tree="$(git rev-parse "nuggits^{tree}")"
-    description="$(git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$1" | git hash-object --stdin)")"
+    description="$(git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$1" | git hash-object --stdin)/description")"
     # add an empty commit with the parent being nuggits and "reset nuggits to that new commit"
     git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$1
 

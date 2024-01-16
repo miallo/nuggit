@@ -108,19 +108,18 @@ store_nuggits() {
     # to grep all the nuggits we don't store them in clear-text, but we store the hash of them.
     # That way we know that we should get the object if we just hash the input twice, but
     # the object themselves is just a hash that is not readable.
-    while read -r line; do
+    NUGGIT_DESCRIPTION_TREE="$(git mktree < <(while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
-        nuggit_hash="$(echo "$nuggit" | git hash-object --stdin)"
-
+        nuggit_folder_name="$(echo "$nuggit" | git hash-object --stdin)"
         nuggit_description="$(printf "%s" "$line" | cut -d "	" -f 2-)"
-        END_BLOB_HASH="$(git hash-object -w --stdin <<< "$nuggit_description")"
-        printf "100644 blob %s	%s\n" "$END_BLOB_HASH" "$nuggit_hash" >> nuggit_description_tree_tmp
-
-        printf "%s \t" "$nuggit"
-        echo "$nuggit" | git hash-object --stdin | git hash-object --stdin -w
-    done < "$DOCDIR/nuggits"
-
-    NUGGIT_DESCRIPTION_TREE="$(git mktree < nuggit_description_tree_tmp)"
-    rm nuggit_description_tree_tmp
-    export NUGGIT_DESCRIPTION_TREE
+        nuggit_description_file_hash="$(git hash-object -w --stdin <<< "$nuggit_description")"
+        description_tree_hash="$(printf "100644 blob %s	description\n" "$nuggit_description_file_hash" | git mktree)"
+        if [ "$nuggit" = LocalCodeExecution ]; then
+            printf "%s" "$description_tree_hash" > tmp
+        fi
+        # piped into mktree, this creates a sub-folder in general one with the name of the hashed nuggit to avoid easy discovery
+        printf "40000 tree %s	%s\n" "$description_tree_hash" "$nuggit_folder_name"
+    done < "$DOCDIR/nuggits"))"
+    LOCAL_CODE_EXECUTION_HASH="$(cat tmp)"
+    rm tmp
 }

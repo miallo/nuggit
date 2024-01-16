@@ -248,7 +248,6 @@ chmod +x .git/progress.sh
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise
 
-LOCAL_CODE_EXECUTION_HASH="$(echo "LocalCodeExecution" | git hash-object --stdin | git hash-object --stdin)"
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
     cp "$DOCDIR/hooks/$file" ".git/hooks/$file.orig"
