@@ -7,8 +7,12 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
-      - name: shellcheck
+      - name: shellcheck original files
         run: shellcheck *.sh **/*.sh
+      - name: build
+        run: ./build.sh
+      - name: shellcheck built files
+        run: shellcheck tutorial/.git/redeem.nuggit tutorial/.git/hooks/* tutorial/.git/*.sh
       - name: run tests
         run: ./test.sh -v
 
