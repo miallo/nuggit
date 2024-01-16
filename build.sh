@@ -57,10 +57,12 @@ Have a free nuggit!" > .git/nuggits
 . "$DOCDIR/store_nuggits.sh" # register the nuggits in our "git database" (aka some loose objects)
 ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 # for the final credits do a little rot13, just to make life a bit harder if anyone e.g. greps through the loose objects...
-CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
+FINAL_CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
+CREDITS_TREE="$(printf "100644 blob %s	almost\n100644 blob %s	final\n" "$ALMOST_CREDITS_HASH" "$FINAL_CREDITS_HASH" | git mktree)"
+
 NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
 
-replace NUMBER_OF_NUGGITS ALMOST_CREDITS_HASH CREDITS_HASH NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
+replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #

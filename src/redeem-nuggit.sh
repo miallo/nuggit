@@ -27,11 +27,11 @@ git cat-file -e "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev
 redeemed_nuggits="$(git rev-list --count nuggits)"
 redeemed_nuggits=$((redeemed_nuggits - already_redeemed))
 
-[ "$redeemed_nuggits" -ne $((NUMBER_OF_NUGGITS - 1 )) ] || git cat-file -p ALMOST_CREDITS_HASH;
+[ "$redeemed_nuggits" -ne $((NUMBER_OF_NUGGITS - 1 )) ] || git cat-file -p CREDITS_TREE:almost;
 
 [ "$redeemed_nuggits" -ne $(( NUMBER_OF_NUGGITS + 0 )) ] || {
     git cat-file -e "$(git hash-object --stdin <<< "$((NUMBER_OF_NUGGITS - 1))" | git hash-object --stdin)" 2>/dev/null || { echo Noughty boy!; exit 1; }
-    git cat-file -p CREDITS_HASH | tr 'A-Za-z' 'N-ZA-Mn-za-m';
+    git cat-file -p CREDITS_TREE:final | tr 'A-Za-z' 'N-ZA-Mn-za-m';
 }
 
 git cat-file -p "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev/null && exit
