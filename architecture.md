@@ -26,7 +26,7 @@ When the player tries to redeem a nuggit, we don't want the redeeming script jus
 ```sh
 git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p
 ```
-to get all the objects in plain text, we don't store the nuggits, but their hashes (yes, it feels a bit like hash-ception). And since we also want to store a description to show in the `git log nuggits`, we collect all the nuggits into a tree object (folder), which has trees again as children with the name of the hashed nuggit, and each of these folders just contains a file "description" that we can append to the nuggit commit. So yes, we are using git exactly as it was designed: as a content addressable database :D
+to get all the objects in plain text, we don't store the nuggits, but their hashes (yes, it feels a bit like hash-ception). And since we also want to store a description to show in the `git log nuggits`, we collect all the nuggits into a tree object (folder), which has trees again as children with the name of the hashed nuggit, and each of these folders contains a file "description" that we can append to the nuggit commit and a file "success" that we can use for a custom commit message per nuggit.
 
 For the player to be able to run `git log nuggits`, we have another trick up our sleeves: we have a "pseudo branch". "Pseudo branch" as in "not found under `.git/refs/heads/nuggits`", but instead at `.git/nuggits`. That way it is not found with `git branch --list` or `git tag --list`, because that would just irritate the player later in the gameplay. But for the log we rely on gits way to dereference refs where it also searches from the toplevel of the git folder. But from the content side it is indeed (just as a normal branch) a file containing a commit hash.
 

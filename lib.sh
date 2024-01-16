@@ -106,14 +106,17 @@ store_nuggits() {
     # To avoid the player just running
     # `git fsck --dangling | cut -d " " -f3 | xargs -n 1 git cat-file -p`
     # to grep all the nuggits we don't store them in clear-text, but we store the hash of them.
-    # That way we know that we should get the object if we just hash the input twice, but
-    # the object themselves is just a hash that is not readable.
+    # We create a folder with subfolders of the names of the nuggit hashes, and
+    # each of them contains a file for the `git log nuggits`-description and
+    # the custom success message when redeeming it
     NUGGIT_DESCRIPTION_TREE="$(git mktree < <(while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         nuggit_folder_name="$(echo "$nuggit" | git hash-object --stdin)"
-        nuggit_description="$(printf "%s" "$line" | cut -d "	" -f 2-)"
+        nuggit_description="$(printf "%s" "$line" | cut -d "	" -f 2)"
+        nuggit_success_message="$(printf "%s" "$line" | cut -d "	" -f 3)"
         nuggit_description_file_hash="$(git hash-object -w --stdin <<< "$nuggit_description")"
-        description_tree_hash="$(printf "100644 blob %s	description\n" "$nuggit_description_file_hash" | git mktree)"
+        success_file_hash="$(echo "Success! What a nice nuggit for your collection! 🏅 $nuggit_success_message" | git hash-object -w --stdin)"
+        description_tree_hash="$(printf "100644 blob %s	description\n100644 blob %s	success\n" "$nuggit_description_file_hash" "$success_file_hash"| git mktree)"
         if [ "$nuggit" = LocalCodeExecution ]; then
             printf "%s" "$description_tree_hash" > tmp
         fi

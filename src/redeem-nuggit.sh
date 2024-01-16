@@ -3,10 +3,6 @@
 
 nuggit="$1"
 
-success() {
-    echo "Success! What a nice nuggit for your collection! 🏅 $1 looks really good!"
-}
-
 already_redeemed() {
     echo "'$1' already redeemed"
 }
@@ -37,13 +33,11 @@ redeemed_nuggits=$((redeemed_nuggits - already_redeemed))
 git cat-file -p "$(already_redeemed "$nuggit" | git hash-object --stdin)" 2>/dev/null && exit
 git cat-file -p "$(echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin)" 2>/dev/null && exit 1
 
-if git cat-file -e "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)"; then
-    success "$nuggit"
-else
+git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)/success" 2>/dev/null || {
     echo "Unfortunately that is not a valid nuggit :/ Try again!" >&2
     echo "You tried '$nuggit' before. It still isn't a valid answer... 🙄" | git hash-object --stdin -w >/dev/null 2>&1
     exit 1
-fi
+}
 
 commit_nuggit() { # Manage our own little "branch" manually
     local tree

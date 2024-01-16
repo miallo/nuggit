@@ -1,16 +1,16 @@
-LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.
-WorkInProgress	"git diff" shows the changes you have that would not be included if you run "git commit" right now.
-CommitmentIssues	"git diff --staged" shows the changes that would be included if you run "git commit" right now.
-CommitMirInsAbendteuerland	"git commit" creates a new 'save point' including the changes mentioned in "git diff --staged".
-AbsoluteDifferentiable	"git diff <COMMIT HASH>" shows the difference to a specific commit
-Switcheridoo	"git switch <BRANCH NAME>" allows you to switch to a specific branch.
-ShowMeMore	"git show <COMMIT HASH>" shows you the changes of a specific commit.
-MyFirstBranch	"git switch -c <NEW BRANCH NAME>" creates a new branch
-LogCat	"git log <COMMIT HASH>" shows the commit history of the current commit
-AnnotateMeIfYouCan	"git tag -a <TAG NAME> -m 'My annotation'" will create an annotated tag.
-CuriosityKilledTheCat	You can use git as a data base to store arbitrary things in. If that is a good idea is a different question...
-ItsAllAboutTheRebase	"git rebase <COMMIT/BRANCH NAME>" will pretend you did your commits based on the referenced commit/branch to achieve a clean history.
-YoureACherryBlossom	"git cherry-pick <COMMIT>" allows to get the changes from a single commit of a different branch into yours.
-PushItToTheLimits	"git push" uploads the commits from your current branch to the server.
-PullMeUnder	"git pull" downloads the latest commits from the server and will apply them to the branch you are currently on.
-ThisWasATriumph	You made it through to the end!
+LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.	Not bad! You must be a little bit paranoid and at the same time know a lot about git 😜
+WorkInProgress	"git diff" shows the changes you have that would not be included if you run "git commit" right now.	"Diff"initely a good start! 🚀
+CommitmentIssues	"git diff --staged" shows the changes that would be included if you run "git commit" right now.	The stage is yours! 🎤
+CommitMirInsAbendteuerland	"git commit" creates a new 'save point' including the changes mentioned in "git diff --staged".	Creating a check point... 🧾
+AbsoluteDifferentiable	"git diff <COMMIT HASH>" shows the difference to a specific commit.	Sometimes differences seem absolutely insurmountable... 📏
+Switcheridoo	"git switch <BRANCH NAME>" allows you to switch to a specific branch.	Please dont switch off! 🔌
+ShowMeMore	"git show <COMMIT HASH>" shows you the changes of a specific commit.	Show me what else you can do! 🤓
+MyFirstBranch	"git switch -c <NEW BRANCH NAME>" creates a new branch.	Can't see the tree for all the branches... 🌳
+LogCat	"git log <COMMIT HASH>" shows the commit history of the current commit.	Don't we all have a long history?! 🏛️
+AnnotateMeIfYouCan	"git tag -a <TAG NAME> -m 'My annotation'" will create an annotated tag.	Let's play tag! 🏷️
+CuriosityKilledTheCat	You can use git as a data base to store arbitrary things in. If that is a good idea is a different question...	Didn't I explicitly tell you not to look there? 😸
+ItsAllAboutTheRebase	"git rebase <COMMIT/BRANCH NAME>" will pretend you did your commits based on the referenced commit/branch to achieve a clean history.	Doesn't cleaning up feel good? 🧹
+YoureACherryBlossom	"git cherry-pick <COMMIT>" allows to get the changes from a single commit of a different branch into yours.	I like cherries! 🍒
+PushItToTheLimits	"git push" uploads the commits from your current branch to the server.	Uploading your mind... 🆙
+PullMeUnder	"git pull" downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
+ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!
