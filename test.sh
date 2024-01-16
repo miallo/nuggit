@@ -83,8 +83,8 @@ redeem_nuggit AbsoluteDifferentiable
 
 it 'chapter commit' '
 expect "git commit -m \"My first commit\"" to succeed
-expect "git show" to contain "nuggit: CommitMirInsAbendteuerland"
-redeem_nuggit CommitMirInsAbendteuerland
+expect "git show" to contain "nuggit: BigCommitment"
+redeem_nuggit BigCommitment
 '
 
 it 'LocalCodeExecution nuggit should be deleted after execution of any hook (in this case the commit)' '
