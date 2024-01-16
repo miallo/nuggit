@@ -4,8 +4,8 @@
 : "${verbose:=0}"
 
 success() {
-    # use \r to overwrite the line saying "running" => add spaces to the end to cover the longer line
-    printf "\r✅ \e[32m%s\e[0m                 \n" "$1"
+    # use \r to overwrite the line saying "running"
+    printf "\r✅ \e[32m%s\e[0m\n" "$1"
 }
 
 failure() {
@@ -39,7 +39,7 @@ it(){
         # this allows also for 'it "name" <<EOF' syntax
         code="$(cat -)"
     fi
-    printf "running %s" "$testname"
+    printf "🏃 %s" "$testname"
     if [ "$verbose" -gt 0 ]; then
         printf "\n"
     fi
