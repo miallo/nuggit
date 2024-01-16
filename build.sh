@@ -62,7 +62,7 @@ CREDITS_TREE="$(printf "100644 blob %s	almost\n100644 blob %s	final\n" "$ALMOST_
 
 NUMBER_OF_NUGGITS="$(($(wc -l <"$DOCDIR/nuggits.tsv")))"
 
-replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
+replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-nuggit.sh" | sed -e 's/\s*# .*$//' -e '/^[[:space:]]*$/d' > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #

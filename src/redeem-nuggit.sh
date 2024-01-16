@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-# This file is not really intended for you to look into too much - but I like how curious you are, so here is a nuggit for you: CuriosityKilledTheCat
+#This file is not really intended for you to look into too much - but I like
+#how curious you are, so here is a nuggit for you:
+#nuggit: CuriosityKilledTheCat
+#
+#Note for developers: comments starting with "#<space>" and empty lines are
+#stripped from the build version to make reverse engineering this just a tiny
+#bit harder ;)
 
 nuggit="$1"
 
