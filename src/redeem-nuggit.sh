@@ -63,20 +63,18 @@ git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --st
     exit 1
 }
 
-commit_nuggit() { # Manage our own little "branch" manually
-    local tree
-    # get the tree object from the last commit in nuggits
-    tree="$(git rev-parse "nuggits^{tree}")"
-    # get the description from our "nuggit tree object" from the folder with
-    # the hash of the nuggit and inside of that the description file
-    description="$(git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$1" | git hash-object --stdin)/description")"
-    # add an empty commit with the parent being nuggits and "reset nuggits to that new commit"
-    git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$(printf "%s\n\n" "$nuggit" "$description")" > .git/nuggits.bak
-    # We can't directly pipe it into the file, because it will empty it before we read it...
-    # Therefore write it into a backup file and then replace it
-    mv .git/nuggits.bak .git/nuggits
-}
-commit_nuggit "$nuggit"
+# Manage our own little "branch" manually
+
+# get the tree object from the last commit in nuggits
+tree="$(git rev-parse "nuggits^{tree}")"
+# get the description from our "nuggit tree object" from the folder with
+# the hash of the nuggit and inside of that the description file
+description="$(git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)/description")"
+# add an empty commit with the parent being nuggits and "reset nuggits to that new commit"
+git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$(printf "%s\n\n" "$nuggit" "$description")" > .git/nuggits.bak
+# We can't directly pipe it into the file, because it will empty it before we read it...
+# Therefore write it into a backup file and then replace it
+mv .git/nuggits.bak .git/nuggits # update our "branch"
 
 # Print some stats for the player, so they know if they still need to look for other nuggits
 echo "Number of redeemed nuggits: $redeemed_nuggits of NUMBER_OF_NUGGITS"
