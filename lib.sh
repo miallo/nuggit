@@ -122,7 +122,7 @@ store_nuggits() {
         fi
         # piped into mktree, this creates a sub-folder in general one with the name of the hashed nuggit to avoid easy discovery
         printf "40000 tree %s	%s\n" "$description_tree_hash" "$nuggit_folder_name"
-    done < "$DOCDIR/nuggits"))"
+    done < "$DOCDIR/nuggits.tsv"))"
     LOCAL_CODE_EXECUTION_HASH="$(cat tmp)"
     rm tmp
 }

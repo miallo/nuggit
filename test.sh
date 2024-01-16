@@ -24,7 +24,7 @@ check_redeem_without_local_code_execution() {
         [ "$nuggit" != LocalCodeExecution ] || continue
         [ "$nuggit" != WorkInProgress ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
         expect "git redeem-nuggit '$nuggit'" not to contain "You almost got it"
-    done < "$DOCDIR/nuggits"
+    done < "$DOCDIR/nuggits.tsv"
     # the second last nuggit should show the "Almost got it" text and resubmitting should show the same
     expect "git redeem-nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
     expect "git redeem-nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
@@ -174,7 +174,7 @@ check_redeem() {
         expect "git redeem-nuggit '$nuggit'" to contain "already redeemed"
         expect "git redeem-nuggit '$nuggit'" not to contain Success
         expect "git log nuggits" to contain "$nuggit"
-    done < "$DOCDIR/nuggits"
+    done < "$DOCDIR/nuggits.tsv"
 }
 
 it 'All nuggits should be redeemed at the end of the test' check_redeem

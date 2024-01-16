@@ -60,7 +60,7 @@ ALMOST_CREDITS_HASH="$(git hash-object -w "$DOCDIR/almost_credits.txt")"
 FINAL_CREDITS_HASH="$(tr 'A-Za-z' 'N-ZA-Mn-za-m' < "$DOCDIR/credits.txt" | git hash-object -w --stdin)"
 CREDITS_TREE="$(printf "100644 blob %s	almost\n100644 blob %s	final\n" "$ALMOST_CREDITS_HASH" "$FINAL_CREDITS_HASH" | git mktree)"
 
-NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits")"
+NUMBER_OF_NUGGITS="$(wc -l <"$DOCDIR/nuggits.tsv")"
 
 replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-nuggit.sh" > ./.git/redeem.nuggit
 chmod a=rx ./.git/redeem.nuggit
