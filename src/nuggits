@@ -1,16 +1,16 @@
-LocalCodeExecution
-WorkInProgress
-CommitmentIssues
-CommitMirInsAbendteuerland
-AbsoluteDifferentiable
-Switcheridoo
-ShowMeMore
-MyFirstBranch
-LogCat
-AnnotateMeIfYouCan
-CuriosityKilledTheCat
-ItsAllAboutTheRebase
-YoureACherryBlossom
-PushItToTheLimits
-PullMeUnder
-ThisWasATriumph
+LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.
+WorkInProgress	"git diff" shows the changes you have that would not be included if you run "git commit" right now.
+CommitmentIssues	"git diff --staged" shows the changes that would be included if you run "git commit" right now.
+CommitMirInsAbendteuerland	"git commit" creates a new 'save point' including the changes mentioned in "git diff --staged".
+AbsoluteDifferentiable	"git diff <COMMIT HASH>" shows the difference to a specific commit
+Switcheridoo	"git switch <BRANCH NAME>" allows you to switch to a specific branch.
+ShowMeMore	"git show <COMMIT HASH>" shows you the changes of a specific commit.
+MyFirstBranch	"git switch -c <NEW BRANCH NAME>" creates a new branch
+LogCat	"git log <COMMIT HASH>" shows the commit history of the current commit
+AnnotateMeIfYouCan	"git tag -a <TAG NAME> -m 'My annotation'" will create an annotated tag.
+CuriosityKilledTheCat	You can use git as a data base to store arbitrary things in. If that is a good idea is a different question...
+ItsAllAboutTheRebase	"git rebase <COMMIT/BRANCH NAME>" will pretend you did your commits based on the referenced commit/branch to achieve a clean history.
+YoureACherryBlossom	"git cherry-pick <COMMIT>" allows to get the changes from a single commit of a different branch into yours.
+PushItToTheLimits	"git push" uploads the commits from your current branch to the server.
+PullMeUnder	"git pull" downloads the latest commits from the server and will apply them to the branch you are currently on.
+ThisWasATriumph	You made it through to the end!

@@ -19,7 +19,8 @@ build_challenge() {
 build_challenge
 
 check_redeem_without_local_code_execution() {
-    while read -r nuggit; do
+    while read -r line; do
+        nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         [ "$nuggit" != LocalCodeExecution ] || continue
         [ "$nuggit" != WorkInProgress ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
         expect "git redeem-nuggit '$nuggit'" not to contain "You almost got it"
@@ -167,7 +168,8 @@ redeem_nuggit ThisWasATriumph
 '
 
 check_redeem() {
-    while read -r nuggit; do
+    while read -r line; do
+        nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         expect "git redeem-nuggit '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
         expect "git redeem-nuggit '$nuggit'" to contain "already redeemed"
         expect "git redeem-nuggit '$nuggit'" not to contain Success

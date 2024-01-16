@@ -49,8 +49,11 @@ commit_nuggit() { # Manage our own little "branch" manually
     local tree
     # get the tree object from the last commit in nuggits
     tree="$(git rev-parse "nuggits^{tree}")"
+    description="$(git cat-file -p "NUGGIT_DESCRIPTION_TREE:$(echo "$1" | git hash-object --stdin)")"
     # add an empty commit with the parent being nuggits and "reset nuggits to that new commit"
-    git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$1" > .git/nuggits.bak
+    git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$1
+
+$description" > .git/nuggits.bak
     # We can't directly pipe it into the file, because it will empty it before we read it...
     mv .git/nuggits.bak .git/nuggits
 }

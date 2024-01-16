@@ -18,7 +18,7 @@ Q: What custom commands are there for nuggits?
 A: The commands that will only work in this project are:
 - `git redeem-nuggit <name of the nuggit>` - submit a nuggit
 - `git nuggit-progress` - get an overview of how many nuggits you already collected
-- `git log nuggits` - list all the nuggits you have found
+- `git log nuggits` - list all the nuggits you have found including a short summary of what the command does you got it for.
 
 Q: Why you get this folder in this way instead of the usual `git clone <url>`?
 A: That is a good question and you will figure out the answer the more you get into the quests (many of which are impossible in a fresh clone).
