@@ -71,6 +71,8 @@ create_chapter final commit
 END_BLOB_HASH="$(git hash-object -w "$DOCDIR/credits/the-end.md")"
 END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktree)"
 END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
+# Write reflog entry for the end commit to avoid dangling references
+printf "0000000000000000000000000000000000000000 %s	commit (initial): Success!\n" "$(git show --format="%H %cn <%cE> %ct -0000" "$END_COMMIT")" > .git/logs/success
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial commit
