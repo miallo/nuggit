@@ -51,6 +51,9 @@ create_chapter store nuggits
 git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
 Have a free nuggit!" > .git/nuggits
+# Write initial reflog entry for our "branch" to avoid dangling references
+mkdir .git/logs
+printf "0000000000000000000000000000000000000000 %s	commit (initial): RootOfAllNuggits\n" "$(git show --format="%H %cn <%cE> %ct -0000" nuggits)" > .git/logs/nuggits
 
 store_nuggits
 ALMOST_CREDITS_HASH="$(remote_hash_object_write "$DOCDIR/almost_credits.txt")"
