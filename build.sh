@@ -240,14 +240,6 @@ chmod +x .git/skip_to_chapter.sh
 replace NUMBER_OF_NUGGITS "$DOCDIR/progress.sh" > .git/progress.sh
 chmod +x .git/progress.sh
 
-# # debug origin hooks
-# while read -r hook; do
-#     echo '#/bin/sh
-# echo "$0: $@"
-#     ' >> ".git/my-origin/hooks/$hook"
-#     chmod +x ".git/my-origin/hooks/$hook"
-# done < "$DOCDIR/all-git-hooks"
-
 # hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise
 

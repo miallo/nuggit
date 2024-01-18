@@ -134,3 +134,16 @@ store_nuggits() {
     LOCAL_CODE_EXECUTION_HASH="$(cat tmp)"
     rm tmp
 }
+
+debug_hooks() {
+    path_to_dot_git="${1:-.git}"
+    while read -r hook; do
+        echo '#/bin/sh
+    echo "$0: $@"
+        ' >> "$path_to_dot_git/hooks/$hook"
+        chmod +x "$path_to_dot_git/hooks/$hook"
+    done < "$DOCDIR/all-git-hooks"
+    for hook in "$path_to_dot_git/hooks/"*; do
+        echo 'echo "$0: $@"' >> "$hook"
+    done
+}
