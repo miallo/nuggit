@@ -69,7 +69,7 @@ reproducibility_setup() {
     emailSuffix="${nameSuffix:+"+$nameSuffix"}" # = if we have a nameSuffix: prefix it with a plus
     # use fixed user, else empty
     git config user.name "Nuggit$nameSuffix Challenge"
-    git config user.email "nuggit-challenge${emailSuffix}@gmail.com"
+    git config user.email "nuggit${emailSuffix}@m-lohmann.org"
 
     # initialize the commit date
     test_tick
