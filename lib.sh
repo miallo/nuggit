@@ -158,7 +158,9 @@ initialise_nuggits_reflog() {
     new_oid="$(git show --format="%H %cn <%cE> %ct -0000" nuggits)"
     message="commit (initial): RootOfAllNuggits"
 
-    # FIXME: This will not work with ref-format=reftable. Instead git 2.52 will introduce a `git reflog write` command
-    mkdir -p .git/logs
-    printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > .git/logs/"$ref"
+    git reflog write "$ref" "$old_oid" "$new_oid" "$message" 2>/dev/null || (
+        # manual fall back for git<2.52 without `reflog write` feature
+        mkdir -p .git/logs
+        printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > .git/logs/"$ref"
+    )
 }
