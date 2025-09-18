@@ -52,8 +52,7 @@ git update-ref nuggits "$(git commit-tree "$(printf "" | git mktree)" -m "RootOf
 
 Have a free nuggit!")"
 # Write initial reflog entry for our "branch" to avoid dangling references
-mkdir .git/logs
-printf "0000000000000000000000000000000000000000 %s	commit (initial): RootOfAllNuggits\n" "$(git show --format="%H %cn <%cE> %ct -0000" nuggits)" > .git/logs/nuggits
+initialise_nuggits_reflog
 
 store_nuggits
 ALMOST_CREDITS_HASH="$(remote_hash_object_write "$DOCDIR/almost_credits.txt")"

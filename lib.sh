@@ -147,3 +147,14 @@ debug_hooks() {
         echo 'echo "$0: $@"' >> "$hook"
     done
 }
+
+initialise_nuggits_reflog() {
+    ref="nuggits"
+    old_oid="0000000000000000000000000000000000000000"
+    new_oid="$(git show --format="%H %cn <%cE> %ct -0000" nuggits)"
+    message="commit (initial): RootOfAllNuggits"
+
+    # FIXME: This will not work with ref-format=reftable. Instead git 2.52 will introduce a `git reflog write` command
+    mkdir -p .git/logs
+    printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > .git/logs/"$ref"
+}
