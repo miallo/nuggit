@@ -48,9 +48,9 @@ create_chapter store nuggits
 # don't use `git commit`, since that would find itself in the reflog
 # the `printf "" | git mktree` simulates an empty tree
 # (so basically: since there was no commit before, this is an empty commit)
-git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
+git update-ref nuggits "$(git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
-Have a free nuggit!" > .git/nuggits
+Have a free nuggit!")"
 # Write initial reflog entry for our "branch" to avoid dangling references
 mkdir .git/logs
 printf "0000000000000000000000000000000000000000 %s	commit (initial): RootOfAllNuggits\n" "$(git show --format="%H %cn <%cE> %ct -0000" nuggits)" > .git/logs/nuggits

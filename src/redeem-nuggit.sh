@@ -84,12 +84,9 @@ tree="$(git rev-parse "nuggits^{tree}")"
 # the hash of the nuggit and inside of that the description file
 description="$(catfile -p "NUGGIT_DESCRIPTION_TREE:$(echo "$nuggit" | git hash-object --stdin)/description")"
 # add an empty commit with the parent being nuggits and "reset nuggits to that new commit"
-git commit-tree "$tree" -p "$(cat .git/nuggits)" -m "$(printf "%s\n\n" "$nuggit" "$description")" > .git/nuggits.bak
+git update-ref nuggits "$(git commit-tree "$tree" -p "$(git rev-parse nuggits)" -m "$(printf "%s\n\n" "$nuggit" "$description")")"
 # Manually update reflog for our "branch" to avoid dangling commits
-printf "%s %s	commit: %s\n" "$(cat .git/nuggits)" "$(git show --format="%H %cn <%cE> %ct -0000" nuggits.bak)" "$nuggit" >> .git/logs/nuggits
-# We can't directly pipe it into the file, because it will empty it before we read it...
-# Therefore write it into a backup file and then replace it
-mv .git/nuggits.bak .git/nuggits # update our "branch"
+printf "%s %s	commit: %s\n" "$(git rev-parse nuggits)" "$(git show --format="%H %cn <%cE> %ct -0000" nuggits)" "$nuggit" >> .git/logs/nuggits
 
 # Print some stats for the player, so they know if they still need to look for other nuggits
 echo "Number of redeemed nuggits: $redeemed_nuggits of NUMBER_OF_NUGGITS"
