@@ -150,7 +150,11 @@ debug_hooks() {
 
 initialise_nuggits_reflog() {
     ref="nuggits"
-    old_oid="0000000000000000000000000000000000000000"
+    if [ "$(git config --get extensions.objectFormat)" = "sha256" ]; then
+        old_oid="0000000000000000000000000000000000000000000000000000000000000000"
+    else
+        old_oid="0000000000000000000000000000000000000000"
+    fi
     new_oid="$(git show --format="%H %cn <%cE> %ct -0000" nuggits)"
     message="commit (initial): RootOfAllNuggits"
 
