@@ -75,7 +75,7 @@ printf "0000000000000000000000000000000000000000 %s	commit (initial): Success!\n
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial commit
-cp -r "$DOCDIR/01_init/"* .
+cp  "$DOCDIR/01_init/README.md" .
 git add .
 commit -m "Initial Commit"
 
@@ -189,6 +189,7 @@ create_chapter log
 # ------------------------------------------------------------------------------------------- #
 create_chapter diff
 git switch main
+cp "$DOCDIR/01_init/first-steps-with-git.md" .
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
