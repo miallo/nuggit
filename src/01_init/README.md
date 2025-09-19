@@ -4,7 +4,7 @@ This is an explanation/game on how to use the version control system `git`. It i
 
 For many day-to-day tasks the graphical user interfaces for it might well work, but it will definitely get to its limits on this tutorial, since it will get into the nitty-gritty details (if you want) so it is recommended to use the command line instead.
 
-By default in most Projects there exists a README file, so with opening this file you already made the first step (I promise: even if you know git you probably get to know a thing or two about `git` that you didn't hear about. And if you did: please get in touch so that I can learn more from you and maybe even add some more ideas!)
+By default in most projects there exists a README file, so with opening this file you already made the first step (I promise: even if you know git you probably get to know a thing or two about `git` that you didn't hear about. And if you did: please get in touch so that I can learn more from you and maybe even add some more ideas!)
 
 ## Game FAQ
 
