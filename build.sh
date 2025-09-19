@@ -193,7 +193,7 @@ git switch main
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
 UNSTAGED_NUGGIT='nuggit: WorkInProgress'
-STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
+STAGING_DIFF_DESCRIPTION='A simple `git diff` without any flags will show local changes not yet staged for the next commit.'
 STAGING_NUGGIT='nuggit: CommitmentIssues'
 COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
 ```sh
@@ -202,11 +202,11 @@ git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
 {
     echo "$UNSTAGED_NUGGIT"
     echo # newline for readability
-    echo "$STAGING_DIFF_DESCRIPTION"
+    echo "$COMMIT_DESCRIPTION"
     echo # newline for readability
     echo "$STAGING_NUGGIT"
     echo # newline for readability
-    echo "$COMMIT_DESCRIPTION"
+    echo "$STAGING_DIFF_DESCRIPTION"
 } >> first-steps-with-git.md
 git add first-steps-with-git.md
 commit -m 'first-steps-with-git: add explanation on status and diff'
@@ -214,11 +214,12 @@ commit -m 'first-steps-with-git: add explanation on status and diff'
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
 sed "/$STAGING_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
-num_of_diff_commit_lines="$(( $(wc -l < tmp) - $(echo "$COMMIT_DESCRIPTION" | wc -l) + 1))"
-sed "$num_of_diff_commit_lines,$ d" tmp > first-steps-with-git.md
+num_of_diff_staged_commit_lines="$(( $(wc -l < tmp) - $(echo "$STAGING_DIFF_DESCRIPTION" | wc -l) + 1))"
+sed "$num_of_diff_staged_commit_lines,$ d" tmp > first-steps-with-git.md
 git add first-steps-with-git.md
 sed "/$UNSTAGED_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
-sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > first-steps-with-git.md
+num_of_diff_commit_lines="$(( $(wc -l < tmp) - $(echo "$COMMIT_DESCRIPTION" | wc -l) + 1))"
+sed "$num_of_diff_commit_lines,$ d" tmp > first-steps-with-git.md
 rm tmp
 
 # ------------------------------------------------------------------------------------------- #

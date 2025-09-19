@@ -65,14 +65,14 @@ expect "cat .git/hooks/*" to contain "nuggit: LocalCodeExecution"
 redeem_nuggit LocalCodeExecution
 '
 
-it 'chapter diff' '
-expect "git diff" to contain "nuggit: WorkInProgress"
-redeem_nuggit WorkInProgress
-'
-
 it 'chapter diff --staged' '
 expect "git diff --staged" to contain "nuggit: CommitmentIssues"
 redeem_nuggit CommitmentIssues
+'
+
+it 'chapter diff' '
+expect "git diff" to contain "nuggit: WorkInProgress"
+redeem_nuggit WorkInProgress
 '
 
 it 'chapter diff <commit>' '

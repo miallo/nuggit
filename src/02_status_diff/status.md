@@ -1,5 +1,8 @@
-One of the most used git commands is `git status` to see the current state (as in: Do I have uncommitted changes? Do I have changes locally that are not synced yet with the server ("pushed")?)
+## First steps with `git`
 
-Another important tool is `git diff` that by default without further parameters shows the difference between the "working directory" (the files as you see them) and the "staging area" (the things you prepared to commit next), so basically the changes that would be left out from. In other words: it shows only the difference to what would be committed next.
+One of the most used git commands is `git status` to see the current state (as in: Do I have uncommitted changes? Do I have commits locally that are not synced yet with the server ("pushed")?)
 
+Since you might not want to include all your current changes in the commit (e.g. because you found a typo in a README and for clarity/separation it should be a different checkpoint than a code change you are working on), `git` has a "staging area". This just describes all the changes you are about to commit. The output of `status` "Changes to be committed" tells you about files that are changed and that you would commit.
+
+To check what you are about to commit run `git diff --staged` (a synonym for "--staged" that you might see in some older references is "--cached").
 
