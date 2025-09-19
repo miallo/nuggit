@@ -162,6 +162,7 @@ git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
 create_chapter push
 git switch main -c working-with-others # found via "git branch --list"
 git push origin main
+git push origin the-first-tag
 git push --set-upstream origin @
 cp "$DOCDIR/09_push_pull/push.md" working-with-others.md
 git add working-with-others.md
