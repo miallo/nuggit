@@ -191,7 +191,7 @@ create_chapter diff
 git switch main
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
-cat "$DOCDIR/02_status_diff/status.md" >> README.md
+cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
 UNSTAGED_NUGGIT='nuggit: WorkInProgress'
 STAGING_DIFF_DESCRIPTION='For seeing what would be committed next you can run `git diff --staged`. A synonym for "--staged" that you might see in some places is "--cached".'
 STAGING_NUGGIT='nuggit: CommitmentIssues'
@@ -207,18 +207,18 @@ git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
     echo "$STAGING_NUGGIT"
     echo # newline for readability
     echo "$COMMIT_DESCRIPTION"
-} >> README.md
-git add README.md
-commit -m 'README: add explanation on status and diff'
+} >> first-steps-with-git.md
+git add first-steps-with-git.md
+commit -m 'first-steps-with-git: add explanation on status and diff'
 
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
-sed "/$STAGING_NUGGIT/{N;N;d;}" README.md > tmp
+sed "/$STAGING_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
 num_of_diff_commit_lines="$(( $(wc -l < tmp) - $(echo "$COMMIT_DESCRIPTION" | wc -l) + 1))"
-sed "$num_of_diff_commit_lines,$ d" tmp > README.md
-git add README.md
-sed "/$UNSTAGED_NUGGIT/{N;N;d;}" README.md > tmp
-sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > README.md
+sed "$num_of_diff_commit_lines,$ d" tmp > first-steps-with-git.md
+git add first-steps-with-git.md
+sed "/$UNSTAGED_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
+sed "/$STAGING_DIFF_DESCRIPTION/{N;N;d;}" tmp > first-steps-with-git.md
 rm tmp
 
 # ------------------------------------------------------------------------------------------- #

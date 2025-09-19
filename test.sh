@@ -92,7 +92,7 @@ expect "cat .git/hooks/*" not to contain "nuggit: LocalCodeExecution"
 '
 
 it 'restore should not show Switcheridoo nuggit' '
-expect "git restore README.md 2>&1" not to contain "nuggit: Switcheridoo"
+expect "git restore first-steps-with-git.md 2>&1" not to contain "nuggit: Switcheridoo"
 '
 
 it 'chapter branches' <<EOF

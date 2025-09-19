@@ -49,6 +49,4 @@ If you encounter a situation, where you don't know what to do: [open an issue](h
 
 If you already know about certain git features, you can run `git skip-to-nuggit-chapter` to be presented with a list of places of the tutorial to jump to. Note: you will not collect the nuggits you skipped ;)
 
-# First steps with `git`
-
-`git` takes snapshots of your code, so that you can e.g. go back in the history of a file.
+Let's start looking at [./first-steps-with-git.md](./first-steps-with-git.md)

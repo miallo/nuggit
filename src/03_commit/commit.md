@@ -6,7 +6,7 @@ A "commit" is snapshot of the project with some metadata like a time stamp, a co
 
 ## How to create a commit
 
-To commit changes, first you need to tell git what to add, e.g. `git add README.md` - this will "stage" all changes for the next commit (meaning git will include those changes, all unstaged changes will not be included in the commit). If you simply run
+To commit changes, first you need to tell git what to add, e.g. `git add first-steps-with-git.md` - this will "stage" all changes for the next commit (meaning git will include those changes, all unstaged changes will not be included in the commit). If you simply run
 ```bash
 git commit
 ```
