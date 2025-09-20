@@ -77,6 +77,7 @@ string_contains() { [ -z "${1##*"$2"*}" ] && [ -n "$1" ]; }
 # [2] https://git.kernel.org/pub/scm/git/git.git/tree/t/t0001-init.sh?h=v2.43.0#n171
 expect() {
     local invert_result failed error
+    unset invert_result failed error
     expect_err() {
         echo >&2
         echo "$1" >&2
@@ -116,7 +117,13 @@ but got:
     Received: $output"
                 ;;
             succeed)
-                output=$(eval "$command") || failed=true
+                set +eE # temporarily allow failure, since we might check to _not succeed_
+                if output=$(eval "$command"); then
+                    failed=
+                else
+                    failed=true
+                fi
+                set -eE # now enable traps again
                 error="> $command should ${invert_result+not }succeed
     Output: $output"
                 ;;
@@ -126,7 +133,7 @@ but got:
         esac
     fi
     if [ "$verbose" -ge 2 ]; then printf "\n%s\n" "$output"; fi
-    if { [ "$invert_result" = true ] && [ "$failed" != true ]; } || { [ "$invert_result" != true ] && [ "$failed" = true ]; }; then
+    if  [[ "$invert_result" == true  && "$failed" != true ]]  || [[ "$invert_result" != true && "$failed" == true ]]; then
         if [ "$verbose" -ge 1 ]; then printf "\r❗️\n"; fi
         expect_err "$error"
     fi
