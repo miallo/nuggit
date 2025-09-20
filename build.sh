@@ -48,9 +48,12 @@ create_chapter store nuggits
 # don't use `git commit`, since that would find itself in the reflog
 # the `printf "" | git mktree` simulates an empty tree
 # (so basically: since there was no commit before, this is an empty commit)
-git update-ref nuggits "$(git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
+INITIAL_NUGGITS_HASH="$(git commit-tree "$(printf "" | git mktree)" -m "RootOfAllNuggits
 
 Have a free nuggit!")"
+# NOTE: This intentionally does NOT create `refs/heads/nuggits`, since that would e.g. show up in `git branch --list`.
+# Instead create this "branch" toplevel in `.git/nuggits`
+git update-ref nuggits "$INITIAL_NUGGITS_HASH"
 # Write initial reflog entry for our "branch" to avoid dangling references
 initialise_nuggits_reflog
 
