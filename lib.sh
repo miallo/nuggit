@@ -148,19 +148,20 @@ debug_hooks() {
     done
 }
 
-initialise_nuggits_reflog() {
-    ref="nuggits"
+initialise_reflog() {
+    ref_name="$1"; shift
+    ref="$1"; shift
+    message="$1"; shift
     if [ "$(git config --get extensions.objectFormat)" = "sha256" ]; then
         old_oid="0000000000000000000000000000000000000000000000000000000000000000"
     else
         old_oid="0000000000000000000000000000000000000000"
     fi
-    new_oid="$(git show --format="%H %cn <%cE> %ct -0000" nuggits)"
-    message="commit (initial): RootOfAllNuggits"
+    new_oid="$(git show --format="%H %cn <%cE> %ct -0000" "$ref")"
 
-    git reflog write "$ref" "$old_oid" "$new_oid" "$message" 2>/dev/null || (
+    git reflog write "$ref_name" "$old_oid" "$new_oid" "$message" 2>/dev/null || (
         # manual fall back for git<2.52 without `reflog write` feature
         mkdir -p .git/logs
-        printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > .git/logs/"$ref"
+        printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > ".git/logs/$ref_name"
     )
 }

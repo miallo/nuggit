@@ -55,7 +55,7 @@ Have a free nuggit!")"
 # Instead create this "branch" toplevel in `.git/nuggits`
 git update-ref nuggits "$INITIAL_NUGGITS_HASH"
 # Write initial reflog entry for our "branch" to avoid dangling references
-initialise_nuggits_reflog
+initialise_reflog "nuggits" "nuggits" "commit (initial): RootOfAllNuggits"
 
 store_nuggits
 ALMOST_CREDITS_HASH="$(remote_hash_object_write "$DOCDIR/almost_credits.txt")"
@@ -74,7 +74,7 @@ END_BLOB_HASH="$(git hash-object -w "$DOCDIR/credits/the-end.md")"
 END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktree)"
 END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
 # Write reflog entry for the end commit to avoid dangling references
-printf "0000000000000000000000000000000000000000 %s	commit (initial): Success!\n" "$(git show --format="%H %cn <%cE> %ct -0000" "$END_COMMIT")" > .git/logs/success
+initialise_reflog "success" "$END_COMMIT" "commit (initial): Success!"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial commit
