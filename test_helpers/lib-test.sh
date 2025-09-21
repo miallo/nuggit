@@ -109,7 +109,7 @@ but got:
         expect $(pretty_escape "$command" ${invert_result+not }to contain "$@")"
                 fi
                 string="$1"
-                output="$(eval "$command")"
+                output="$(eval "$command" || :)"
 
                 string_contains "$output" "$string" || failed=true
                 error="> $command

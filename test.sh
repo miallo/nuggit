@@ -32,7 +32,7 @@ check_redeem_without_local_code_execution() {
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
 expect "git commit -am \"Just a test to trigger hooks\"" to succeed
-expect "! git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately that is not a valid nuggit"
+expect "git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
 '
 
@@ -152,9 +152,9 @@ expect 'eval "\$(get_sh_codeblock cherry-pick.md)"' to succeed
 EOF
 
 it 'An invalid nuggit should show an error' '
-expect "! git redeem-nuggit NotANuggit 2>&1" to contain "Unfortunately that is not a valid nuggit"
-expect "! git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
-expect "! git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
+expect "git redeem-nuggit NotANuggit 2>&1" to contain "Unfortunately that is not a valid nuggit"
+expect "git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
+expect "git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
 '
 
 it 'CuriosityKilledTheCat in redeem script' '
