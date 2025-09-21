@@ -32,7 +32,7 @@ check_redeem_without_local_code_execution() {
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
 expect "git commit -am \"Just a test to trigger hooks\"" to succeed
-expect "git redeem-nuggit LocalCodeExecution 2>&1" to contain "Unfortunately that is not a valid nuggit"
+expect "git redeem-nuggit LocalCodeExecution" error to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
 '
 
@@ -92,7 +92,7 @@ expect "cat .git/hooks/*" not to contain "nuggit: LocalCodeExecution"
 '
 
 it 'restore should not show Switcheridoo nuggit' '
-expect "git restore first-steps-with-git.md 2>&1" not to contain "nuggit: Switcheridoo"
+expect "git restore first-steps-with-git.md" error not to contain "nuggit: Switcheridoo"
 '
 
 it 'chapter branches' <<EOF
@@ -101,18 +101,18 @@ redeem_nuggit ShowMeMore
 EOF
 
 it 'chapter working with branches' '
-expect "git switch branches-explained 2>&1" to contain "nuggit: Switcheridoo"
+expect "git switch branches-explained" error to contain "nuggit: Switcheridoo"
 redeem_nuggit Switcheridoo
 '
 
 it 'MyFirstBranch when creating new branch' '
-expect "git switch -c my-new-branch 2>&1" to contain "nuggit: MyFirstBranch"
+expect "git switch -c my-new-branch" error to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
 '
 
 it 'chapter push' '
 expect "git switch -q working-with-others" to succeed
-expect "git push 2>&1" to contain "nuggit: PushItToTheLimits"
+expect "git push" error to contain "nuggit: PushItToTheLimits"
 redeem_nuggit PushItToTheLimits
 '
 
@@ -137,7 +137,7 @@ expect "git switch --detach -q the-first-tag" to succeed
 
 it 'chapter rebase' <<EOF
 # do a rebase
-expect 'eval "\$(get_sh_codeblock combine_history.md)" 2>&1' to contain "nuggit: ItsAllAboutTheRebase"
+expect 'eval "\$(get_sh_codeblock combine_history.md)"' error to contain "nuggit: ItsAllAboutTheRebase"
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 
@@ -152,9 +152,9 @@ expect 'eval "\$(get_sh_codeblock cherry-pick.md)"' to succeed
 EOF
 
 it 'An invalid nuggit should show an error' '
-expect "git redeem-nuggit NotANuggit 2>&1" to contain "Unfortunately that is not a valid nuggit"
-expect "git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
-expect "git redeem-nuggit NotANuggit 2>&1" to contain "It still isn'\''t a valid answer..."
+expect "git redeem-nuggit NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
+expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."
+expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."
 '
 
 it 'CuriosityKilledTheCat in redeem script' '

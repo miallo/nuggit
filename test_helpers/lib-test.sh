@@ -76,8 +76,8 @@ string_contains() { [ -z "${1##*"$2"*}" ] && [ -n "$1" ]; }
 # [1] https://git.kernel.org/pub/scm/git/git.git/tree/t?h=v2.43.0
 # [2] https://git.kernel.org/pub/scm/git/git.git/tree/t/t0001-init.sh?h=v2.43.0#n171
 expect() {
-    local invert_result failed error
-    unset invert_result failed error
+    local invert_result failed opt_redir_stderr error
+    unset invert_result failed opt_redir_stderr error
     expect_err() {
         echo >&2
         echo "$1" >&2
@@ -88,6 +88,10 @@ expect() {
         printf "\e[34mexpect %s\e[0m " "$(pretty_escape "$@")"
     fi
     command="$1"; shift
+    if [ "$1" = error ]; then
+        opt_redir_stderr="2>&1"
+        shift
+    fi
     if [ "$1" = not ]; then
         invert_result=true
         shift
@@ -98,6 +102,13 @@ expect() {
     expect \"echo hi\" ${invert_result+not }to <action> [<argument of action>]"
     else
         action="$1"; shift
+        if [[ -n ${opt_redir_stderr+x} && $action != contain ]]; then
+            expect_err "\
+usage:  expect <command> error ${invert_result+not }to contain <string>
+but used with action '$action' other than 'contain':
+        expect $(pretty_escape "$command" ${invert_result+not }to "$action" "$@")"
+        fi
+
         case "$action" in
             contain)
                 if [ $# -ne 1 ]; then
@@ -109,7 +120,7 @@ but got:
         expect $(pretty_escape "$command" ${invert_result+not }to contain "$@")"
                 fi
                 string="$1"
-                output="$(eval "$command" || :)"
+                output="$(eval "$command $opt_redir_stderr" || :)"
 
                 string_contains "$output" "$string" || failed=true
                 error="> $command
