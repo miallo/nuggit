@@ -181,3 +181,20 @@ debug_replace_hooks() {
         chmod +x ".git/hooks/$hook"
     done < "$DOCDIR/all-git-hooks"
 }
+
+
+it 'test tests' '
+expect "echo hi" to contain "hi"
+expect "echo hi" not to contain "ho"
+expect "warn hi" error to contain "hi"
+expect "warn hi" error not to contain "ho"
+expect "true" to succeed
+expect "false" not to succeed
+# expect "echo hi" not to contain "hi"
+# expect "echo hi" to contain "ho"
+# expect "warn hi" error to succeed # syntax error
+# expect "warn hi" error not to contain "hi"
+# expect "warn hi" error to contain "ho"
+# expect "true" not to succeed
+# expect "false" to succeed
+'
