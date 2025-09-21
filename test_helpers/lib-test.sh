@@ -43,7 +43,7 @@ it(){
     if [ "$verbose" -gt 0 ]; then
         printf "\n"
     fi
-    eval "set -eE
+    eval "set -e
 trap 'failure $(printf "%q" "$testname")' ERR EXIT
 $code
 trap - EXIT # Remove the trap handler, so that it does not fire at the end of the script
@@ -117,13 +117,11 @@ but got:
     Received: $output"
                 ;;
             succeed)
-                set +eE # temporarily allow failure, since we might check to _not succeed_
                 if output=$(eval "$command"); then
                     failed=
                 else
                     failed=true
                 fi
-                set -eE # now enable traps again
                 error="> $command should ${invert_result+not }succeed
     Output: $output"
                 ;;
