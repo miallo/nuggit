@@ -18,8 +18,7 @@ if [ "$1" = "refs/heads/working-with-others" ]; then
 
 # List remote branches
 
-To list branches that are only on the server, you can run `git branch --remotes`. If you run a `git switch <branch name>` with a branch that you don'\''t have locally, but there is one in origin, git will be so kind and create a local branch for you that is based on the remote one.
-' >> working-with-others.md
+To list branches that are only on the server, you can run `git branch --remotes`. If you run a `git switch <branch name>` with a branch that you don'\''t have locally, but there is one in origin, git will be so kind and create a local branch for you that is based on the remote one.' >> working-with-others.md
             git commit -am "Describe how to list remote branches" -q
             git push -q
         ) >/dev/null 2>&1
