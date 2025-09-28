@@ -1,18 +1,18 @@
 LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.	Not bad! You must be a little bit paranoid and at the same time know a lot about git 😜
-TheStageIsYours	"git diff --staged" shows the changes that would be included if you run "git commit" right now.	The stage is yours! 🎤
-BigCommitment	"git commit" creates a new 'save point' including the changes mentioned in "git diff --staged".	Creating a check point... 🧾
-ShortMessageService	"git commit -am 'My second feature'" commits all unstaged changes with a short message	
-AbsoluteDifferentiable	"git diff" shows the unstaged changes, so the ones you currently would not include in the next commit.	Small things can make the _diff_erence 🔬
-AddTheTopOfYourGame	"git add <file>" stages a file for a following commit	Do you want to add me to your friendlist? ➕
-Switcheridoo	"git switch <BRANCH NAME>" allows you to switch to a specific branch.	Please dont switch off! 🔌
-ShowMeMore	"git show <COMMIT HASH>" shows you the changes of a specific commit.	Show me what else you can do! 🤓
-MyFirstBranch	"git switch -c <NEW BRANCH NAME>" creates a new branch.	Can't see the tree for all the branches... 🌳
-LogCat	"git log <COMMIT HASH>" shows the commit history of the current commit.	Don't we all have a long history?! 🏛️
-AnnotateMeIfYouCan	"git tag -a <TAG NAME> -m 'My annotation'" will create an annotated tag.	Let's play tag! 🏷️
+TheStageIsYours	`git diff --staged` shows the changes that would be included if you run `git commit` right now.	The stage is yours! 🎤
+BigCommitment	`git commit` creates a new 'save point' including the changes mentioned in `git diff --staged`.	Creating a check point... 🧾
+ShortMessageService	`git commit -am 'My second feature'` commits all unstaged changes with a short message	HDGDL 📲
+AbsoluteDifferentiable	`git diff` shows the unstaged changes, so the ones you currently would not include in the next commit.	Small things can make the _diff_erence 🔬
+AddTheTopOfYourGame	`git add <file>` stages a file for a following commit	Do you want to add me to your friendlist? ➕
+Switcheridoo	`git switch <BRANCH NAME>` allows you to switch to a specific branch.	Please dont switch off! 🔌
+ShowMeMore	`git show <COMMIT HASH>` shows you the changes of a specific commit.	Show me what else you can do! 🤓
+MyFirstBranch	`git switch -c <NEW BRANCH NAME>` creates a new branch.	Can't see the tree for all the branches... 🌳
+LogCat	`git log <COMMIT HASH>` shows the commit history of the current commit.	Don't we all have a long history?! 🏛️
+AnnotateMeIfYouCan	`git tag -a <TAG NAME> -m 'My annotation'` will create an annotated tag.	Let's play tag! 🏷️
 CuriosityKilledTheCat	You can use git as a data base to store arbitrary things in. If that is a good idea is a different question...	Didn't I explicitly tell you not to look there? 😸
-ItsAllAboutTheRebase	"git rebase <COMMIT/BRANCH NAME>" will pretend you did your commits based on the referenced commit/branch to achieve a clean history.	Doesn't cleaning up feel good? 🧹
-SatisfactionThroughInteraction	"git rebase -i <COMMIT/BRANCH NAME>" will allow you to reorder commits or modify them	Let's pretend the past didn't happen! 🏛️
-YoureACherryBlossom	"git cherry-pick <COMMIT>" allows to get the changes from a single commit of a different branch into yours.	I like cherries! 🍒
-PushItToTheLimits	"git push" uploads the commits from your current branch to the server.	Uploading your mind... 🆙
-PullMeUnder	"git pull" downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
+ItsAllAboutTheRebase	`git rebase <COMMIT/BRANCH NAME>` will pretend you did your commits based on the referenced commit/branch to achieve a clean history.	Doesn't cleaning up feel good? 🧹
+SatisfactionThroughInteraction	`git rebase -i <COMMIT/BRANCH NAME>` will allow you to reorder commits or modify them	Let's pretend the past didn't happen! 🏛️
+YoureACherryBlossom	`git cherry-pick <COMMIT>` allows to get the changes from a single commit of a different branch into yours.	I like cherries! 🍒
+PushItToTheLimits	`git push` uploads the commits from your current branch to the server.	Uploading your mind... 🆙
+PullMeUnder	`git pull` downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
 ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!
