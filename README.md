@@ -33,8 +33,8 @@ and then you are ready!
 ## What git functions are already explained?
 
 - diff (--staged)
-- (add) <= maybe needs to be improved?
-- commit
+- add
+- commit (-m)
 - show
 - switch (-c)
 - push
