@@ -1,4 +1,4 @@
-nuggit: AbsoluteDifferentiable
+nuggit: DifferenceEngine
 
 # Adding changes
 

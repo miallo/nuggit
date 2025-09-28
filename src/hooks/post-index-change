@@ -4,8 +4,7 @@ if git diff --name-only | grep -q .; then
   exit 0
 fi
 
-if ! command -v ps >/dev/null 2>&1
-then
+if ! command -v ps >/dev/null 2>&1; then
     echo '`ps` could not be found'
     exit 1
 fi

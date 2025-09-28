@@ -2,7 +2,8 @@ LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like
 TheStageIsYours	`git diff --staged` shows the changes that would be included if you run `git commit` right now.	The stage is yours! 🎤
 BigCommitment	`git commit` creates a new 'save point' including the changes mentioned in `git diff --staged`.	Creating a check point... 🧾
 ShortMessageService	`git commit -am 'My second feature'` commits all unstaged changes with a short message	HDGDL 📲
-AbsoluteDifferentiable	`git diff` shows the unstaged changes, so the ones you currently would not include in the next commit.	Small things can make the _diff_erence 🔬
+DifferenceEngine	`git diff` shows the unstaged changes, so the ones you currently would not include in the next commit.	Small things can make the _diff_erence 🔬
+AbsoluteDifferentiable	`git diff <COMMIT/BRANCH NAME>` shows the diff compared to that commit. For 'diff' you can always add `-- some/path` to limit the diff.	Big or small differences 💯
 AddTheTopOfYourGame	`git add <file>` stages a file for a following commit	Do you want to add me to your friendlist? ➕
 Switcheridoo	`git switch <BRANCH NAME>` allows you to switch to a specific branch.	Please dont switch off! 🔌
 ShowMeMore	`git show <COMMIT HASH>` shows you the changes of a specific commit.	Show me what else you can do! 🤓

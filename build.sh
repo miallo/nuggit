@@ -111,9 +111,9 @@ commit -m "WIP branch: add explanation on how to list local branches"
 # ------------------------------------------------------------------------------------------- #
 create_chapter commit
 git switch --detach main
-replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/03_commit/commit.md" > commit.md
-git add commit.md
-commit -m "Add description on commit"
+replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/03_commit/show.md" > show.md
+git add show.md
+commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
@@ -196,10 +196,6 @@ cp "$DOCDIR/01_init/first-steps-with-git.md" .
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
-# DIFF_COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
-# ```sh
-# git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
-# ```'
 {
     cat "$DOCDIR/03_commit/add.md"
     echo # newline for readability
@@ -243,7 +239,7 @@ rm .git/hooks/* # remove all the .sample files, since they are just noise
 
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
-    replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
     chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do

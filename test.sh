@@ -79,8 +79,8 @@ redeem_nuggit BigCommitment
 
 it 'chapter diff' '
 diff_command="$(get_sh_codeblock <(git log --pretty=%B @~...))"
-expect "$diff_command" to contain "nuggit: AbsoluteDifferentiable"
-redeem_nuggit AbsoluteDifferentiable
+expect "$diff_command" to contain "nuggit: DifferenceEngine"
+redeem_nuggit DifferenceEngine
 '
 
 it 'chapter add' '
@@ -103,8 +103,16 @@ expect "echo '\$commit_message_output'" to contain "nuggit: ShortMessageService"
 redeem_nuggit ShortMessageService
 EOF
 
+it 'chapter diff commit' <<EOF
+diff_absolute_command="\$(get_sh_codeblock <(echo "\$commit_message_output"))"
+diff_absolute_output="\$(eval '\$diff_absolute_command')"
+expect 'echo "\$diff_absolute_output"' to contain "nuggit: AbsoluteDifferentiable"
+redeem_nuggit AbsoluteDifferentiable
+EOF
+
 it 'chapter branches' <<EOF
-expect 'eval "\$(get_sh_codeblock <(echo "\$commit_message_output"))"' to contain "nuggit: ShowMeMore"
+show_cmd="\$(get_sh_codeblock <(echo "\$diff_absolute_output" | sed "s/^.//"))"
+expect '\$show_cmd' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore
 EOF
 
