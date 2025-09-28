@@ -22,16 +22,16 @@ check_redeem_without_local_code_execution() {
     while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         [ "$nuggit" != LocalCodeExecution ] || continue
-        [ "$nuggit" != WorkInProgress ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
+        [ "$nuggit" != TheStageIsYours ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
         expect "git redeem-nuggit '$nuggit'" not to contain "You almost got it"
     done < "$DOCDIR/nuggits.tsv"
     # the second last nuggit should show the "Almost got it" text and resubmitting should show the same
-    expect "git redeem-nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
-    expect "git redeem-nuggit WorkInProgress" to contain "You almost got it! There is only a single nuggit left to redeem..."
+    expect "git redeem-nuggit TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
+    expect "git redeem-nuggit TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
 }
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
-expect "git commit -am \"Just a test to trigger hooks\"" to succeed
+expect "git commit -am \"Just a test to trigger hooks\" 2>/dev/null" to succeed
 expect "git redeem-nuggit LocalCodeExecution" error to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
 '
@@ -66,28 +66,30 @@ redeem_nuggit LocalCodeExecution
 '
 
 it 'chapter diff --staged' '
-expect "git diff --staged" to contain "nuggit: CommitmentIssues"
-redeem_nuggit CommitmentIssues
-'
-
-it 'chapter diff' '
-expect "git diff" to contain "nuggit: WorkInProgress"
-redeem_nuggit WorkInProgress
-'
-
-it 'chapter diff <commit>' '
-diff_commit_command="$(get_sh_codeblock <(git diff --staged | cut -c 2-))"
-expect "$diff_commit_command" to contain "nuggit: AbsoluteDifferentiable"
-redeem_nuggit AbsoluteDifferentiable
+diff_staged_commit_command="$(get_sh_codeblock first-steps-with-git.md)"
+expect "$diff_staged_commit_command" to contain "nuggit: TheStageIsYours"
+redeem_nuggit TheStageIsYours
 '
 
 it 'chapter commit' '
-expect "git commit -m \"My first commit\"" to succeed
+expect "GIT_EDITOR="cat" git commit" to succeed
 expect "git show" to contain "nuggit: BigCommitment"
 redeem_nuggit BigCommitment
 '
 
-it 'LocalCodeExecution nuggit should be deleted after execution of any hook (in this case the commit)' '
+it 'chapter diff' '
+diff_command="$(get_sh_codeblock <(git log --pretty=%B @~...))"
+expect "$diff_command" to contain "nuggit: AbsoluteDifferentiable"
+redeem_nuggit AbsoluteDifferentiable
+'
+
+it 'chapter add' '
+add_command="$(get_sh_codeblock <(git diff | sed "s/^.\{1\}//"))"
+expect "$add_command" error to contain "nuggit: AddTheTopOfYourGame"
+redeem_nuggit AddTheTopOfYourGame
+'
+
+it 'LocalCodeExecution nuggit should be deleted after execution of any hook (in this case `git add`)' '
 expect "cat .git/hooks/*" not to contain "nuggit: LocalCodeExecution"
 '
 
@@ -95,8 +97,14 @@ it 'restore should not show Switcheridoo nuggit' '
 expect "git restore first-steps-with-git.md" error not to contain "nuggit: Switcheridoo"
 '
 
+it 'chapter commit short message' <<EOF
+commit_message_output="\$(git commit -m "My first commit" 2>&1)"
+expect "echo '\$commit_message_output'" to contain "nuggit: ShortMessageService"
+redeem_nuggit ShortMessageService
+EOF
+
 it 'chapter branches' <<EOF
-expect 'eval "\$(get_sh_codeblock <(\$diff_commit_command | cut -c 2-))"' to contain "nuggit: ShowMeMore"
+expect 'eval "\$(get_sh_codeblock <(echo "\$commit_message_output"))"' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore
 EOF
 
@@ -137,7 +145,9 @@ expect "git switch --detach -q the-first-tag" to succeed
 
 it 'chapter rebase' <<EOF
 # do a rebase
-expect 'eval "\$(get_sh_codeblock combine_history.md)"' error to contain "nuggit: ItsAllAboutTheRebase"
+rebase_output="\$(eval "\$(get_sh_codeblock combine_history.md) 2>&1")"
+expect 'echo "\$rebase_output"' to contain "nuggit: ItsAllAboutTheRebase"
+expect 'echo "\$rebase_output"' not to contain "nuggit: AddTheTopOfYourGame"
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 

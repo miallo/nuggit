@@ -4,12 +4,68 @@ COMMIT_MSG_FILE=$1
 COMMIT_SOURCE=$2
 SHA1=$3
 
-# add a nuggit to the commit message
-git interpret-trailers --in-place \
-    --trailer "This is the tutorial nuggit speaking. Please don't mind me. I am injecting myself in a few places (like this one), so if you ever see anything starting with nuggit in this repo, I injected it and it usually wouldn't be there in a normal git repo." \
-    --trailer "nuggit: BigCommitment" \
-    "$COMMIT_MSG_FILE"
-if test -z "$COMMIT_SOURCE"
-then
-  /usr/bin/env perl -i.bak -pe 'print "\n" if !$first_line++' "$COMMIT_MSG_FILE"
+is_triggered_by() {
+  git_subcommand="$1"
+  local pid=$$ # start with parent process
+  while [[ "$pid" -gt 1 ]]; do # check until we reach init process
+    cmd=$(ps -o args= -p "$pid") # get command and arguments of process ID
+    if echo "$cmd" | grep -q "git $git_subcommand"; then
+      return 0 # we are running in `commit` context
+    fi
+    pid="$(ps -o ppid= -p "$pid" | tr -d ' ')" # get parent process ID
+  done
+  return 1
+}
+if is_triggered_by rebase; then
+  exit 0
 fi
+if is_triggered_by cherry-pick; then
+  exit 0
+fi
+
+  # In case of `git commit -m` we need to first write the provided
+  # message and only afterwards append our text
+if [[ "$COMMIT_SOURCE" == "message" ]]; then
+  cat << EOF
+nuggit: ShortMessageService
+
+## How to show a commit
+
+An alternative view that git often shows to you for a commit is the dynamically calculated "diff" to the previous commit, so only the changes. For most day-to-day uses this might be a good impression, but keep in mind that it is not what happens in reality.
+
+A commit can be addressed by a "hash". That is a seemingly random string of numbers and letters from a-f (hexadecimal numbers). The full length of a hash is 40 characters, but it can be truncated, as long as it is unique. That means that in many places 8-10 characters are enough.
+
+To view the commit message and diff for a commit there exists the command \`git show\`. By default it will show the last commit, but you can also show a specific one like this:
+\`\`\`sh
+git show CHAPTER_COMMIT_FOLLOW
+\`\`\`
+EOF
+  exit 0
+fi
+# add a nuggit to the commit message
+(
+  cat <<EOF
+
+
+This is the tutorial nuggit speaking. I am injecting myself in a few
+places (like this one), so if you ever see anything starting with nuggit
+in this repo, I injected it and it usually wouldn't be there in a normal
+git repo.
+
+Since you might be working on multiple things in parallel and it would
+not be very comprehensible to include all changes at once, you can tell
+git specifically what you want included in the next snapshot. To see
+which changes you have made, but not yet staged for a commit, run a
+simple
+\`\`\`sh
+git diff
+\`\`\`
+(without \`--staged\` as you would have added when looking at the changes
+staged for commit)
+
+nuggit: BigCommitment
+EOF
+
+  cat "$COMMIT_MSG_FILE"
+) > "$COMMIT_MSG_FILE".tmp
+mv "$COMMIT_MSG_FILE".tmp "$COMMIT_MSG_FILE"

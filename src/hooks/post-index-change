@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+# Check if all tracked files are staged
+if git diff --name-only | grep -q .; then
+  exit 0
+fi
+
+if ! command -v ps >/dev/null 2>&1
+then
+    echo '`ps` could not be found'
+    exit 1
+fi
+
+is_triggered_by() {
+  git_subcommand="$1"
+  local pid=$$ # start with parent process
+  while [[ "$pid" -gt 1 ]]; do # check until we reach init process
+    cmd=$(ps -o args= -p "$pid") # get command and arguments of process ID
+    if echo "$cmd" | grep -q "git $git_subcommand"; then
+      return 0 # we are running in `commit` context
+    fi
+    pid="$(ps -o ppid= -p "$pid" | tr -d ' ')" # get parent process ID
+  done
+  return 1
+}
+
+# don't output anything
+if is_triggered_by commit; then
+  exit 0
+fi
+if is_triggered_by rebase; then
+  exit 0
+fi
+if is_triggered_by cherry-pick; then
+  exit 0
+fi
+
+working_dir_updated="$1"
+if [[ "$working_dir_updated" == 1 ]]; then
+  # in case of `git switch`
+  exit 0
+fi
+
+index_updated="$2"
+# check that there are staged files
+if git diff --staged --name-only | grep -q . ; then
+  if [[ "$index_updated" == 0 ]]; then
+    echo '
+nuggit: AddTheTopOfYourGame
+
+Some useful flags for `git commit` are:
+- If you want to commit all the changes, you can skip the separate `git add` and run `git commit -a` (short for `--all`), which will automatically stage all changes in "tracked files" (files that git previously had under its version controll) for you before the commit.
+- Also another helpful flag if you just want to write a single line in the commit message is `-m "<message>"`, so e.g.:
+```sh
+git commit -m "This is my second commit"
+```
+'
+  fi
+fi

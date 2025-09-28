@@ -1,8 +1,9 @@
 LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.	Not bad! You must be a little bit paranoid and at the same time know a lot about git 😜
-WorkInProgress	"git diff" shows the changes you have that would not be included if you run "git commit" right now.	"Diff"initely a good start! 🚀
-CommitmentIssues	"git diff --staged" shows the changes that would be included if you run "git commit" right now.	The stage is yours! 🎤
+TheStageIsYours	"git diff --staged" shows the changes that would be included if you run "git commit" right now.	The stage is yours! 🎤
 BigCommitment	"git commit" creates a new 'save point' including the changes mentioned in "git diff --staged".	Creating a check point... 🧾
-AbsoluteDifferentiable	"git diff <COMMIT HASH>" shows the difference to a specific commit.	Sometimes differences seem absolutely insurmountable... 📏
+ShortMessageService	"git commit -am 'My second feature'" commits all unstaged changes with a short message	
+AbsoluteDifferentiable	"git diff" shows the unstaged changes, so the ones you currently would not include in the next commit.	Small things can make the _diff_erence 🔬
+AddTheTopOfYourGame	"git add <file>" stages a file for a following commit	Do you want to add me to your friendlist? ➕
 Switcheridoo	"git switch <BRANCH NAME>" allows you to switch to a specific branch.	Please dont switch off! 🔌
 ShowMeMore	"git show <COMMIT HASH>" shows you the changes of a specific commit.	Show me what else you can do! 🤓
 MyFirstBranch	"git switch -c <NEW BRANCH NAME>" creates a new branch.	Can't see the tree for all the branches... 🌳

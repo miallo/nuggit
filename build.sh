@@ -196,35 +196,28 @@ cp "$DOCDIR/01_init/first-steps-with-git.md" .
 # uncommitted changes/status
 # Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
 cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
-UNSTAGED_NUGGIT='nuggit: WorkInProgress'
-STAGING_DIFF_DESCRIPTION='A simple `git diff` without any flags will show local changes not yet staged for the next commit.'
-STAGING_NUGGIT='nuggit: CommitmentIssues'
-COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
-```sh
-git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
-```'
+# DIFF_COMMIT_DESCRIPTION='To see the difference between your current working-directory (the files you see in the folder) and a commit, you can add a hash, and also if you want a path (add "--" before the path to tell git that the remaining arguments are paths:
+# ```sh
+# git diff '"$CHAPTER_DIFF_FOLLOW"' -- commit.md
+# ```'
 {
-    echo "$UNSTAGED_NUGGIT"
+    cat "$DOCDIR/03_commit/add.md"
     echo # newline for readability
-    echo "$COMMIT_DESCRIPTION"
-    echo # newline for readability
-    echo "$STAGING_NUGGIT"
-    echo # newline for readability
-    echo "$STAGING_DIFF_DESCRIPTION"
+    cat "$DOCDIR/03_commit/commit.md"
 } >> first-steps-with-git.md
 git add first-steps-with-git.md
 commit -m 'first-steps-with-git: add explanation on status and diff'
 
 # tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
 # `{N;N;d:}` for deleting the following (empty) line as well
-sed "/$STAGING_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
-num_of_diff_staged_commit_lines="$(( $(wc -l < tmp) - $(echo "$STAGING_DIFF_DESCRIPTION" | wc -l) + 1))"
-sed "$num_of_diff_staged_commit_lines,$ d" tmp > first-steps-with-git.md
+sed -e "/$(head -n 1 "$DOCDIR/03_commit/commit.md")/,+$(wc -l < "$DOCDIR/03_commit/commit.md")d" first-steps-with-git.md > tmp
+mv tmp first-steps-with-git.md
+# num_of_diff_staged_commit_lines="$(( $(wc -l < tmp) - $(wc -l < "$DOCDIR/03_commit/commit.md") + 1))"
+# sed "$num_of_diff_staged_commit_lines,$ d" tmp > first-steps-with-git.md
 git add first-steps-with-git.md
-sed "/$UNSTAGED_NUGGIT/{N;N;d;}" first-steps-with-git.md > tmp
-num_of_diff_commit_lines="$(( $(wc -l < tmp) - $(echo "$COMMIT_DESCRIPTION" | wc -l) + 1))"
-sed "$num_of_diff_commit_lines,$ d" tmp > first-steps-with-git.md
-rm tmp
+num_of_diff_commit_lines="$(( $(wc -l < first-steps-with-git.md) - $(wc -l < "$DOCDIR/03_commit/add.md")))"
+sed "$num_of_diff_commit_lines,$ d" first-steps-with-git.md > tmp
+mv tmp first-steps-with-git.md
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter finalize setup
@@ -250,7 +243,7 @@ rm .git/hooks/* # remove all the .sample files, since they are just noise
 
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
-    cp "$DOCDIR/hooks/$file" ".git/hooks/$file.orig"
+    replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
     chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do
