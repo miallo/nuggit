@@ -37,7 +37,7 @@ Also: if your editor of choice asks you if you want to trust this project - say 
 
 Once you are done, with it, you will hopefully be the person, people come to when they have questions about git:
 ![A comic of stick figures describing how beautiful git is, but they just memorize a few commands. And when they run into an issue, they don't know how to deal with it and just copy the file and delete the folder](https://imgs.xkcd.com/comics/git.png "If that doesn't fix it, git.txt contains the phone number of a friend of mine who understands git. Just wait through a few minutes of 'It's really pretty simple, just think of branches as...' and eventually you'll learn the commands that will fix everything.")
-(Credits to xkcd/Randall Munroe - I can highly recommended them)
+(Credits to xkcd/Randall Munroe - I can highly recommend all of the comics!)
 
 # What do I need to do?
 
