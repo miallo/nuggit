@@ -1,6 +1,6 @@
-# Cherry-Picking
+nuggit: SatisfactionThroughInteraction
 
-nuggit: YoureACherryBlossom
+# Cherry-Picking
 
 If you don't want to take all the changes from a branch, but only want a specific commit (i.e. you are very selective about the changes you want to have), you can run
 ```sh

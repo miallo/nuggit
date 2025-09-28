@@ -153,12 +153,15 @@ EOF
 
 it 'chapter interactive rebase' <<EOF
 expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" 2>&1' to succeed
+expect 'cat cherry-pick.md' to contain "nuggit: SatisfactionThroughInteraction"
+redeem_nuggit SatisfactionThroughInteraction
 EOF
 
 it 'chapter cherry-pick' <<EOF
-expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
+cherry_pick_output="\$(eval \$(get_sh_codeblock cherry-pick.md) 2>&1)"
+expect 'echo \$cherry_pick_output' not to contain "nuggit: AddTheTopOfYourGame"
+expect 'echo \$cherry_pick_output' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
-expect 'eval "\$(get_sh_codeblock cherry-pick.md)"' to succeed
 EOF
 
 it 'An invalid nuggit should show an error' '
