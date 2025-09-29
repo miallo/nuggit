@@ -60,6 +60,16 @@ redeemed_nuggits="$(($(git rev-list --count nuggits) - redeemed))"
     # Also do rot13 on the result in order to make it just a bit harder to just
     # find the blob and read it
     catfile -p CREDITS_TREE:final | tr 'A-Za-z' 'N-ZA-Mn-za-m';
+    first_nuggit_date="$(git log --pretty="%ct" --reverse nuggits | sed -n '2{p;q;}')"
+    last_nuggit_date="$(git log --pretty="%ct" -n 1 nuggits)"
+    relative_duration_between_nuggits="$((last_nuggit_date - first_nuggit_date))"
+
+    days=$((relative_duration_between_nuggits / 86400))
+    hours=$(( (relative_duration_between_nuggits % 86400) / 3600 ))
+    minutes=$(( (relative_duration_between_nuggits % 3600) / 60 ))
+    seconds=$(( relative_duration_between_nuggits % 60 ))
+
+    printf "\n\nThe time between redeeming your first and last nuggit was %dd %02dh %02dm %02ds 😃\n\n" $days $hours $minutes $seconds
 }
 
 # if we already have redeemed this nuggit, print that it was already redeemed and exit
