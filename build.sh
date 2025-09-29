@@ -246,5 +246,6 @@ while read -r hook; do
     replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
     chmod +x ".git/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
-# Did you read the comment above?
+# debug_hooks
+# Did you read the comment above that installing the hooks should be last?
 trap - EXIT # If we get here: Success!, So remove the error handler

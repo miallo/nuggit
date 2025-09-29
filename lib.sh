@@ -147,15 +147,11 @@ store_nuggits() {
 }
 
 debug_hooks() {
-    path_to_dot_git="${1:-.git}"
-    while read -r hook; do
-        echo '#/bin/sh
-    echo "$0: $@"
-        ' >> "$path_to_dot_git/hooks/$hook"
-        chmod +x "$path_to_dot_git/hooks/$hook"
-    done < "$DOCDIR/all-git-hooks"
-    for hook in "$path_to_dot_git/hooks/"*; do
-        echo 'echo "$0: $@"' >> "$hook"
+    path_to_git_hooks="${1:-.git}/hooks"
+    for hook in "$path_to_git_hooks/"*; do
+        printf '#/usr/bin/env bash\necho "$0: $@"\n\n' | cat - "$hook" > "$hook.bak"
+        mv "$hook.bak" "$hook"
+        chmod +x "$hook"
     done
 }
 
