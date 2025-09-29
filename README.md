@@ -43,6 +43,7 @@ and then you are ready!
 - rebase
 - (merge) <= only explained, but not interactively
 - cherry-pick
+- reset (--hard/--soft)
 
 ## debugging
 

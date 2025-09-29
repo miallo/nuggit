@@ -16,4 +16,5 @@ SatisfactionThroughInteraction	`git rebase -i <COMMIT/BRANCH NAME>` will allow y
 YoureACherryBlossom	`git cherry-pick <COMMIT>` allows to get the changes from a single commit of a different branch into yours.	I like cherries! 🍒
 PushItToTheLimits	`git push` uploads the commits from your current branch to the server.	Uploading your mind... 🆙
 PullMeUnder	`git pull` downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
+HardBreakHotel	`git reset --hard <COMMIT/BRANCH>` will remove all your changes and point the current branch to the new commit	When things don’t go as planned, just hit the reset button on your hopes! 🔙
 ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!

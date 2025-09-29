@@ -172,6 +172,11 @@ expect 'echo \$cherry_pick_output' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
 EOF
 
+it 'chapter reset --hard' <<EOF
+expect 'eval \$(get_sh_codeblock reset-hard.md)' error to contain "nuggit: HardBreakHotel"
+redeem_nuggit HardBreakHotel
+EOF
+
 it 'An invalid nuggit should show an error' '
 expect "git redeem-nuggit NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
 expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."

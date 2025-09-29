@@ -117,9 +117,16 @@ commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter reset hard
+git switch --detach main
+replace END_COMMIT "$DOCDIR/11_reset/reset-hard.md" > reset-hard.md
+git add reset-hard.md
+commit -m 'Describe `git reset --hard`'
+CHAPTER_CHERRY_PICK_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter cherry-pick
 git switch --detach main
-CHAPTER_CHERRY_PICK_FOLLOW="$END_COMMIT"
 replace CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/10_cherry_pick/cherry-pick.md" > cherry-pick.md
 git add cherry-pick.md
 commit -m "Describe cherry-pick"
@@ -229,7 +236,7 @@ mkdir ".git/another-downstream/docdir"
 cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 
 # Scripts for aliases
-replace CHAPTER_INTERACTIVE_REBASE_FOLLOW "$DOCDIR/skip_to_chapter.sh" > .git/skip_to_chapter.sh
+replace CHAPTER_INTERACTIVE_REBASE_FOLLOW CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/skip_to_chapter.sh" > .git/skip_to_chapter.sh
 chmod +x .git/skip_to_chapter.sh
 replace NUMBER_OF_NUGGITS "$DOCDIR/progress.sh" > .git/progress.sh
 chmod +x .git/progress.sh

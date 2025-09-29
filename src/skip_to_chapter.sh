@@ -6,6 +6,7 @@ chapters=(
     "push/pull git switch -f working-with-others"
     "log git reset --hard @ && git fetch -q && git switch -f history"
     "cherry-pick git switch -f --detach CHAPTER_INTERACTIVE_REBASE_FOLLOW"
+    "reset git switch -f --detach CHAPTER_CHERRY_PICK_FOLLOW"
 )
 
 while true; do

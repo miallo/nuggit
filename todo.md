@@ -2,7 +2,6 @@
 
 - status (basics are explained, but not in depth...)
 - commit --amend
-- reset
 - restore
 - nomenclature of HEAD/repository/^/~/@{u}/...
 - merge
