@@ -164,7 +164,7 @@ initialise_reflog() {
     else
         old_oid="0000000000000000000000000000000000000000"
     fi
-    new_oid="$(git show --format="%H %cn <%cE> %ct -0000" "$ref")"
+    new_oid="$(git show --format="%H %cn <%cE> %ct -0700" "$ref")"
 
     git reflog write "$ref_name" "$old_oid" "$new_oid" "$message" 2>/dev/null || (
         # manual fall back for git<2.52 without `reflog write` feature
