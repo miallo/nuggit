@@ -254,7 +254,16 @@ rm .git/hooks/* # remove all the .sample files, since they are just noise
 
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" > ".git/hooks/$file.orig"
+
+    # search for text and then drop next line; afterwards replace placeholder with is_triggered_by-file content
+    is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub for shellcheck\:'
+
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" |
+        sed "/$is_triggered_by_placeholder/ {n;d;}" |
+        sed "/$is_triggered_by_placeholder/{
+            s/$is_triggered_by_placeholder//g
+            r $DOCDIR/hook_is_triggered_by.sh"'
+          }' > ".git/hooks/$file.orig"
     chmod +x ".git/hooks/$file.orig"
 done
 while read -r hook; do
