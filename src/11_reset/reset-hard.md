@@ -4,7 +4,7 @@
 
 You can use this to point the branch you have checked out to a different commit like:
 ```sh
-git reset --hard END_COMMIT
+git reset --hard CHAPTER_RESET_HARD_FOLLOW
 ```
 
 But be careful! This can delete changes you have made in a way that not even git can restore them!

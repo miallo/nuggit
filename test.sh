@@ -177,6 +177,12 @@ expect 'eval \$(get_sh_codeblock reset-hard.md)' error to contain "nuggit: HardB
 redeem_nuggit HardBreakHotel
 EOF
 
+it 'chapter reset --soft' <<EOF
+expect 'eval \$(get_sh_codeblock reset-soft.md)' error to contain "nuggit: SoftSkills"
+expect 'git restore --staged --worktree success.md 2>&1' to succeed
+redeem_nuggit SoftSkills
+EOF
+
 it 'An invalid nuggit should show an error' '
 expect "git redeem-nuggit NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
 expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."

@@ -117,9 +117,17 @@ commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter reset soft
+git switch --detach main
+sed "s/CHAPTER_RESET_SOFT_FOLLOW/$END_COMMIT/" "$DOCDIR/11_reset/reset-soft.md" > reset-soft.md
+git add reset-soft.md
+commit -m 'Describe `git reset --soft`'
+CHAPTER_RESET_HARD_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter reset hard
 git switch --detach main
-replace END_COMMIT "$DOCDIR/11_reset/reset-hard.md" > reset-hard.md
+replace CHAPTER_RESET_HARD_FOLLOW "$DOCDIR/11_reset/reset-hard.md" > reset-hard.md
 git add reset-hard.md
 commit -m 'Describe `git reset --hard`'
 CHAPTER_CHERRY_PICK_FOLLOW="$(git rev-parse --short @)"

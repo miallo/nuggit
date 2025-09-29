@@ -17,4 +17,5 @@ YoureACherryBlossom	`git cherry-pick <COMMIT>` allows to get the changes from a 
 PushItToTheLimits	`git push` uploads the commits from your current branch to the server.	Uploading your mind... 🆙
 PullMeUnder	`git pull` downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
 HardBreakHotel	`git reset --hard <COMMIT/BRANCH>` will remove all your changes and point the current branch to the new commit	When things don’t go as planned, just hit the reset button on your hopes! 🔙
+SoftSkills	`git reset --soft <COMMIT/BRANCH>` keeps your changes, but removes commits from the history (or depending on what you call it with it can actually add them, too…)	I’m working on my soft skills - like making people laugh with puns! 🤪
 ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!
