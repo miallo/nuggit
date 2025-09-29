@@ -166,9 +166,13 @@ initialise_reflog() {
     fi
     new_oid="$(git show --format="%H %cn <%cE> %ct -0700" "$ref")"
 
-    git reflog write "$ref_name" "$old_oid" "$new_oid" "$message" 2>/dev/null || (
-        # manual fall back for git<2.52 without `reflog write` feature
-        mkdir -p .git/logs
-        printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > ".git/logs/$ref_name"
-    )
+    # `git reflog write` does not allow writing to Root level ref (e.g. .git/nuggits), so we have to add `refs/`
+    # Also: not a clue why write does not accept the config… See https://lore.kernel.org/git/519E887F-2028-476E-B26D-85E23F7974A5@not-evil.de/T/#u
+    GIT_COMMITTER_NAME="$(git config --get user.name)" GIT_COMMITTER_EMAIL="$(git config --get user.email)" \
+        git reflog write "refs/$ref_name" "$old_oid" "$new_oid" "$message" 2>/dev/null || \
+        (
+            # manual fall back for git<2.52 without `reflog write` feature
+            mkdir -p .git/logs
+            printf "%s %s	%s\n" "$old_oid" "$new_oid" "$message" > ".git/logs/$ref_name"
+        )
 }
