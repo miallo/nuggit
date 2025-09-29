@@ -33,13 +33,13 @@ fi
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
-git init --initial-branch=main tutorial
+git init "${git_init_params[@]}" tutorial
 cd tutorial
 reproducibility_setup
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter origin
-git init --bare --initial-branch=main ./.git/my-origin
+git init --bare "${git_init_params[@]}" ./.git/my-origin
 git remote add origin ./.git/my-origin
 
 # ------------------------------------------------------------------------------------------- #

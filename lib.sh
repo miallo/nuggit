@@ -4,6 +4,7 @@
 
 export verbose
 export delete_existing_dir
+export git_init_params=("--initial-branch=main")
 
 parse_opts() {
     while [ $# -gt 0 ]; do
@@ -14,6 +15,9 @@ parse_opts() {
                 ;;
             -f|--force)
                 delete_existing_dir=true
+                ;;
+            --ref-format=reftable|--object-format=sha256)
+                git_init_params+=("$opt")
                 ;;
             *)
                 echo "ERROR! Unknown option '$opt'. Useage: $0 [-v|--verbose] [-f|--force]" >&2
