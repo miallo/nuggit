@@ -12,7 +12,7 @@ if [ "$verbose" -eq 0 ]; then
 fi
 on_error() {
     [ "$verbose" -eq 0 ] && exec 1>&3 2>&4 # restore file descriptors
-    printf "❌ \e[3;1;31mERROR!\e[0m \e[31mAn error occured while creating chapter %s\e[0m\n" "$chapter">&2
+    printf "❌ ${RED_BOLD_ITALIC}ERROR! ${RED}An error occured while creating chapter %s${RESET}\n" "$chapter">&2
     [ "$verbose" -eq 0 ] && printf "%s" 'Run again with `-v` for more verbose output' >&2
     exit 1
 }

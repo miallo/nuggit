@@ -5,11 +5,11 @@
 
 success() {
     # use \r to overwrite the line saying "running"
-    printf "\r✅ \e[32m%s\e[0m\n" "$1"
+    printf "\r✅ $GREEN%s$RESET\n" "$1"
 }
 
 failure() {
-    printf "\n❌ \e[3;1;31m%s\e[0m\e[1;31m failed\e[0m" "$1" >&2
+    printf "\n❌ ${RED_BOLD_ITALIC}%s${RED} failed$RESET" "$1" >&2
     trap - ERR EXIT # Remove the trap handler, so that it does not call itself
     exit 1
 }
@@ -22,7 +22,7 @@ get_sh_codeblock() { # FIXME: function name is a lie, as it only returns the fir
 # skipping/commenting out a testcase
 xit() {
     testname="$1"
-    printf "⏭️  \e[33m%s\e[0m skipped\n" "$testname"
+    printf "⏭️  ${YELLOW}%s$RESET skipped\n" "$testname"
 }
 
 # # test case
@@ -85,7 +85,7 @@ expect() {
     }
     if [ "$verbose" -ge 1 ]; then
         if [ "$verbose" -lt 2 ]; then printf "   "; fi # make room for checkbox/exclamation mark in the beginning of the line
-        printf "\e[34mexpect %s\e[0m " "$(pretty_escape "$@")"
+        printf "${BLUE}expect %s$RESET " "$(pretty_escape "$@")"
     fi
     command="$1"; shift
     if [ "$1" = error ]; then
@@ -176,7 +176,7 @@ debug_replace_hooks() {
     while read -r hook; do
         {
             echo "#!/bin/sh"
-            printf "%s\n" 'printf "\e[32m%s\e[0m: %s\n" "$0" "$*"'
+            printf "%s\n" 'printf "${GREEN}%s${RESET}: %s\n" "$0" "$*"'
         } > ".git/hooks/$hook"
         chmod +x ".git/hooks/$hook"
     done < "$DOCDIR/all-git-hooks"

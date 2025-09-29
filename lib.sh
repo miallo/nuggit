@@ -28,14 +28,21 @@ DOCDIR="$ROOT/src"
 
 export ROOT DOCDIR
 
+# colors
+RESET='\033[0m'
+RED="\e[0;31m"
+RED_BOLD='\033[0;31m'
+RED_BOLD_ITALIC='\e[3;1;31m'
+GREEN="\e[0;32m"
+YELLOW="\e[0;33m"
+BLUE="\e[0;34m"
+
 warn() {
-    printf "\e[33m%s\e[0m\n" "$*" >&2
+    printf "$YELLOW%s$RESET\n" "$*" >&2
 }
 
 error() {
-    RED='\033[0;31m'
-    NC='\033[0m' # No Color
-    printf "${RED}%s${NC}\n" "$@" >&2
+    printf "$RED_BOLD%s$RESET\n" "$@" >&2
 }
 
 # copied from https://github.com/git/git/blob/e79552d19784ee7f4bbce278fe25f93fbda196fa/t/test-lib-functions.sh#L133-L143
@@ -98,7 +105,7 @@ replace () {
 
 create_chapter() {
     chapter="$*"
-    printf "\e[32mCreating chapter '%s'\e[0m\n" "$chapter"
+    printf "${GREEN}Creating chapter '%s'$RESET\n" "$chapter"
 }
 
 remote_git_dir=.git/my-origin
