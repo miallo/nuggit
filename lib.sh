@@ -148,10 +148,16 @@ store_nuggits() {
 
 debug_hooks() {
     path_to_git_hooks="${1:-.git}/hooks"
-    for hook in "$path_to_git_hooks/"*; do
-        printf '#/usr/bin/env bash\necho "$0: $@"\n\n' | cat - "$hook" > "$hook.bak"
-        mv "$hook.bak" "$hook"
-        chmod +x "$hook"
+    # First add all hooks
+    while read -r hook; do
+        printf '#/usr/bin/env bash\necho "$0: $@"\n' > "$path_to_git_hooks/$hook.orig"
+        chmod +x "$path_to_git_hooks/$hook.orig"
+    done < "$DOCDIR/all-git-hooks"
+    # Now overwrite those we need
+    for file in "$DOCDIR/hooks/"*; do
+        hook="$(basename "$file")"
+        printf '#/usr/bin/env bash\necho "$0: $@"\n\n' | cat - "$file" > "$path_to_git_hooks/$hook.orig"
+        chmod +x "$path_to_git_hooks/$hook.orig"
     done
 }
 
