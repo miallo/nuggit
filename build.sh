@@ -53,9 +53,7 @@ INITIAL_NUGGITS_HASH="$(git commit-tree "$(printf "" | git mktree)" -m "RootOfAl
 Have a free nuggit!")"
 # NOTE: This intentionally does NOT create `refs/heads/nuggits`, since that would e.g. show up in `git branch --list`.
 # Instead create this "branch" toplevel in `.git/nuggits`
-git update-ref nuggits "$INITIAL_NUGGITS_HASH"
-# Write initial reflog entry for our "branch" to avoid dangling references
-initialise_reflog "nuggits" "nuggits" "commit (initial): RootOfAllNuggits"
+git update-ref --create-reflog nuggits "$INITIAL_NUGGITS_HASH" -m "commit (initial): RootOfAllNuggits"
 
 store_nuggits
 ALMOST_CREDITS_HASH="$(remote_hash_object_write "$DOCDIR/almost_credits.txt")"
