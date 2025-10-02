@@ -41,7 +41,7 @@ and then you are ready!
 - pull
 - log
 - rebase
-- (merge) <= only explained, but not interactively
+- merge
 - cherry-pick
 - reset (--hard/--soft)
 - restore (--staged/--source)

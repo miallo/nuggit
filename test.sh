@@ -211,6 +211,11 @@ expect 'eval "\$restore_source_command"' error to contain "nuggit: SourceOfAllEv
 redeem_nuggit SourceOfAllEvil
 EOF
 
+it 'chapter merge' <<EOF
+expect "eval '\$(get_sh_codeblock merge.md)'" error to contain "nuggit: MergersAndAcquisitions"
+redeem_nuggit MergersAndAcquisitions
+EOF
+
 it 'An invalid nuggit should show an error' '
 expect "git nuggit redeem NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
 expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."

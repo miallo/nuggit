@@ -115,6 +115,16 @@ commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter merge
+git switch --detach main
+CHAPTER_MERGE_FOLLOW="--allow-unrelated-histories $END_COMMIT"
+replace CHAPTER_MERGE_FOLLOW "$DOCDIR/13_merge/merge.md" > merge.md
+git add merge.md
+commit -m 'Add description on `git merge`'
+CHAPTER_RESTORE_SOURCE_FOLLOW="$(git rev-parse --short @)"
+CHAPTER_RESTORE_SOURCE_FILE="merge.md"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter restore staged
 git switch --detach main
 cp "$DOCDIR/12_restore/restore-staged.md" .
@@ -124,8 +134,6 @@ CHAPTER_RESET_SOFT_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter 'restore source'
-CHAPTER_RESTORE_SOURCE_FOLLOW="$END_COMMIT"
-CHAPTER_RESTORE_SOURCE_FILE="success.md"
 CHAPTER_RESTORE_FILE='restore-staged.md'
 
 # ------------------------------------------------------------------------------------------- #

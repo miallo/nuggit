@@ -4,7 +4,6 @@
 - commit --amend
 - restore (ours/theirs)
 - nomenclature of HEAD/repository/^/~/@{u}/...
-- merge
 - (clone - hard to do sensibly)
 - range-diff
 

@@ -17,6 +17,9 @@ fi
 if is_triggered_by cherry-pick; then
   exit 0
 fi
+if is_triggered_by merge; then
+  exit 0
+fi
 if is_triggered_by "reset --hard"; then
   echo nuggit: HardBreakHotel
   exit 0
