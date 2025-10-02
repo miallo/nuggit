@@ -115,9 +115,17 @@ commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter restore staged
+git switch --detach main
+cp "$DOCDIR/12_restore/restore-staged.md" .
+git add restore-staged.md
+commit -m 'Add description on `git restore --staged`'
+CHAPTER_RESET_SOFT_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter reset soft
 git switch --detach main
-sed "s/CHAPTER_RESET_SOFT_FOLLOW/$END_COMMIT/" "$DOCDIR/11_reset/reset-soft.md" > reset-soft.md
+replace CHAPTER_RESET_SOFT_FOLLOW "$DOCDIR/11_reset/reset-soft.md" > reset-soft.md
 git add reset-soft.md
 commit -m 'Describe `git reset --soft`'
 CHAPTER_RESET_HARD_FOLLOW="$(git rev-parse --short @)"

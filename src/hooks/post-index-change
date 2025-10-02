@@ -21,6 +21,10 @@ if is_triggered_by "reset --hard"; then
   echo nuggit: HardBreakHotel
   exit 0
 fi
+if is_triggered_by "restore --staged"; then
+  echo nuggit: StagingAReputationRestoration
+  exit 0
+fi
 
 working_dir_updated="$1"
 if [[ "$working_dir_updated" == 1 ]]; then

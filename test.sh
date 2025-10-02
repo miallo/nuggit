@@ -188,8 +188,14 @@ EOF
 
 it 'chapter reset --soft' <<EOF
 expect 'eval \$(get_sh_codeblock reset-soft.md)' error to contain "nuggit: SoftSkills"
-expect 'git restore --staged --worktree success.md 2>&1' to succeed
 redeem_nuggit SoftSkills
+EOF
+
+
+it 'chapter restore --staged' <<EOF
+restore_staged_command="\$(get_sh_codeblock <(git diff --staged -- restore-staged.md | sed "s/^.\\{1\\}//"))"
+expect 'eval "\$restore_staged_command"' error to contain "nuggit: StagingAReputationRestoration"
+redeem_nuggit StagingAReputationRestoration
 EOF
 
 it 'An invalid nuggit should show an error' '
