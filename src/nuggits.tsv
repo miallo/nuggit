@@ -20,4 +20,5 @@ PullMeUnder	`git pull` downloads the latest commits from the server and will app
 HardBreakHotel	`git reset --hard <COMMIT/BRANCH>` will remove all your changes and point the current branch to the new commit	When things don’t go as planned, just hit the reset button on your hopes! 🔙
 SoftSkills	`git reset --soft <COMMIT/BRANCH>` keeps your changes, but removes commits from the history (or depending on what you call it with it can actually add them, too…)	I’m working on my soft skills - like making people laugh with puns! 🤪
 StagingAReputationRestoration	`git restore --staged <FILE>` allows you to unstage changes	Do you feel unsure about commitment? ♻️
+SourceOfAllEvil	`git restore --source <FILE>` allows you to get the content of a file as it is in a different commit	Now this is Source Code! ♨️
 ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!

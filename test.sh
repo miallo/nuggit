@@ -194,8 +194,15 @@ EOF
 
 it 'chapter restore --staged' <<EOF
 restore_staged_command="\$(get_sh_codeblock <(git diff --staged -- restore-staged.md | sed "s/^.\\{1\\}//"))"
-expect 'eval "\$restore_staged_command"' error to contain "nuggit: StagingAReputationRestoration"
+restore_staged_output="\$(eval "\$restore_staged_command" 2>&1)"
+expect 'echo "\$restore_staged_output"' to contain "nuggit: StagingAReputationRestoration"
 redeem_nuggit StagingAReputationRestoration
+EOF
+
+it 'chapter restore --source' <<EOF
+restore_source_command="\$(get_sh_codeblock <(echo "\$restore_staged_output"))"
+expect 'eval "\$restore_source_command"' error to contain "nuggit: SourceOfAllEvil"
+redeem_nuggit SourceOfAllEvil
 EOF
 
 it 'An invalid nuggit should show an error' '

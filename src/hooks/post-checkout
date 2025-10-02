@@ -4,6 +4,14 @@ PREV_HEAD="$1"
 NEXT_REF="$2"
 IS_SWITCH="$3"
 
+# is_triggered_by replaced by build setup, stub for shellcheck:
+is_triggered_by() { :; }
+
+if is_triggered_by "restore --source"; then
+  echo 'nuggit: SourceOfAllEvil'
+  exit
+fi
+
 # switched to my-new-branch
 if [ "$(git rev-parse --abbrev-ref HEAD)" = "my-new-branch" ] && [ "$IS_SWITCH" = 1 ]; then
     echo "nuggit: MyFirstBranch"

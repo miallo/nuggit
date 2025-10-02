@@ -22,7 +22,12 @@ if is_triggered_by "reset --hard"; then
   exit 0
 fi
 if is_triggered_by "restore --staged"; then
-  echo nuggit: StagingAReputationRestoration
+  echo 'nuggit: StagingAReputationRestoration
+
+You can also restore a file from a different commit:
+```sh
+git restore --source CHAPTER_RESTORE_SOURCE_FOLLOW -- CHAPTER_RESTORE_SOURCE_FILE
+```'
   exit 0
 fi
 
