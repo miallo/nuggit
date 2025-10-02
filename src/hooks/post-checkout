@@ -11,6 +11,20 @@ if is_triggered_by "restore --source"; then
   echo 'nuggit: SourceOfAllEvil'
   exit
 fi
+# keep quiet
+if is_triggered_by "restore --staged"; then
+  exit
+fi
+# plain restore has to come after "--source" test!
+if is_triggered_by "restore"; then
+  echo 'nuggit: PretendYouDidntDoIt
+
+You can also restore a file from a different commit:
+```sh
+git restore --source CHAPTER_RESTORE_SOURCE_FOLLOW -- CHAPTER_RESTORE_SOURCE_FILE
+```'
+  exit
+fi
 
 # switched to my-new-branch
 if [ "$(git rev-parse --abbrev-ref HEAD)" = "my-new-branch" ] && [ "$IS_SWITCH" = 1 ]; then

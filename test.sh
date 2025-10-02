@@ -191,7 +191,6 @@ expect 'eval \$(get_sh_codeblock reset-soft.md)' error to contain "nuggit: SoftS
 redeem_nuggit SoftSkills
 EOF
 
-
 it 'chapter restore --staged' <<EOF
 restore_staged_command="\$(get_sh_codeblock <(git diff --staged -- restore-staged.md | sed "s/^.\\{1\\}//"))"
 restore_staged_output="\$(eval "\$restore_staged_command" 2>&1)"
@@ -199,8 +198,15 @@ expect 'echo "\$restore_staged_output"' to contain "nuggit: StagingAReputationRe
 redeem_nuggit StagingAReputationRestoration
 EOF
 
+it 'chapter restore' <<EOF
+restore_command="\$(get_sh_codeblock <(echo "\$restore_staged_output"))"
+restore_output="\$(eval "\$restore_command" 2>&1)"
+expect 'echo "\$restore_output"' to contain "nuggit: PretendYouDidntDoIt"
+redeem_nuggit PretendYouDidntDoIt
+EOF
+
 it 'chapter restore --source' <<EOF
-restore_source_command="\$(get_sh_codeblock <(echo "\$restore_staged_output"))"
+restore_source_command="\$(get_sh_codeblock <(echo "\$restore_output"))"
 expect 'eval "\$restore_source_command"' error to contain "nuggit: SourceOfAllEvil"
 redeem_nuggit SourceOfAllEvil
 EOF

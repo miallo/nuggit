@@ -2,7 +2,7 @@
 
 - status (basics are explained, but not in depth...)
 - commit --amend
-- restore
+- restore (ours/theirs)
 - nomenclature of HEAD/repository/^/~/@{u}/...
 - merge
 - (clone - hard to do sensibly)

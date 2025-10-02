@@ -44,6 +44,7 @@ and then you are ready!
 - (merge) <= only explained, but not interactively
 - cherry-pick
 - reset (--hard/--soft)
+- restore (--staged/--source)
 
 ## debugging
 

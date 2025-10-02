@@ -24,10 +24,14 @@ fi
 if is_triggered_by "restore --staged"; then
   echo 'nuggit: StagingAReputationRestoration
 
-You can also restore a file from a different commit:
+To restore changes from files that you have not committed, run
 ```sh
-git restore --source CHAPTER_RESTORE_SOURCE_FOLLOW -- CHAPTER_RESTORE_SOURCE_FILE
+git restore -- CHAPTER_RESTORE_FILE
 ```'
+  exit 0
+fi
+# keep quiet
+if is_triggered_by "restore"; then
   exit 0
 fi
 

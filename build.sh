@@ -126,6 +126,7 @@ CHAPTER_RESET_SOFT_FOLLOW="$(git rev-parse --short @)"
 create_chapter 'restore source'
 CHAPTER_RESTORE_SOURCE_FOLLOW="$END_COMMIT"
 CHAPTER_RESTORE_SOURCE_FILE="success.md"
+CHAPTER_RESTORE_FILE='restore-staged.md'
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter reset soft
@@ -248,7 +249,7 @@ is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub f
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
 
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE "$DOCDIR/hooks/$file" |
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE "$DOCDIR/hooks/$file" |
     sed "/$is_triggered_by_placeholder/ {n;d;}" |
     sed "/$is_triggered_by_placeholder/{
         s/$is_triggered_by_placeholder//g
