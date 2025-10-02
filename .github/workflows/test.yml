@@ -12,7 +12,7 @@ jobs:
       - name: build
         run: ./build.sh
       - name: shellcheck built files
-        run: shellcheck tutorial/.git/redeem.nuggit tutorial/.git/hooks/* tutorial/.git/*.sh
+        run: shellcheck tutorial/.git/redeem.nuggit tutorial/.git/nuggit-src/hooks/* tutorial/.git/*.sh
       - name: run tests
         run: ./test.sh -v
 

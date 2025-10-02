@@ -91,12 +91,6 @@ remove_build_setup_from_config() {
     git config --local --remove-section user
 }
 
-add_player_config() {
-    git config --local --add alias.redeem-nuggit '!$(git rev-parse --show-toplevel)/.git/redeem.nuggit'
-    git config --local --add alias.skip-to-nuggit-chapter '!$(git rev-parse --show-toplevel)/.git/skip_to_chapter.sh'
-    git config --local --add alias.nuggit-progress '!$(git rev-parse --show-toplevel)/.git/progress.sh'
-}
-
 # Useage:
 # replace MV_VAR1 MY_VAR2 [...] input_file > output_file
 replace () {
@@ -147,7 +141,7 @@ store_nuggits() {
 }
 
 debug_hooks() {
-    path_to_git_hooks="${1:-.git}/hooks"
+    path_to_git_hooks="${1:-.git/nuggit-src}/hooks"
     # First add all hooks
     while read -r hook; do
         printf '#/usr/bin/env bash\necho "$0: $@"\n' > "$path_to_git_hooks/$hook.orig"

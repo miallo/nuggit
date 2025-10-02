@@ -1,3 +1,4 @@
+ReadTheDocs	Up to a great start! Let's goooooooo!	Ready, steady, go! 🏁
 LocalCodeExecution	Hooks under .git/hooks can be used to do lots of things, like running a code formatter before committing, or executing arbitrary code.	Not bad! You must be a little bit paranoid and at the same time know a lot about git 😜
 TheStageIsYours	`git diff --staged` shows the changes that would be included if you run `git commit` right now.	The stage is yours! 🎤
 BigCommitment	`git commit` creates a new 'save point' including the changes mentioned in `git diff --staged`.	Creating a check point... 🧾

@@ -14,7 +14,7 @@
 - tag (interactively)
 - revert
 - config
-    - alias (explains redeem-nuggit)
+    - alias (explains "nuggit redeem")
 - submodule
 - rm / mv
 - worktree

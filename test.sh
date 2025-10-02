@@ -23,31 +23,32 @@ check_redeem_without_local_code_execution() {
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
         [ "$nuggit" != LocalCodeExecution ] || continue
         [ "$nuggit" != TheStageIsYours ] || continue # we want to do this after all the others, so we see that this is the first time that the "You almost got it" text is shown
-        expect "git redeem-nuggit '$nuggit'" not to contain "You almost got it"
+        expect "git nuggit redeem '$nuggit'" not to contain "You almost got it"
     done < "$DOCDIR/nuggits.tsv"
     # the second last nuggit should show the "Almost got it" text and resubmitting should show the same
-    expect "git redeem-nuggit TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
-    expect "git redeem-nuggit TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
+    expect "git nuggit redeem TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
+    expect "git nuggit redeem TheStageIsYours" to contain "You almost got it! There is only a single nuggit left to redeem..."
 }
 
-it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' '
-expect "git commit -am \"Just a test to trigger hooks\" 2>/dev/null" to succeed
-expect "git redeem-nuggit LocalCodeExecution" error to contain "Unfortunately that is not a valid nuggit"
+it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' <<EOF
+expect 'eval "\$(get_sh_codeblock README.md)"' to succeed
+expect 'git commit -am "Just a test to trigger hooks" 2>/dev/null' to succeed
+expect "git nuggit redeem LocalCodeExecution" error to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
-'
+EOF
 
 extract_chapter_number() {
-    git skip-to-nuggit-chapter <<< q | sed -r "s/([0-9]+)\\)\t$1/\\1/gp;d"
+    git nuggit skip-to-chapter <<< q | sed -r "s/([0-9]+)\\)\t$1/\\1/gp;d"
 }
 
-it 'git skip-to-nuggit-chapter should work' <<EOF
-expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number branches)" 2>&1' to succeed
+it 'git nuggit skip-to-chapter should work' <<EOF
+expect 'git nuggit skip-to-chapter <<< "\$(extract_chapter_number branches)" 2>&1' to succeed
 expect '[ -f branch.md ]' to succeed
-expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number "push\\/pull")" 2>&1' to succeed
+expect 'git nuggit skip-to-chapter <<< "\$(extract_chapter_number "push\\/pull")" 2>&1' to succeed
 expect "git push 2>&1" to succeed
-expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number log)" 2>&1' to succeed
+expect 'git nuggit skip-to-chapter <<< "\$(extract_chapter_number log)" 2>&1' to succeed
 expect '[ -f log.md ]' to succeed
-expect 'git skip-to-nuggit-chapter <<< "\$(extract_chapter_number cherry-pick)" 2>&1' to succeed
+expect 'git nuggit skip-to-chapter <<< "\$(extract_chapter_number cherry-pick)" 2>&1' to succeed
 expect '[ -f cherry-pick.md ]' to succeed
 EOF
 
@@ -56,9 +57,17 @@ build_challenge
 echo "Running tests..."
 
 redeem_nuggit() {
-    expect "git redeem-nuggit '$1'" to contain Success
+    expect "git nuggit redeem '$1'" to contain Success
     expect "git show nuggits" to contain "$1"
 }
+
+it 'ReadTheDocs should start the game' <<EOF
+expect "[ -e first-steps-with-git.md ]" not to succeed
+expect "cat README.md" to contain "nuggit: ReadTheDocs"
+expect 'eval "\$(get_sh_codeblock README.md)"' to succeed
+expect "git show nuggits" to contain "ReadTheDocs"
+expect "[ -e first-steps-with-git.md ]" to succeed
+EOF
 
 it 'LocalCodeExecution nuggit in hooks' '
 expect "cat .git/hooks/*" to contain "nuggit: LocalCodeExecution"
@@ -184,9 +193,9 @@ redeem_nuggit SoftSkills
 EOF
 
 it 'An invalid nuggit should show an error' '
-expect "git redeem-nuggit NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
-expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."
-expect "git redeem-nuggit NotANuggit" error to contain "It still isn'\''t a valid answer..."
+expect "git nuggit redeem NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
+expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
+expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
 '
 
 it 'CuriosityKilledTheCat in redeem script' '
@@ -202,9 +211,9 @@ redeem_nuggit ThisWasATriumph
 check_redeem() {
     while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
-        expect "git redeem-nuggit '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
-        expect "git redeem-nuggit '$nuggit'" to contain "already redeemed"
-        expect "git redeem-nuggit '$nuggit'" not to contain Success
+        expect "git nuggit redeem '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
+        expect "git nuggit redeem '$nuggit'" to contain "already redeemed"
+        expect "git nuggit redeem '$nuggit'" not to contain Success
         expect "git log nuggits" to contain "$nuggit"
     done < "$DOCDIR/nuggits.tsv"
 }

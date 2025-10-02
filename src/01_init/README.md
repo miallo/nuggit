@@ -12,12 +12,12 @@ Q: What is a nuggit?
 A: A nuggit is almost like a nugget a small golden piece, but with more git in it! It is a single word, e.g. "TestNuggit" and you will always find it in the format "nuggit: TestNuggit".
 
 Q: How do I redeem a nuggit?
-A: Just run `git redeem-nuggit <name of the nuggit>` - it will show you if you are correct or not. (No, redeem-nuggit is not a builtin git command, but an "alias" in this repository, we'll come to that later...)
+A: Just run `git nuggit redeem <name of the nuggit>` - it will show you if you are correct or not. (No, "nuggit" is not a builtin git command, but an "alias" that was set up in this repository, we'll come to that later...)
 
 Q: What custom commands are there for nuggits?
 A: The commands that will only work in this project are:
-- `git redeem-nuggit <name of the nuggit>` - submit a nuggit
-- `git nuggit-progress` - get an overview of how many nuggits you already collected
+- `git nuggit redeem <name of the nuggit>` - submit a nuggit
+- `git nuggit progress` - get an overview of how many nuggits you already collected
 - `git log nuggits` - list all the nuggits you have found including a short summary of what the command does you got it for.
 
 Q: Why you get this folder in this way instead of the usual `git clone <url>`?
@@ -47,6 +47,14 @@ In some places you might need to use a command that you previously learned, but 
 
 If you encounter a situation, where you don't know what to do: [open an issue](https://github.com/miallo/nuggit/issues/new).
 
-If you already know about certain git features, you can run `git skip-to-nuggit-chapter` to be presented with a list of places of the tutorial to jump to. Note: you will not collect the nuggits you skipped ;)
+If you already know about certain git features, you can run `git nuggit skip-to-chapter` to be presented with a list of places of the tutorial to jump to. Note: you will not collect the nuggits you skipped ;)
 
-Let's start looking at [./first-steps-with-git.md](./first-steps-with-git.md)
+Now lets start with redeeming your first
+```
+nuggit: ReadTheDocs
+```
+to set things up:
+
+```sh
+git nuggit redeem ReadTheDocs
+```

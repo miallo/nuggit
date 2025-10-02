@@ -204,35 +204,18 @@ create_chapter log
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter diff
-git switch main
-cp "$DOCDIR/01_init/first-steps-with-git.md" .
-# uncommitted changes/status
-# Needs to be second to last (only before hooks), so that the uncommitted changes are available initially
-cat "$DOCDIR/02_status_diff/status.md" >> first-steps-with-git.md
-{
-    cat "$DOCDIR/03_commit/add.md"
-    echo # newline for readability
-    cat "$DOCDIR/03_commit/commit.md"
-} >> first-steps-with-git.md
-git add first-steps-with-git.md
-commit -m 'first-steps-with-git: add explanation on status and diff'
-
-# tmp file, because gnused and MacOS/FreeBSD sed handle "-i" differently
-# `{N;N;d:}` for deleting the following (empty) line as well
-sed -e "/$(head -n 1 "$DOCDIR/03_commit/commit.md")/,+$(wc -l < "$DOCDIR/03_commit/commit.md")d" first-steps-with-git.md > tmp
-mv tmp first-steps-with-git.md
-# num_of_diff_staged_commit_lines="$(( $(wc -l < tmp) - $(wc -l < "$DOCDIR/03_commit/commit.md") + 1))"
-# sed "$num_of_diff_staged_commit_lines,$ d" tmp > first-steps-with-git.md
-git add first-steps-with-git.md
-num_of_diff_commit_lines="$(( $(wc -l < first-steps-with-git.md) - $(wc -l < "$DOCDIR/03_commit/add.md")))"
-sed "$num_of_diff_commit_lines,$ d" first-steps-with-git.md > tmp
-mv tmp first-steps-with-git.md
+# this is only done in the nuggit script on calling `start` - no setup here…
+mkdir -p .git/nuggit-src
+cp "$DOCDIR/02_status_diff/"* .git/nuggit-src/
+cp "$DOCDIR/03_commit/"* .git/nuggit-src/
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter finalize setup
+git switch main
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
-add_player_config
+
+git config --local --add alias.nuggit '!$(git rev-parse --show-toplevel)/.git/nuggit.sh'
 
 # origin hooks
 rm ".git/my-origin/hooks/"* # get rid of all the ".sample" files
@@ -241,32 +224,26 @@ cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 mkdir ".git/another-downstream/docdir"
 cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 
-# Scripts for aliases
-replace CHAPTER_INTERACTIVE_REBASE_FOLLOW CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/skip_to_chapter.sh" > .git/skip_to_chapter.sh
-chmod +x .git/skip_to_chapter.sh
-replace NUMBER_OF_NUGGITS "$DOCDIR/progress.sh" > .git/progress.sh
-chmod +x .git/progress.sh
+replace NUMBER_OF_NUGGITS CHAPTER_INTERACTIVE_REBASE_FOLLOW CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/nuggit.sh" > .git/nuggit.sh
+chmod +x .git/nuggit.sh
 
-# hooks (should be installed last, since they are self-mutating and would be called e.g. by `git commit`)
 rm .git/hooks/* # remove all the .sample files, since they are just noise
+mkdir -p .git/nuggit-src/hooks
 
+# search for text and then drop next line; afterwards replace placeholder with is_triggered_by-file content
+is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub for shellcheck\:'
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
 
-    # search for text and then drop next line; afterwards replace placeholder with is_triggered_by-file content
-    is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub for shellcheck\:'
-
     replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW "$DOCDIR/hooks/$file" |
-        sed "/$is_triggered_by_placeholder/ {n;d;}" |
-        sed "/$is_triggered_by_placeholder/{
-            s/$is_triggered_by_placeholder//g
-            r $DOCDIR/hook_is_triggered_by.sh"'
-          }' > ".git/hooks/$file.orig"
-    chmod +x ".git/hooks/$file.orig"
+    sed "/$is_triggered_by_placeholder/ {n;d;}" |
+    sed "/$is_triggered_by_placeholder/{
+        s/$is_triggered_by_placeholder//g
+        r $DOCDIR/hook_is_triggered_by.sh"'
+    }' > ".git/nuggit-src/hooks/$file.orig"
 done
 while read -r hook; do
-    replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/hooks/$hook"
-    chmod +x ".git/hooks/$hook"
+  replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/nuggit-src/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
 # debug_hooks
 # Did you read the comment above that installing the hooks should be last?
