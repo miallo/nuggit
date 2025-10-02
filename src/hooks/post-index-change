@@ -1,9 +1,4 @@
 #!/usr/bin/env bash
-# Check if all tracked files are staged
-if git diff --name-only | grep -q .; then
-  exit 0
-fi
-
 if ! command -v ps >/dev/null 2>&1; then
     echo '`ps` could not be found'
     exit 1
@@ -30,6 +25,11 @@ fi
 working_dir_updated="$1"
 if [[ "$working_dir_updated" == 1 ]]; then
   # in case of `git switch`
+  exit 0
+fi
+
+# Check if all tracked files are staged
+if git diff --name-only | grep -q .; then
   exit 0
 fi
 
