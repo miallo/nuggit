@@ -1,8 +1,14 @@
 #!/usr/bin/env bash
 
+echo
+echo
 echo "nuggit: PushItToTheLimits"
 if [ "$1" = "refs/heads/working-with-others" ]; then
+    echo
+    echo
     echo 'To get the latest changes, run `git pull`'
+    echo
+    echo
     if ! git log --format=%B -n 2 "refs/heads/working-with-others" | grep -q pull; then
         # create_chapter pull
         (
