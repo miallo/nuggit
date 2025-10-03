@@ -13,6 +13,8 @@ The tutorial itself is only in the folder "tutorial" that can be build (see belo
 Also: If you are playing for the "nuggits" (like CTF flags some strings that you can redeem to track your progress) don't snoop around in the .git-Folder unless explicitly told - it'll spoil the fun for you and as said before: you can find (almost) all flags by using git commands only ;)
 
 Build instructions:
+- [install Rust](https://rust-lang.org/tools/install/)
+- run:
 ```sh
 git clone https://github.com/miallo/nuggit.git
 cd nuggit
