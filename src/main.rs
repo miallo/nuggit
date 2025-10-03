@@ -1,8 +1,8 @@
-use git2::{Error, Repository, RepositoryInitOptions};
-use std::{fs::remove_dir_all, path::Path};
+use git2::{self, Error, Repository, RepositoryInitOptions};
+use std::{self, fs::remove_dir_all, path::Path};
 
 mod nuggits;
-use nuggits::{write_nuggits_to_tsv};
+use nuggits::{NUGGITS, write_nuggits_to_tsv};
 
 fn reproducibility_setup(repo: &Repository, suffix: Option<&str>) -> Result<(), Error> {
     let mut config = repo.config()?;
@@ -34,6 +34,36 @@ fn create_origin(repo: &Repository, repo_path: &str) -> Result<Repository, Error
     Ok(remote_repo)
 }
 
+fn create_nuggits_ref(repo: &Repository) -> Result<git2::Oid, Error> {
+    let mut index = repo.index()?;
+    let tree_oid = index.write_tree()?;
+    let tree = repo.find_tree(tree_oid)?;
+    let signature = git2::Signature::new(
+        "Nuggit Challenge",
+        "nuggit@lohmann.sh",
+        &git2::Time::new(1112911993, 0),
+    )?;
+    let commit_oid = repo.commit(
+        None,       // no ref to update
+        &signature, // Author
+        &signature, // Committer
+        "RootOfAllNuggits
+
+Have a free nuggit!",
+        &tree,
+        &[], // No parents for the commit
+    )?;
+    Ok(commit_oid)
+}
+
+fn store_nuggits(_repo: &Repository) -> Result<(), Error> {
+    for nuggit in NUGGITS {
+        print!("{} ", nuggit.name);
+        // println!("{}: {} => {}", nuggit.name, nuggit.description, nuggit.success_message);
+    }
+    Ok(())
+}
+
 fn main() {
     let repo_path = "./tutorial";
     let _ = remove_dir_all(repo_path);
@@ -45,4 +75,6 @@ fn main() {
     reproducibility_setup(&repo, None).unwrap();
     let _remote_repo = create_origin(&repo, repo_path).unwrap();
     write_nuggits_to_tsv().unwrap();
+    let _nuggits_ref_oid = create_nuggits_ref(&repo).unwrap();
+    store_nuggits(&repo).unwrap();
 }
