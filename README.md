@@ -8,6 +8,8 @@ This tutorial takes a different approach: you will learn git by using it. Comman
 The tutorial lives in the "*tutorial*" folder (see build instructions below). Since it contains spoilers, **don't explore the rest of this repo** (like the src folder) until you are done with the play through!
 
 Build instructions:
+- [install Rust](https://rust-lang.org/tools/install/)
+- run:
 ```sh
 git clone https://github.com/miallo/nuggit.git
 cd nuggit

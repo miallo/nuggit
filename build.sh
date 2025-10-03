@@ -21,31 +21,17 @@ trap on_error TERM ABRT QUIT ERR EXIT
 
 shopt -s extglob
 
-if [ -e "$destination" ]; then
-    if [ "$delete_existing_dir" = true ]; then
-        rm -rf "$destination"
-    else
-        warn "'$destination' already exists. moving to ${destination}2..."
-        rm -rf "${destination}2"
-        mv "$destination" "${destination}2"
-    fi
-fi
-
-
 # ------------------------------------------------------------------------------------------- #
 create_chapter "add warning alias to root project!"
 git config --local --get alias.nuggit >/dev/null || git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
-git init "${git_init_params[@]}" tutorial
-cd tutorial
-reproducibility_setup
 
-# ------------------------------------------------------------------------------------------- #
-create_chapter origin
-git init --bare "${git_init_params[@]}" ./.git/my-origin
-git remote add origin ./.git/my-origin
+cargo run
+
+cd tutorial
+git switch -c main
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter store nuggits
@@ -218,6 +204,11 @@ commit -m "Explain 'git push'"
 create_chapter log
 (
     cd .git
+    echo HEAD:
+    cat ./my-origin/HEAD
+    echo
+    echo heads:
+    ls ./my-origin/refs/heads
     git clone ./my-origin another-downstream
     cd another-downstream
     reproducibility_setup 2
