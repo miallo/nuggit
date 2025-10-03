@@ -1,6 +1,9 @@
 use git2::{Error, Repository, RepositoryInitOptions};
 use std::{fs::remove_dir_all, path::Path};
 
+mod nuggits;
+use nuggits::{write_nuggits_to_tsv};
+
 fn reproducibility_setup(repo: &Repository, suffix: Option<&str>) -> Result<(), Error> {
     let mut config = repo.config()?;
 
@@ -41,4 +44,5 @@ fn main() {
 
     reproducibility_setup(&repo, None).unwrap();
     let _remote_repo = create_origin(&repo, repo_path).unwrap();
+    write_nuggits_to_tsv().unwrap();
 }
