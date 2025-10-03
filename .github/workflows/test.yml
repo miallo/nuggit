@@ -10,7 +10,7 @@ jobs:
       - name: shellcheck original files
         run: shellcheck *.sh **/*.sh
       - name: build
-        run: ./build.sh
+        run: ./build.sh -v -v
       - name: shellcheck built files
         run: shellcheck tutorial/.git/redeem.nuggit tutorial/.git/nuggit-src/hooks/* tutorial/.git/*.sh
       - name: run tests
