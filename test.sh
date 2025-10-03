@@ -31,7 +31,7 @@ check_redeem_without_local_code_execution() {
 }
 
 it 'LocalCodeExecution should be nonexistent/unredeamable after the trap got triggered' <<EOF
-expect 'eval "\$(get_sh_codeblock README.md)"' to succeed
+expect "\$(get_sh_codeblock README.md)" to succeed
 expect 'git commit -am "Just a test to trigger hooks" 2>/dev/null' to succeed
 expect "git nuggit redeem LocalCodeExecution" error to contain "Unfortunately that is not a valid nuggit"
 check_redeem_without_local_code_execution
@@ -64,7 +64,7 @@ redeem_nuggit() {
 it 'ReadTheDocs should start the game' <<EOF
 expect "[ -e first-steps-with-git.md ]" not to succeed
 expect "cat README.md" to contain "nuggit: ReadTheDocs"
-expect 'eval "\$(get_sh_codeblock README.md)"' to succeed
+expect "\$(get_sh_codeblock README.md)" to succeed
 expect "git show nuggits" to contain "ReadTheDocs"
 expect "[ -e first-steps-with-git.md ]" to succeed
 EOF
@@ -114,7 +114,7 @@ EOF
 
 it 'chapter diff commit' <<EOF
 diff_absolute_command="\$(get_sh_codeblock <(echo "\$commit_message_output"))"
-diff_absolute_output="\$(eval '\$diff_absolute_command')"
+diff_absolute_output="\$(\$diff_absolute_command)"
 expect 'echo "\$diff_absolute_output"' to contain "nuggit: AbsoluteDifferentiable"
 redeem_nuggit AbsoluteDifferentiable
 EOF
@@ -150,7 +150,7 @@ redeem_nuggit PullMeUnder
 
 it 'chapter log' <<EOF
 expect "git switch history -q" to succeed
-expect 'eval "\$(get_sh_codeblock log.md)"' to contain "nuggit: LogCat"
+expect "\$(get_sh_codeblock log.md)" to contain "nuggit: LogCat"
 redeem_nuggit LogCat
 EOF
 
@@ -162,57 +162,57 @@ expect "git switch --detach -q the-first-tag" to succeed
 
 it 'chapter rebase' <<EOF
 # do a rebase
-rebase_output="\$(eval "\$(get_sh_codeblock combine_history.md) 2>&1")"
+rebase_output="\$(\$(get_sh_codeblock combine_history.md) 2>&1)"
 expect 'echo "\$rebase_output"' to contain "nuggit: ItsAllAboutTheRebase"
 expect 'echo "\$rebase_output"' not to contain "nuggit: AddTheTopOfYourGame"
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 
 it 'chapter interactive rebase' <<EOF
-expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" eval "\$(get_sh_codeblock interactive-rebase.md)" 2>&1' to succeed
+expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" \$(get_sh_codeblock interactive-rebase.md) 2>&1' to succeed
 expect 'cat cherry-pick.md' to contain "nuggit: SatisfactionThroughInteraction"
 redeem_nuggit SatisfactionThroughInteraction
 EOF
 
 it 'chapter cherry-pick' <<EOF
-cherry_pick_output="\$(eval \$(get_sh_codeblock cherry-pick.md) 2>&1)"
+cherry_pick_output="\$(\$(get_sh_codeblock cherry-pick.md) 2>&1)"
 expect 'echo \$cherry_pick_output' not to contain "nuggit: AddTheTopOfYourGame"
 expect 'echo \$cherry_pick_output' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
 EOF
 
 it 'chapter reset --hard' <<EOF
-expect 'eval \$(get_sh_codeblock reset-hard.md)' error to contain "nuggit: HardBreakHotel"
+expect "\$(get_sh_codeblock reset-hard.md)" error to contain "nuggit: HardBreakHotel"
 redeem_nuggit HardBreakHotel
 EOF
 
 it 'chapter reset --soft' <<EOF
-expect 'eval \$(get_sh_codeblock reset-soft.md)' error to contain "nuggit: SoftSkills"
+expect "\$(get_sh_codeblock reset-soft.md)" error to contain "nuggit: SoftSkills"
 redeem_nuggit SoftSkills
 EOF
 
 it 'chapter restore --staged' <<EOF
 restore_staged_command="\$(get_sh_codeblock <(git diff --staged -- restore-staged.md | sed "s/^.\\{1\\}//"))"
-restore_staged_output="\$(eval "\$restore_staged_command" 2>&1)"
+restore_staged_output="\$(\$restore_staged_command 2>&1)"
 expect 'echo "\$restore_staged_output"' to contain "nuggit: StagingAReputationRestoration"
 redeem_nuggit StagingAReputationRestoration
 EOF
 
 it 'chapter restore' <<EOF
 restore_command="\$(get_sh_codeblock <(echo "\$restore_staged_output"))"
-restore_output="\$(eval "\$restore_command" 2>&1)"
+restore_output="\$(\$restore_command 2>&1)"
 expect 'echo "\$restore_output"' to contain "nuggit: PretendYouDidntDoIt"
 redeem_nuggit PretendYouDidntDoIt
 EOF
 
 it 'chapter restore --source' <<EOF
 restore_source_command="\$(get_sh_codeblock <(echo "\$restore_output"))"
-expect 'eval "\$restore_source_command"' error to contain "nuggit: SourceOfAllEvil"
+expect "\$restore_source_command" error to contain "nuggit: SourceOfAllEvil"
 redeem_nuggit SourceOfAllEvil
 EOF
 
 it 'chapter merge' <<EOF
-expect "eval '\$(get_sh_codeblock merge.md)'" error to contain "nuggit: MergersAndAcquisitions"
+expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
 redeem_nuggit MergersAndAcquisitions
 EOF
 
