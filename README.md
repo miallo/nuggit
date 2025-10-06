@@ -28,9 +28,14 @@ unzip tutorial.zip
 tar --extract --file=tutorial.tar
 cd tutorial
 ```
-and then you are ready!
+and then you are ready! Let's start by reading the README.md in that folder 😊
 
-## What git functions are already explained?
+
+## Meta
+
+If you just want to learn, you don't need to continue reading 😉
+
+### What git functions are already explained?
 
 - diff (--staged)
 - add
@@ -46,17 +51,17 @@ and then you are ready!
 - reset (--hard/--soft)
 - restore (--staged/--source)
 
-## debugging
+### debugging
 
 By default `./build.sh` does not show the git output to avoid leaking information. If you get an error you can run it again with `-v`/`--verbose`.
 
-# Developing
+## Developing
 
 If you want to work on this, [architecture](./architecture.md) contains a short introduction on how this project is structured.
 
 The main implementation is found in [`./build.sh`](./build.sh). Under `src/` there are many of the text snippets / hooks that are used in build.sh.
 
-## testing
+### testing
 
 To run the tests you simply need to execute:
 ```sh
