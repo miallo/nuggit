@@ -20,6 +20,9 @@ and the fun can begin! The whole "game" will now take place in this folder alone
 
 ## Don't want to build it yourself?
 
+Q: Why can't you get the "tutorial" folder with `git clone <url>` but have to build it?
+A: That is a good question and you will figure out the answer the more you get into the quests (many of which are impossible in a fresh clone)…
+
 Alternatively: If you don't want to run this "build"-script yourself (it basically just executes a bunch of git commands to create the folder "tutorial" and fills it with all the information you need), you can download it:
 ```sh
 curl -L https://nuggit-cache.lohmann.sh/ --output tutorial.zip
