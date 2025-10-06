@@ -31,6 +31,11 @@ if [ -e "$destination" ]; then
     fi
 fi
 
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter "add warning alias to root project!"
+git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
+
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
 git init "${git_init_params[@]}" tutorial
