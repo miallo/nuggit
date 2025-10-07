@@ -25,7 +25,7 @@ A: That is a good question and you will figure out the answer the more you get i
 
 Alternatively: If you don't want to run this "build"-script yourself (it basically just executes a bunch of git commands to create the folder "tutorial" and fills it with all the information you need), you can download it:
 ```sh
-curl -L https://nuggit-cache.lohmann.sh/ --output tutorial.zip
+curl https://nuggit.lohmann.sh/tutorial.zip --output tutorial.zip
 unzip tutorial.zip
 tar --extract --file=tutorial.tar
 cd tutorial
