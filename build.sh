@@ -34,7 +34,7 @@ fi
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter "add warning alias to root project!"
-git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
+git config --local --get alias.nuggit >/dev/null || git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
