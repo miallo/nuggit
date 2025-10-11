@@ -245,7 +245,7 @@ remove_build_setup_from_config
 git config --local --add alias.nuggit '!$(git rev-parse --show-toplevel)/.git/nuggit.sh'
 
 # origin hooks
-rm ".git/my-origin/hooks/"* # get rid of all the ".sample" files
+rm -f ".git/my-origin/hooks/"* # get rid of all the ".sample" files
 cp "$DOCDIR/origin_hooks/"* ".git/my-origin/hooks"
 
 mkdir ".git/another-downstream/docdir"
@@ -254,7 +254,7 @@ cp "$DOCDIR/another-downstream/"* ".git/another-downstream/docdir/"
 replace NUMBER_OF_NUGGITS CHAPTER_INTERACTIVE_REBASE_FOLLOW CHAPTER_CHERRY_PICK_FOLLOW "$DOCDIR/nuggit.sh" > .git/nuggit.sh
 chmod +x .git/nuggit.sh
 
-rm .git/hooks/* # remove all the .sample files, since they are just noise
+rm -f .git/hooks/* # remove all the .sample files, since they are just noise
 mkdir -p .git/nuggit-src/hooks
 
 # search for text and then drop next line; afterwards replace placeholder with is_triggered_by-file content
