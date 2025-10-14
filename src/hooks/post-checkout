@@ -7,6 +7,16 @@ IS_SWITCH="$3"
 # is_triggered_by replaced by build setup, stub for shellcheck:
 is_triggered_by() { :; }
 
+if is_triggered_by "restore --theirs"; then
+  echo "nuggit: MineBrokeTheirsDidnt
+
+If you don't feel comfortable with your changes, you can always run:
+"'```sh
+git cherry-pick --abort
+```'
+  exit 0
+fi
+
 if is_triggered_by "restore --source"; then
   echo 'nuggit: SourceOfAllEvil'
   exit

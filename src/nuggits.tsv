@@ -15,6 +15,9 @@ CuriosityKilledTheCat	You can use git as a data base to store arbitrary things i
 ItsAllAboutTheRebase	`git rebase <COMMIT/BRANCH NAME>` will pretend you did your commits based on the referenced commit/branch to achieve a clean history.	Doesn't cleaning up feel good? 🧹
 SatisfactionThroughInteraction	`git rebase -i <COMMIT/BRANCH NAME>` will allow you to reorder commits or modify them	Let's pretend the past didn't happen! 🏛️
 YoureACherryBlossom	`git cherry-pick <COMMIT>` allows to get the changes from a single commit of a different branch into yours.	I like cherries! 🍒
+MineBrokeTheirsDidnt	`git restore --theirs` restores the files as they are in the commit to be applied.	It's all theirs 👉
+AllAbortTheCherryPickTrain	`git cherry-pick --abort` will abort the cherry pick if it failed.	ABORT! ABORT! 🛑
+MountainCherryRange	`git cherry-pick` can take a list/range of commits too.	A range of emotions 🏔️
 PushItToTheLimits	`git push` uploads the commits from your current branch to the server.	Uploading your mind... 🆙
 PullMeUnder	`git pull` downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
 HardBreakHotel	`git reset --hard <COMMIT/BRANCH>` will remove all your changes and point the current branch to the new commit	When things don’t go as planned, just hit the reset button on your hopes! 🔙

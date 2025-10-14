@@ -12,6 +12,10 @@ is_triggered_by() { :; }
 # this hook is called multiple times, only act on the ORIG_HEAD change
 # (don't use HEAD, since if branch checked out, this does not trigger)
 if cat - | grep -q ' ORIG_HEAD$'; then
+  if is_triggered_by "cherry-pick --abort"; then
+      printf '\nnuggit: AllAbortTheCherryPickTrain\n\nYou can also supply a list (or even range) of commits (and hope you don'\''t get conflicts:\n```sh\ngit cherry-pick CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2\n```\n\n'
+    exit 0
+  fi
   if is_triggered_by "reset --soft"; then
     printf 'nuggit: SoftSkills\n\nHint: `git status` is your friend!\n'
     exit 0

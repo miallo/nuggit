@@ -175,10 +175,29 @@ redeem_nuggit SatisfactionThroughInteraction
 EOF
 
 it 'chapter cherry-pick' <<EOF
-cherry_pick_output="\$(\$(get_sh_codeblock cherry-pick.md) 2>&1)"
-expect 'echo \$cherry_pick_output' not to contain "nuggit: AddTheTopOfYourGame"
-expect 'echo \$cherry_pick_output' to contain "nuggit: YoureACherryBlossom"
+expect "\$(get_sh_codeblock cherry-pick.md) 2>&1" not to succeed
+expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
+EOF
+
+it 'chapter restore --theirs' <<EOF
+restore_theirs_out="\$(git restore --theirs cherry-pick.md 2>&1)"
+expect 'echo "\$restore_theirs_out"' to contain "nuggit: MineBrokeTheirsDidnt"
+redeem_nuggit MineBrokeTheirsDidnt
+EOF
+
+it 'chapter cherry-pick --abort' <<EOF
+cherry_pick_abort_cmd="\$(get_sh_codeblock <(echo "\$restore_theirs_out"))"
+cherry_pick_abort_out="\$(\$cherry_pick_abort_cmd 2>&1)"
+expect 'echo "\$cherry_pick_abort_out"' to contain "nuggit: AllAbortTheCherryPickTrain"
+redeem_nuggit AllAbortTheCherryPickTrain
+EOF
+
+it 'chapter cherry-pick range' <<EOF
+cherry_pick_range_cmd="\$(get_sh_codeblock <(echo "\$cherry_pick_abort_out"))"
+cherry_pick_range_out="\$(\$cherry_pick_range_cmd 2>&1)"
+expect 'cat reset-hard.md' to contain "nuggit: MountainCherryRange"
+redeem_nuggit MountainCherryRange
 EOF
 
 it 'chapter reset --hard' <<EOF

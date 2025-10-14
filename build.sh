@@ -152,9 +152,20 @@ CHAPTER_RESET_HARD_FOLLOW="$(git rev-parse --short @)"
 # ------------------------------------------------------------------------------------------- #
 create_chapter reset hard
 git switch --detach main
-replace CHAPTER_RESET_HARD_FOLLOW "$DOCDIR/11_reset/reset-hard.md" > reset-hard.md
+printf 'nuggit: MountainCherryRange\n\n' > reset-hard.md
 git add reset-hard.md
-commit -m 'Describe `git reset --hard`'
+commit -m 'WIP: add cherry-pick range nuggit'
+CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1="$(git rev-parse --short @)"
+replace CHAPTER_RESET_HARD_FOLLOW "$DOCDIR/11_reset/reset-hard.md" >> reset-hard.md
+commit -m 'Describe `git reset --hard`' -- reset-hard.md
+CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter restore ours
+git switch --detach main
+cp "$DOCDIR/10_cherry_pick/cherry-pick-v2.md" cherry-pick.md
+git add cherry-pick.md
+commit -m 'WIP: Describe cherry-pick and merge conflicts'
 CHAPTER_CHERRY_PICK_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
@@ -262,7 +273,7 @@ is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub f
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
 
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE "$DOCDIR/hooks/$file" |
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks/$file" |
     sed "/$is_triggered_by_placeholder/ {n;d;}" |
     sed "/$is_triggered_by_placeholder/{
         s/$is_triggered_by_placeholder//g

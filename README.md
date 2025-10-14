@@ -48,9 +48,9 @@ Note: for some cursed reason thanks to GitHub, the folder must also be inside of
 - log
 - rebase
 - merge
-- cherry-pick
+- cherry-pick (range/--abort)
 - reset (--hard/--soft)
-- restore (--staged/--source)
+- restore (--staged/--source/--ours)
 
 ## Meta
 
