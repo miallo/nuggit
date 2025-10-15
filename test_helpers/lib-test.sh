@@ -9,7 +9,7 @@ success() {
 }
 
 failure() {
-    printf "\n❌ ${RED_BOLD_ITALIC}%s${RED} failed$RESET" "$1" >&2
+    printf "\n❌ ${RED_BOLD_ITALIC}%s${RED} failed$RESET\n" "$1" >&2
     trap - ERR EXIT # Remove the trap handler, so that it does not call itself
     exit 1
 }
