@@ -140,18 +140,25 @@ store_nuggits() {
     rm tmp
 }
 
+# call with e.g. "test" argument for debugging after triggering the start of the game
 debug_hooks() {
-    path_to_git_hooks="${1:-.git/nuggit-src}/hooks"
+    if [[ -z "$1" ]]; then
+        path_to_git_hooks=".git/nuggit-src/hooks"
+        extension=".orig"
+    else
+        path_to_git_hooks=".git/hooks"
+        extension=""
+    fi
     # First add all hooks
     while read -r hook; do
-        printf '#/usr/bin/env bash\necho "$0: $@"\n' > "$path_to_git_hooks/$hook.orig"
-        chmod +x "$path_to_git_hooks/$hook.orig"
+        printf '#/usr/bin/env bash\necho "$0: $@"\n' > "$path_to_git_hooks/$hook$extension"
+        chmod +x "$path_to_git_hooks/$hook$extension"
     done < "$DOCDIR/all-git-hooks"
     # Now overwrite those we need
     for file in "$DOCDIR/hooks/"*; do
         hook="$(basename "$file")"
-        printf '#/usr/bin/env bash\necho "$0: $@"\n\n' | cat - "$file" > "$path_to_git_hooks/$hook.orig"
-        chmod +x "$path_to_git_hooks/$hook.orig"
+        printf '#/usr/bin/env bash\necho "$0: $@"\n\n' | cat - "$file" > "$path_to_git_hooks/$hook$extension"
+        chmod +x "$path_to_git_hooks/$hook$extension"
     done
 }
 
