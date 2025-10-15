@@ -106,18 +106,18 @@ expect() {
             expect_err "\
 usage:  expect <command> error ${invert_result+not }to contain <string>
 but used with action '$action' other than 'contain':
-        expect $(pretty_escape "$command" ${invert_result+not }to "$action" "$@")"
+        expect $(pretty_escape "$command" ${opt_redir_stderr+error }${invert_result+not }to "$action" "$@")"
         fi
 
         case "$action" in
             contain)
                 if [ $# -ne 1 ]; then
                     expect_err "\
-usage:  expect <command> ${invert_result+not }to contain <string>
+usage:  expect <command> ${opt_redir_stderr+error }${invert_result+not }to contain <string>
 E.g.:
-        expect \"echo hi\" ${invert_result+not }to contain '${invert_result+not }hi'
+        expect \"echo hi\" ${opt_redir_stderr+error }${invert_result+not }to contain '${invert_result+not }hi'
 but got:
-        expect $(pretty_escape "$command" ${invert_result+not }to contain "$@")"
+        expect $(pretty_escape "$command" ${opt_redir_stderr+error }${invert_result+not }to contain "$@")"
                 fi
                 string="$1"
                 output="$(eval "$command $opt_redir_stderr" || :)"
