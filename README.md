@@ -66,6 +66,9 @@ The main implementation is found in [`./build.sh`](./build.sh). Under `src/` the
 
 By default `./build.sh` does not show the git output to avoid leaking information. If you get an error you can run it again with `-v`/`--verbose`.
 
+If you want to get the hooks printed, you can uncomment `debug_hooks` at the end of `./build.sh`.
+Alternatively it can be useful to avoid having to "play the game" to a specific place every time and instead run the tests up to a point. Insert `debug_hooks test && exit` in the testing script at the place where you need it and then take a look at the "tutorial" folder and play the step in question.
+
 ### testing
 
 To run the tests you simply need to execute:
