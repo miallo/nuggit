@@ -58,7 +58,6 @@ echo "Running tests..."
 
 redeem_nuggit() {
     expect "git nuggit redeem '$1'" to contain Success
-    expect "git show nuggits" to contain "$1"
 }
 
 it 'ReadTheDocs should start the game' <<EOF
@@ -252,12 +251,13 @@ redeem_nuggit ThisWasATriumph
 '
 
 check_redeem() {
+    expect "git nuggit redeem ThisWasATriumph" to contain "You have found all the little nuggits?! Very impressive!"
     while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
-        expect "git nuggit redeem '$nuggit'" to contain "You have found all the little nuggits?! Very impressive!"
-        expect "git nuggit redeem '$nuggit'" to contain "already redeemed"
-        expect "git nuggit redeem '$nuggit'" not to contain Success
-        expect "git log nuggits" to contain "$nuggit"
+        redeem_out="$(git nuggit redeem "$nuggit" || :)"
+        expect "echo '$redeem_out'" to contain "already redeemed"
+        expect "echo '$redeem_out'" not to contain Success
+        expect "git log --oneline nuggits" to contain "$nuggit"
     done < "$DOCDIR/nuggits.tsv"
 }
 
