@@ -25,5 +25,6 @@ SoftSkills	`git reset --soft <COMMIT/BRANCH>` keeps your changes, but removes co
 StagingAReputationRestoration	`git restore --staged <FILE>` allows you to unstage changes	Do you feel unsure about commitment? ♻️
 SourceOfAllEvil	`git restore --source <FILE>` allows you to get the content of a file as it is in a different commit	Now this is Source Code! ♨️
 PretendYouDidntDoIt	`git restore <FILE>` undoes all the uncommitted changes to this file	No traces left of your change now! 👣
+ToDoOrToUndo	`git revert <COMMIT>` undoes what a previous commit introduced	You never did any mistake! ↩️
 MergersAndAcquisitions	`git merge <COMMIT/BRANCH>` combines two branches in a different way than rebase	Merge-Party! 🔗
 ThisWasATriumph	You made it through to the end!	This might not even have been 1/1000th of all of the things git can do, but now you know the basics and one can always learn more... Here is the crown you deserve: 👑 Wear it with pride!

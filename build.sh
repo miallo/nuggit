@@ -126,8 +126,19 @@ CHAPTER_MERGE_FOLLOW="--allow-unrelated-histories $END_COMMIT"
 replace CHAPTER_MERGE_FOLLOW "$DOCDIR/13_merge/merge.md" > merge.md
 git add merge.md
 commit -m 'Add description on `git merge`'
+git rm merge.md
+commit -m 'Remove description on `git merge`'
+CHAPTER_REVERT_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter revert
+git switch --detach main
+replace CHAPTER_REVERT_FOLLOW "$DOCDIR/14_revert/revert.md" > revert.md
+git add revert.md
+commit -m 'Add description on `git revert`'
 CHAPTER_RESTORE_SOURCE_FOLLOW="$(git rev-parse --short @)"
-CHAPTER_RESTORE_SOURCE_FILE="merge.md"
+CHAPTER_RESTORE_SOURCE_FILE="revert.md"
+
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter restore staged

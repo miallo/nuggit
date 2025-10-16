@@ -7,6 +7,11 @@ SHA1=$3
 # is_triggered_by replaced by build setup, stub for shellcheck:
 is_triggered_by() { :; }
 
+if is_triggered_by revert; then
+  echo 'nuggit: ToDoOrToUndo'
+  echo
+  exit 0
+fi
 if is_triggered_by merge; then
   exit 0
 fi

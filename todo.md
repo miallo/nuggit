@@ -11,7 +11,6 @@
 
 - add -p
 - tag (interactively)
-- revert
 - config
     - alias (explains "nuggit redeem")
 - submodule

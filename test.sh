@@ -229,6 +229,11 @@ expect "\$restore_source_command" error to contain "nuggit: SourceOfAllEvil"
 redeem_nuggit SourceOfAllEvil
 EOF
 
+it 'chapter revert' <<EOF
+expect "\$(get_sh_codeblock revert.md)" error to contain "nuggit: ToDoOrToUndo"
+redeem_nuggit ToDoOrToUndo
+EOF
+
 it 'chapter merge' <<EOF
 expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
 redeem_nuggit MergersAndAcquisitions
