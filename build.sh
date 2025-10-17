@@ -213,21 +213,28 @@ git switch --detach main
 replace CHAPTER_REBASE_FOLLOW "$DOCDIR/07_rebase_merge/combine_history.md" > combine_history.md
 git add combine_history.md
 commit -m "Add description on how to combine branches"
+git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter tags
+git switch --detach main
 cp "$DOCDIR/08_tags/tags.md" .
 git add tags.md
-commit -m 'Add description on tags
+commit -m 'Add description on tags'
+CHAPTER_LOG_P_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter log -p
+git switch --detach main
+commit --allow-empty -m 'WIP: describe `git log -p`
 
 nuggit: LogIcOfGit
 
 To show the log including the diffs, add "--patch" or in short:
 ```sh
-git log -p the-first-tag
-```
-'
-git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
+git log -p '"$CHAPTER_LOG_P_FOLLOW"'
+```'
+CHAPTER_LOG_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter push
@@ -251,7 +258,7 @@ create_chapter log
     reproducibility_setup 2
 
     git switch main -c history
-    cp "$DOCDIR/06_log/log.md" .
+    replace CHAPTER_LOG_FOLLOW "$DOCDIR/06_log/log.md" > log.md
     git add log.md
     commit -m "Add description on log"
     git push --set-upstream origin @
