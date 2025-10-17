@@ -16,6 +16,9 @@ parse_opts() {
             -f|--force)
                 delete_existing_dir=true
                 ;;
+            -s|--skip-code-exec-tests)
+                skipCodeExecTests=true
+                ;;
             --ref-format=reftable|--object-format=sha256)
                 git_init_params+=("$opt")
                 ;;

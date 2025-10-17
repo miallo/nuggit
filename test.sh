@@ -18,6 +18,8 @@ build_challenge() {
 }
 build_challenge
 
+if [[ -z "$skipCodeExecTests" ]]; then
+
 check_redeem_without_local_code_execution() {
     while read -r line; do
         nuggit="$(printf "%s" "$line" | cut -d "	" -f 1)"
@@ -54,6 +56,7 @@ EOF
 
 cd ..
 build_challenge
+fi
 echo "Running tests..."
 
 redeem_nuggit() {
