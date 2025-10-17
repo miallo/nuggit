@@ -2,7 +2,7 @@
 
 - status (basics are explained, but not in depth...)
 - commit --amend
-- nomenclature of HEAD/repository/^/~/@{u}/...
+- nomenclature of HEAD/repository/^/~/...
 - (clone - hard to do sensibly)
 - (restore --ours - explained but only in passing, not interactively)
 - range-diff

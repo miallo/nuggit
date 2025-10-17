@@ -38,7 +38,7 @@ Note: for some cursed reason thanks to GitHub, the folder must also be inside of
 
 ## Which git functions are already explained?
 
-- diff (--staged)
+- diff (--staged/@{u})
 - add
 - commit (-m)
 - show

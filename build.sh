@@ -237,14 +237,20 @@ git log -p '"$CHAPTER_LOG_P_FOLLOW"'
 CHAPTER_LOG_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
-create_chapter push
+create_chapter upstream
 git switch main -c working-with-others # found via "git branch --list"
 git push origin main
 git push origin the-first-tag
-git push --set-upstream origin @
 cp "$DOCDIR/09_push_pull/push.md" working-with-others.md
 git add working-with-others.md
-commit -m "Explain 'git push'"
+commit -m "Explain working with remote repositories"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter push
+git push --set-upstream origin @
+sed -n '/^nuggit: WhereIsTheLiveStream$/q;p' working-with-others.md > working-with-others.md.bak
+mv working-with-others.md.bak working-with-others.md
+commit -m 'Remove explanation of `git push`' working-with-others.md
 
 # ------------------------------------------------------------------------------------------- #
 # chapter pull, see origin_hooks/post_update

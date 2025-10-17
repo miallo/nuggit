@@ -137,9 +137,16 @@ expect "git switch -c my-new-branch" error to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
 '
 
-it 'chapter push' '
+it 'chapter upstream' '
 expect "git switch -q working-with-others" to succeed
-expect "git push" error to contain "nuggit: PushItToTheLimits"
+diffu_cmd="$(get_sh_codeblock working-with-others.md)"
+expect "$diffu_cmd" to contain "nuggit: WhereIsTheLiveStream"
+redeem_nuggit WhereIsTheLiveStream
+'
+
+it 'chapter push' '
+push_cmd="$(get_sh_codeblock <($diffu_cmd | sed "s/^.//"))"
+expect "$push_cmd" error to contain "nuggit: PushItToTheLimits"
 redeem_nuggit PushItToTheLimits
 '
 

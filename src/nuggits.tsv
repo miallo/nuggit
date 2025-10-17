@@ -19,6 +19,7 @@ YoureACherryBlossom	`git cherry-pick <COMMIT>` allows to get the changes from a 
 MineBrokeTheirsDidnt	`git restore --theirs` restores the files as they are in the commit to be applied.	It's all theirs 👉
 AllAbortTheCherryPickTrain	`git cherry-pick --abort` will abort the cherry pick if it failed.	ABORT! ABORT! 🛑
 MountainCherryRange	`git cherry-pick` can take a list/range of commits too.	A range of emotions 🏔️
+WhereIsTheLiveStream	`git diff @{u}` shows the diff compared to what your repo thinks the "upstream" branch is like	Let's go swimming upstream! 🦦
 PushItToTheLimits	`git push` uploads the commits from your current branch to the server.	Uploading your mind... 🆙
 PullMeUnder	`git pull` downloads the latest commits from the server and will apply them to the branch you are currently on.	Don't feel down for downloading things... You are doing great! 📈
 HardBreakHotel	`git reset --hard <COMMIT/BRANCH>` will remove all your changes and point the current branch to the new commit	When things don’t go as planned, just hit the reset button on your hopes! 🔙
