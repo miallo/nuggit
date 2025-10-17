@@ -1,3 +1,5 @@
+nuggit: LogCat
+
 # Tags
 
 A tag is (like a branch) a human readable way to refer to a specific commit. The difference is that a tag "stays attached" to that commit, even if you check it out and create a new commit (whereas the branch would be updated to point to the new commit). That means that they are useful to tag releases.

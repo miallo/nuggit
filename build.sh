@@ -220,7 +220,13 @@ cp "$DOCDIR/08_tags/tags.md" .
 git add tags.md
 commit -m 'Add description on tags
 
-nuggit: LogCat'
+nuggit: LogIcOfGit
+
+To show the log including the diffs, add "--patch" or in short:
+```sh
+git log -p the-first-tag
+```
+'
 git tag -a the-first-tag -m "nuggit: AnnotateMeIfYouCan"
 
 # ------------------------------------------------------------------------------------------- #

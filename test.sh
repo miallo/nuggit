@@ -149,7 +149,14 @@ redeem_nuggit PullMeUnder
 
 it 'chapter log' <<EOF
 expect "git switch history -q" to succeed
-expect "\$(get_sh_codeblock log.md)" to contain "nuggit: LogCat"
+log_cmd="\$(get_sh_codeblock log.md)"
+expect "\$log_cmd" to contain "nuggit: LogIcOfGit"
+redeem_nuggit LogIcOfGit
+EOF
+
+it 'chapter log -p' <<EOF
+log_out="\$(\$log_cmd | sed "s/^    //")"
+expect "\$(get_sh_codeblock <(echo "\$log_out"))" to contain "nuggit: LogCat"
 redeem_nuggit LogCat
 EOF
 
