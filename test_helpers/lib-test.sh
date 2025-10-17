@@ -9,7 +9,14 @@ success() {
 }
 
 failure() {
-    printf "\n❌ ${RED_BOLD_ITALIC}%s${RED} failed$RESET\nFailing command: ${YELLOW}%s$RESET\nWith exit code %s\n" "$1" "$BASH_COMMAND" "$?" >&2
+    local last_cmd="$BASH_COMMAND"
+    local unescaped_last_cmd
+    unescaped_last_cmd="$(eval echo "$last_cmd")"
+    failing_cmd="Failing command: ${YELLOW}$last_cmd$RESET"
+    if [[ "$last_cmd" != "$unescaped_last_cmd" ]]; then
+        failing_cmd="$failing_cmd\nWhich resolved to: ${YELLOW}$unescaped_last_cmd$RESET"
+    fi
+    printf "\n❌ ${RED_BOLD_ITALIC}%s${RED} failed$RESET\n%b\nWith exit code %s\n" "$1" "$failing_cmd" "$?" >&2
     trap - ERR EXIT # Remove the trap handler, so that it does not call itself
     exit 1
 }
