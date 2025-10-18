@@ -259,7 +259,7 @@ commit -m 'Remove explanation of `git push`' working-with-others.md
 create_chapter log
 (
     cd .git
-    git clone ./my-origin another-downstream
+    git -c user.name="Nuggit Challenge" -c user.email="nuggit@lohmann.sh" clone ./my-origin another-downstream
     cd another-downstream
     reproducibility_setup 2
 
