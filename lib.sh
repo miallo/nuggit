@@ -76,8 +76,9 @@ commit() {
 reproducibility_setup() {
     # Setup for reproducibility
     # Don't use $HOME/.gitconfig or global config
-    export GIT_CONFIG_SYSTEM=""
-    export GIT_CONFIG_GLOBAL=""
+    export GIT_CONFIG_SYSTEM="/dev/null"
+    export GIT_CONFIG_GLOBAL="/dev/null"
+    export GIT_CONFIG_NOSYSTEM=true
 
     nameSuffix="${1:-}"
     emailSuffix="${nameSuffix:+"+$nameSuffix"}" # = if we have a nameSuffix: prefix it with a plus
