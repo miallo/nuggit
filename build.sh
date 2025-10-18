@@ -31,7 +31,6 @@ create_chapter initial setup
 cargo run
 
 cd tutorial
-git switch -c main
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter store nuggits
@@ -64,12 +63,6 @@ END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktre
 END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
 # Write reflog entry for the end commit to avoid dangling references
 initialise_reflog "success" "$END_COMMIT" "commit (initial): Success!"
-
-# ------------------------------------------------------------------------------------------- #
-create_chapter initial commit
-cp  "$DOCDIR/01_init/README.md" .
-git add .
-commit -m "Initial Commit"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter branches

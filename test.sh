@@ -59,6 +59,8 @@ build_challenge
 fi
 echo "Running tests..."
 
+cargo test
+
 redeem_nuggit() {
     expect "git nuggit redeem '$1'" to contain Success
 }
