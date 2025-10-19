@@ -1,4 +1,5 @@
-use crate::nuggits::{NUGGITS, write_nuggits_to_tsv};
+use crate::nuggits::{write_nuggits_to_tsv, NUGGITS};
+use crate::steplib::create_branch;
 use crate::{DOCDIR, REPO_PATH};
 use git2::{self, Reference, Repository, RepositoryInitOptions};
 use std::{self, fmt, fs, path::Path, process::Command};
@@ -195,7 +196,13 @@ impl BuildStepper {
         fs::copy(&source_path, &target_path).unwrap();
         g_add(&repo, "README.md").expect("could not add README");
         commit(&repo, "Initial Commit").unwrap();
-        repo.set_head(&("refs/heads/main".to_owned())).unwrap();
+        let commit = repo
+            .head()
+            .expect("create_branch could not find HEAD")
+            .peel_to_commit()
+            .expect("create_branch could not find commit of HEAD");
+        let _ = repo.branch("main", &commit, true);
+        let _ = repo.set_head(&format!("refs/heads/main"));
 
         let mut prev: Reference = repo.find_reference("HEAD").unwrap();
         for step in self.steps.iter() {
