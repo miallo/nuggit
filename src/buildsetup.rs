@@ -1,4 +1,4 @@
-use crate::nuggits::{write_nuggits_to_tsv, NUGGITS};
+use crate::nuggits::{NUGGITS, write_nuggits_to_tsv};
 use crate::steplib::create_branch;
 use crate::{DOCDIR, REPO_PATH};
 use git2::{self, Reference, Repository, RepositoryInitOptions};

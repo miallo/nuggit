@@ -261,10 +261,6 @@ expect "\$(get_sh_codeblock revert.md)" error to contain "nuggit: ToDoOrToUndo"
 redeem_nuggit ToDoOrToUndo
 EOF
 
-it 'chapter merge' <<EOF
-expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

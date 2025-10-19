@@ -5,7 +5,10 @@ mod buildsetup;
 mod nuggits;
 use buildsetup::{BuildStepper, commit, g_add};
 mod steplib;
-use steplib::{copy_file, create_branch, file_contains, file_exists, redeem_nuggit};
+use steplib::{
+    copy_file, create_branch, file_contains, file_exists, get_sh_codeblock, redeem_nuggit,
+    test_exec,
+};
 
 const REPO_PATH: &str = "tutorial";
 const DOCDIR: &str = "./src";
@@ -27,7 +30,12 @@ fn create_build_steps() -> BuildStepper {
             Ok(repo.head()?)
         },
         |_git: &mut Command| {
-            // expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
+            let mergecmd = get_sh_codeblock("merge.md").unwrap();
+            assert!(
+                test_exec(&mergecmd, "nuggit: MergersAndAcquisitions", true)
+                    .expect("could not execute merge"),
+                "Merge should show nuggit"
+            );
             assert!(redeem_nuggit("MergersAndAcquisitions"));
         },
     );

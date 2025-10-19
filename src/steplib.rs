@@ -53,7 +53,51 @@ pub fn create_branch(repo: &git2::Repository, name: &str) {
     repo.set_head(&format!("refs/heads/{name}"))
         .expect(&format!("Failed to switch to branch {name}"));
 }
+
 pub fn copy_file(src: &str, dst: &str) {
     fs::copy(&format!("{DOCDIR}/{src}"), &format!("{REPO_PATH}/{dst}"))
         .expect(&format!("could not copy {src} to {dst}"));
+}
+
+/// get the first sh codeblock from a file
+pub fn get_sh_codeblock(fname: &str) -> io::Result<String> {
+    let path = format!("{}/{}", REPO_PATH, fname);
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+    let mut inside_codeblock = false;
+    let mut codeblock = String::new();
+
+    for line in reader.lines() {
+        let line = line?;
+        if line.starts_with("```sh") {
+            inside_codeblock = true;
+            continue;
+        }
+
+        if inside_codeblock {
+            if line.starts_with("```") {
+                break;
+            }
+            codeblock.push_str(&line); // Append the current line to the code block
+            codeblock.push('\n'); // Add a newline for better formatting
+            return Ok(codeblock.trim().to_string());
+        }
+    }
+
+    Err(io::Error::new(
+        io::ErrorKind::NotFound,
+        "No code block found",
+    ))
+}
+
+pub fn test_exec(cmd: &str, contains: &str, in_stderr: bool) -> io::Result<bool> {
+    let shell = Command::new("sh")
+        .args(["-c", &format!("cd {REPO_PATH} && {cmd}")])
+        .output()?;
+    let out = String::from_utf8_lossy(if in_stderr {
+        &shell.stderr
+    } else {
+        &shell.stdout
+    });
+    Ok(out.contains(contains))
 }
