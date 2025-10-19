@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
-        uses: actions/checkout@v4
+        # uses: actions/checkout@v5
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - name: build
         run: ./build.sh --verbose
       - name: create tarball
@@ -18,7 +19,8 @@ jobs:
         # Alternatively we could require the user to run a script that adds the permissions on first run, but that also feels broken...
         run: tar -cvf tutorial.tar ./tutorial/
       - name: upload tutorial
-        uses: actions/upload-artifact@v4
+        # uses: actions/upload-artifact@v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         with:
           name: tutorial
           path: ./tutorial.tar
