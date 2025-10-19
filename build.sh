@@ -93,27 +93,6 @@ commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
 
 # ------------------------------------------------------------------------------------------- #
-create_chapter merge
-git switch --detach main
-CHAPTER_MERGE_FOLLOW="--allow-unrelated-histories $END_COMMIT"
-replace CHAPTER_MERGE_FOLLOW "$DOCDIR/13_merge/merge.md" > merge.md
-git add merge.md
-commit -m 'Add description on `git merge`'
-git rm merge.md
-commit -m 'Remove description on `git merge`'
-CHAPTER_REVERT_FOLLOW="$(git rev-parse --short @)"
-
-# ------------------------------------------------------------------------------------------- #
-create_chapter revert
-git switch --detach main
-replace CHAPTER_REVERT_FOLLOW "$DOCDIR/14_revert/revert.md" > revert.md
-git add revert.md
-commit -m 'Add description on `git revert`'
-CHAPTER_RESTORE_SOURCE_FOLLOW="$(git rev-parse --short @)"
-CHAPTER_RESTORE_SOURCE_FILE="revert.md"
-
-
-# ------------------------------------------------------------------------------------------- #
 create_chapter restore staged
 git switch --detach main
 cp "$DOCDIR/12_restore/restore-staged.md" .
@@ -276,13 +255,25 @@ is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub f
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
 
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks/$file" |
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks/$file" |
     sed "/$is_triggered_by_placeholder/ {n;d;}" |
     sed "/$is_triggered_by_placeholder/{
         s/$is_triggered_by_placeholder//g
         r $DOCDIR/hook_is_triggered_by.sh"'
     }' > ".git/nuggit-src/hooks/$file.orig"
 done
+
+# rust processed hooks
+for filep in "$DOCDIR/hooks_processed/"*; do
+    file="$(basename "$filep")"
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks_processed/$file" |
+    sed "/$is_triggered_by_placeholder/ {n;d;}" |
+    sed "/$is_triggered_by_placeholder/{
+        s/$is_triggered_by_placeholder//g
+        r $DOCDIR/hook_is_triggered_by.sh"'
+    }' > ".git/nuggit-src/hooks/$file.orig"
+done
+
 while read -r hook; do
   replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/nuggit-src/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"

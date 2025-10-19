@@ -1,5 +1,4 @@
 use crate::nuggits::{NUGGITS, write_nuggits_to_tsv};
-use crate::steplib::create_branch;
 use crate::{DOCDIR, REPO_PATH};
 use git2::{self, Reference, Repository, RepositoryInitOptions};
 use std::{self, fmt, fs, path::Path, process::Command};
@@ -124,6 +123,14 @@ fn store_nuggits(_repo: &Repository) -> Result<(), git2::Error> {
     Ok(())
 }
 
+pub fn get_hash_str(next: &git2::Reference) -> String {
+    let oid: git2::Oid = next
+        .peel_to_commit()
+        .expect("could not get next target")
+        .id();
+    oid.to_string()
+}
+
 #[derive(Debug)]
 pub enum MyError {
     FsError(std::io::Error),
@@ -152,8 +159,7 @@ impl fmt::Display for MyError {
 }
 
 pub struct BuildStepper {
-    steps:
-        Vec<Box<dyn for<'a> Fn(&'a Repository, Reference<'a>) -> Result<Reference<'a>, MyError>>>,
+    steps: Vec<Box<dyn for<'a> Fn(&'a Repository, String) -> Result<String, MyError>>>,
     tests: Vec<Box<dyn for<'a> Fn(&'a mut Command)>>,
 }
 
@@ -167,10 +173,8 @@ impl BuildStepper {
 
     pub fn add_step<F, G>(&mut self, name: &str, step: F, test: G)
     where
-        F: for<'a> Fn(&'a Repository, Reference<'a>) -> Result<Reference<'a>, MyError> + 'static,
+        F: for<'a> Fn(&'a Repository, String) -> Result<String, MyError> + 'static,
         G: for<'a> Fn(&'a mut Command) + 'static,
-        // F: Fn(&Repository, Reference) -> Reference + 'static,
-        // G: Fn(&Repository, Reference) -> Reference + 'static,
     {
         println!("Building chapter {name}");
         self.steps.push(Box::new(step));
@@ -187,7 +191,7 @@ impl BuildStepper {
 
         reproducibility_setup(&repo, None).unwrap();
         let _remote_repo = create_origin(&repo).unwrap();
-        write_nuggits_to_tsv().unwrap();
+        write_nuggits_to_tsv().expect("could not write nuggits");
         let _nuggits_ref_oid = create_nuggits_ref(&repo).unwrap();
         store_nuggits(&repo).unwrap();
 
@@ -204,9 +208,11 @@ impl BuildStepper {
         let _ = repo.branch("main", &commit, true);
         let _ = repo.set_head(&format!("refs/heads/main"));
 
-        let mut prev: Reference = repo.find_reference("HEAD").unwrap();
-        for step in self.steps.iter() {
-            prev = match step(&repo, prev) {
+        let reference: Reference = repo.find_reference("HEAD").unwrap();
+        let mut next = get_hash_str(&reference);
+
+        for step in self.steps.iter().rev() {
+            next = match step(&repo, next) {
                 Ok(next) => next,
                 Err(err) => panic!("Error: {err}"),
             };
@@ -216,7 +222,7 @@ impl BuildStepper {
     #[allow(unused)]
     pub fn test(self) {
         // Execute the tests in reverse order from build
-        for step in self.tests.iter().rev() {
+        for step in self.tests.iter() {
             let mut git = Command::new("git");
             git.args(["-C", REPO_PATH]);
             step(&mut git);

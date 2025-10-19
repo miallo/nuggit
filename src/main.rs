@@ -1,13 +1,13 @@
 use git2;
-use std::process::Command;
+use std::{fs, process::Command};
 
 mod buildsetup;
 mod nuggits;
-use buildsetup::{BuildStepper, commit, g_add};
+use buildsetup::{BuildStepper, commit, g_add, get_hash_str};
 mod steplib;
 use steplib::{
-    copy_file, create_branch, file_contains, file_exists, get_sh_codeblock, redeem_nuggit,
-    test_exec,
+    copy_file, create_branch, exec, file_contains, file_exists, get_sh_codeblock, redeem_nuggit,
+    replace_copy, replace_hook, switch_detach, test_exec,
 };
 
 const REPO_PATH: &str = "tutorial";
@@ -16,9 +16,75 @@ const DOCDIR: &str = "./src";
 fn create_build_steps() -> BuildStepper {
     let mut build_stepper = BuildStepper::new();
 
+    // build_stepper.add_step(
+    //     "show",
+    //     |repo: &git2::Repository, next: String| {
+    //         switch_detach(&repo, "main");
+    //         replace_copy(
+    //             "03_commit/show.md",
+    //             "show.md",
+    //             "CHAPTER_COMMIT_FOLLOW",
+    //             &next,
+    //         );
+    //         g_add(&repo, "show.md").expect("could not add show.md");
+    //         commit(&repo, "Add description on `git show`").expect("could not commit branches");
+    //         Ok(get_hash_str(&repo.head()?))
+    //     },
+    //     |_git: &mut Command| {
+    //         assert!(exec("GIT_EDITOR=cat git commit"), "commit failed");
+    //         assert!(
+    //             test_exec("git show", "nuggit: BigCommitment", false)
+    //                 .expect("could not run git show"),
+    //             "did not find BigCommitment"
+    //         );
+    //         assert!(
+    //             redeem_nuggit("BigCommitment"),
+    //             "could not redeem BigCommitment"
+    //         );
+    //     },
+    // );
+
+    build_stepper.add_step(
+        "revert",
+        |repo: &git2::Repository, next: String| {
+            println!("revert next {next}");
+            switch_detach(&repo, "main");
+            replace_copy(
+                "14_revert/revert.md",
+                "revert.md",
+                "CHAPTER_REVERT_FOLLOW",
+                &next,
+            );
+            g_add(&repo, "revert.md").expect("could not add revert.md");
+            commit(&repo, "Add description on `git revert`").expect("could not commit branches");
+            let hash = get_hash_str(&repo.head()?);
+            replace_hook(
+                "rhooks",
+                "post-checkout",
+                vec![
+                    ("CHAPTER_RESTORE_SOURCE_FOLLOW", &hash),
+                    ("CHAPTER_RESTORE_SOURCE_FILE", "revert.md"),
+                ],
+            );
+
+            Ok(hash)
+        },
+        |_| {
+            println!("revert test");
+            let revert_cmd = get_sh_codeblock("revert.md").unwrap();
+            assert!(
+                test_exec(&revert_cmd, "nuggit: ToDoOrToUndo", true)
+                    .expect("could not execute revert"),
+                "revert should show nuggit"
+            );
+            assert!(redeem_nuggit("ToDoOrToUndo"));
+        },
+    );
     build_stepper.add_step(
         "branches",
-        |repo: &git2::Repository, _prev: git2::Reference| {
+        |repo: &git2::Repository, next: String| {
+            println!("branches next {next}");
+            switch_detach(&repo, "main");
             create_branch(repo, "branches-explained");
             copy_file("04_branch/branch.md", "branch.md");
             g_add(&repo, "branch.md").expect("could not add branch.md");
@@ -27,9 +93,48 @@ fn create_build_steps() -> BuildStepper {
                 "WIP: add description on branches\n\nnuggit: ShowMeMore",
             )
             .expect("could not commit branches");
-            Ok(repo.head()?)
+
+            Ok("branches-explained".to_string())
         },
         |_git: &mut Command| {
+            //TODO
+            assert!(
+                test_exec(
+                    "git switch branches-explained",
+                    "nuggit: Switcheridoo",
+                    true
+                )
+                .expect("could not switch to branches-explained"),
+                "switch branches-explained did not contain nuggit"
+            );
+            assert!(
+                redeem_nuggit("Switcheridoo"),
+                "could not redeem Switcheridoo"
+            );
+        },
+    );
+
+    build_stepper.add_step(
+        "merge",
+        |repo: &git2::Repository, next: String| {
+            //TODO
+            replace_copy(
+                "13_merge/merge.md",
+                "merge.md",
+                "CHAPTER_MERGE_FOLLOW",
+                &format!("--allow-unrelated-histories {next}"),
+            );
+            g_add(&repo, "merge.md").expect("Could not add merge.md");
+            commit(&repo, "Add description on `git merge`").expect("could not commit merge");
+            fs::remove_file(&format!("{REPO_PATH}/merge.md")).expect("could not delete merge.md");
+            g_add(&repo, "merge.md").expect("Could not add removed merge.md");
+            commit(&repo, "Remove description on `git merge`")
+                .expect("could not commit removed merge");
+
+            Ok(get_hash_str(&repo.head()?))
+        },
+        |_git: &mut Command| {
+            println!("merge test");
             let mergecmd = get_sh_codeblock("merge.md").unwrap();
             assert!(
                 test_exec(&mergecmd, "nuggit: MergersAndAcquisitions", true)
@@ -37,6 +142,35 @@ fn create_build_steps() -> BuildStepper {
                 "Merge should show nuggit"
             );
             assert!(redeem_nuggit("MergersAndAcquisitions"));
+        },
+    );
+    build_stepper.add_step(
+        "success",
+        |repo: &git2::Repository, _next: String| {
+            let empty_tree_oid = repo
+                .treebuilder(None)
+                .expect("could not create a root tree")
+                .write()
+                .expect("could not write a root tree");
+            let empty_tree = repo
+                .find_tree(empty_tree_oid)
+                .expect("could not find root tree")
+                .into_object();
+            repo.checkout_tree(&empty_tree, None)
+                .expect("could not checkout empty_tree");
+
+            copy_file("credits/the-end.md", "success.md");
+            g_add(&repo, "success.md").expect("could not add success.md");
+            commit(&repo, "Success!").expect("could not commit success");
+            Ok(get_hash_str(&repo.head()?))
+        },
+        |_git: &mut Command| {
+            assert!(
+                test_exec("cat success.md", "nuggit: ThisWasATriumph", true)
+                    .expect("could not read success.md"),
+                "success.md did not contain ThisWasATriumph"
+            );
+            assert!(redeem_nuggit("ThisWasATriumph"), "could not redeem ThisWasATriumph");
         },
     );
     //build_stepper.add_step(

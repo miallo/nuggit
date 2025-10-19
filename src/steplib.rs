@@ -42,6 +42,21 @@ pub fn redeem_nuggit(nuggit: &str) -> bool {
     }
 }
 
+pub fn switch_detach(repo: &git2::Repository, name: &str) {
+    let commit = repo
+        .find_branch(name, git2::BranchType::Local)
+        .expect(&format!("could not find branch {name}"));
+    let tree = commit
+        .get()
+        .peel_to_tree()
+        .expect(&format!("could not find commit for branch {name}"))
+        .into_object();
+    repo.checkout_tree(&tree, None)
+        .expect(&format!("Could not check out tree of {name}"));
+    repo.set_head_detached(commit.get().target().expect("could not find target"))
+        .expect(&format!("Could not set detached head of {name}"));
+}
+
 pub fn create_branch(repo: &git2::Repository, name: &str) {
     let tree = repo
         .head()
@@ -57,6 +72,38 @@ pub fn create_branch(repo: &git2::Repository, name: &str) {
 pub fn copy_file(src: &str, dst: &str) {
     fs::copy(&format!("{DOCDIR}/{src}"), &format!("{REPO_PATH}/{dst}"))
         .expect(&format!("could not copy {src} to {dst}"));
+}
+
+pub fn replace_hook(folder: &str, hook_name: &str, search_replace: Vec<(&str, &str)>) {
+    let mut content = String::new();
+    fs::File::open(&format!("{DOCDIR}/{folder}/{hook_name}"))
+        .expect(&format!("could not open {hook_name}"))
+        .read_to_string(&mut content)
+        .expect(&format!("could not read content of {hook_name}"));
+
+    for (search, replace) in search_replace {
+        content = content.replace(search, replace);
+    }
+
+    let mut file = fs::File::create(&format!("{DOCDIR}/hooks_processed/{hook_name}"))
+        .expect(&format!("could not create hook {hook_name}"));
+    file.write_all(content.as_bytes())
+        .expect(&format!("could not write hook {hook_name}"));
+}
+
+pub fn replace_copy(src: &str, dst: &str, search: &str, replace: &str) {
+    let mut content = String::new();
+    fs::File::open(&format!("{DOCDIR}/{src}"))
+        .expect(&format!("could not open {src}"))
+        .read_to_string(&mut content)
+        .expect(&format!("could not read content of {src}"));
+
+    let modified_content = content.replace(search, replace);
+
+    let mut file =
+        fs::File::create(&format!("{REPO_PATH}/{dst}")).expect(&format!("could not create {dst}"));
+    file.write_all(modified_content.as_bytes())
+        .expect(&format!("could not write {dst}"));
 }
 
 /// get the first sh codeblock from a file
@@ -88,6 +135,14 @@ pub fn get_sh_codeblock(fname: &str) -> io::Result<String> {
         io::ErrorKind::NotFound,
         "No code block found",
     ))
+}
+
+pub fn exec(cmd: &str) -> bool {
+    Command::new("sh")
+        .args(["-c", &format!("cd {REPO_PATH} && {cmd}")])
+        .status()
+        .expect("status error")
+        .success()
 }
 
 pub fn test_exec(cmd: &str, contains: &str, in_stderr: bool) -> io::Result<bool> {
