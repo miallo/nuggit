@@ -12,7 +12,17 @@ parse_opts "$@"
 . ./test_helpers/lib-test.sh
 build_challenge() {
     echo "Building challenge..."
-    ./build.sh --force
+    if [[ -n "$test_remote" ]]; then
+        rm -rf tutorial tutorial.tar tutorial.zip "$destination"
+        curl https://nuggit.lohmann.sh/tutorial.zip --output tutorial.zip
+        unzip tutorial.zip
+        tar --extract --file=tutorial.tar
+        if [[ "$destination" != tutorial ]]; then
+            mv tutorial "$destination"
+        fi
+    else
+        ./build.sh --force
+    fi
     cd "$destination"
     reproducibility_setup
 }

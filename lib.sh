@@ -19,6 +19,9 @@ parse_opts() {
             -s|--skip-code-exec-tests)
                 skipCodeExecTests=true
                 ;;
+            --test-remote)
+                test_remote=true
+                ;;
             --ref-format=reftable|--object-format=sha256)
                 git_init_params+=("$opt")
                 ;;
