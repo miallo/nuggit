@@ -65,6 +65,12 @@ fn create_origin(repo: &Repository) -> Result<Repository, git2::Error> {
     Ok(remote_repo)
 }
 
+pub fn g_add(repo: &Repository, fname: &str) -> Result<(), git2::Error> {
+    let mut index = repo.index()?;
+    index.add_path(fname.as_ref())?;
+    Ok(())
+}
+
 pub fn commit(repo: &Repository, msg: &str) -> Result<(), git2::Error> {
     let mut index = repo.index()?;
     index.write()?;
@@ -187,8 +193,7 @@ impl BuildStepper {
         let source_path = Path::new(DOCDIR).join("01_init/README.md");
         let target_path = Path::new(REPO_PATH).join("README.md");
         fs::copy(&source_path, &target_path).unwrap();
-        let mut index = repo.index().unwrap();
-        index.add_path("README.md".as_ref()).unwrap();
+        g_add(&repo, "README.md").expect("could not add README");
         commit(&repo, "Initial Commit").unwrap();
         repo.set_head(&("refs/heads/main".to_owned())).unwrap();
 

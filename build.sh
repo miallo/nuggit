@@ -66,12 +66,6 @@ initialise_reflog "success" "$END_COMMIT" "commit (initial): Success!"
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter branches
-git switch main -c branches-explained
-cp "$DOCDIR/04_branch/branch.md" .
-git add branch.md
-commit -m "WIP: add description on branches
-
-nuggit: ShowMeMore"
 # For reference in commit.md later
 CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
 

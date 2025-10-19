@@ -1,9 +1,11 @@
 use git2;
-use std::{path::Path, process::Command};
+use std::process::Command;
 
 mod buildsetup;
 mod nuggits;
-use buildsetup::BuildStepper;
+use buildsetup::{BuildStepper, commit, g_add};
+mod steplib;
+use steplib::{copy_file, create_branch, file_contains, file_exists, redeem_nuggit};
 
 const REPO_PATH: &str = "tutorial";
 const DOCDIR: &str = "./src";
@@ -12,33 +14,48 @@ fn create_build_steps() -> BuildStepper {
     let mut build_stepper = BuildStepper::new();
 
     build_stepper.add_step(
-        "initial commit",
-        |_repo: &git2::Repository, _prev: git2::Reference| {
-            println!("Example buildstep");
-            Ok(_prev)
+        "branches",
+        |repo: &git2::Repository, _prev: git2::Reference| {
+            create_branch(repo, "branches-explained");
+            copy_file("04_branch/branch.md", "branch.md");
+            g_add(&repo, "branch.md").expect("could not add branch.md");
+            commit(
+                &repo,
+                "WIP: add description on branches\n\nnuggit: ShowMeMore",
+            )
+            .expect("could not commit branches");
+            Ok(repo.head()?)
         },
-        |git: &mut Command| {
-            println!("Example Test");
-            let st = git
-                .arg("status")
-                .output()
-                .expect("could not get git status");
-            let stdout = str::from_utf8(&st.stdout).expect("Invalid UTF-8");
-            println!("Git Status:\n{}", stdout);
-            let first_steps_path = format!("{}/first-steps-with-git.md", REPO_PATH);
-            assert!(
-                !Path::new(&first_steps_path).exists(),
-                "The file {} should only exist after the first command.",
-                first_steps_path
-            );
-            let readme_path = format!("{}/README.md", REPO_PATH);
-            assert!(
-                Path::new(&readme_path).exists(),
-                "The file {} should exist.",
-                readme_path
-            );
+        |_git: &mut Command| {
+            // expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
+            assert!(redeem_nuggit("MergersAndAcquisitions"));
         },
     );
+    //build_stepper.add_step(
+    //    "ReadTheDocs should start the game",
+    //    |_repo: &git2::Repository, _prev: git2::Reference| {
+    //        //TODO: move setup here
+    //        Ok(_prev)
+    //    },
+    //    |_git: &mut Command| {
+    //        assert!(
+    //            !file_exists("first-steps-with-git.md"),
+    //            "first-steps-with-git.md should only be created on first nuggit redemption"
+    //        );
+    //        assert!(
+    //            file_contains("README.md", "nuggit: ReadTheDocs").expect("README not found"),
+    //            "README should contain ReadTheDocs nuggit"
+    //        );
+    //        assert!(
+    //            redeem_nuggit("ReadTheDocs"),
+    //            "ReadTheDocs should be redeamable"
+    //        );
+    //        assert!(
+    //            file_exists("first-steps-with-git.md"),
+    //            "first-steps-with-git.md should be created after first nuggit redemption"
+    //        );
+    //    },
+    // );
 
     build_stepper
 }

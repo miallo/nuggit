@@ -69,8 +69,6 @@ build_challenge
 fi
 echo "Running tests..."
 
-cargo test
-
 redeem_nuggit() {
     expect "git nuggit redeem '$1'" to contain Success
 }
@@ -265,8 +263,9 @@ EOF
 
 it 'chapter merge' <<EOF
 expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
-redeem_nuggit MergersAndAcquisitions
 EOF
+
+cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
 expect "git nuggit redeem NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
