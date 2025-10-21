@@ -201,12 +201,6 @@ expect 'cat cherry-pick.md' to contain "nuggit: SatisfactionThroughInteraction"
 redeem_nuggit SatisfactionThroughInteraction
 EOF
 
-it 'chapter cherry-pick' <<EOF
-expect "\$(get_sh_codeblock cherry-pick.md) 2>&1" not to succeed
-expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
-redeem_nuggit YoureACherryBlossom
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
