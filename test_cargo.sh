@@ -97,6 +97,7 @@ expect "GIT_EDITOR="cat" git commit" to succeed
 expect "git show" to contain "nuggit: BigCommitment"
 redeem_nuggit BigCommitment
 '
+########################
 
 it 'chapter diff' '
 diff_command="$(get_sh_codeblock <(git log --pretty=%B @~...))"
@@ -141,6 +142,7 @@ it 'chapter working with branches' '
 expect "git switch branches-explained" error to contain "nuggit: Switcheridoo"
 redeem_nuggit Switcheridoo
 '
+################### 
 
 it 'MyFirstBranch when creating new branch' '
 expect "git switch -c my-new-branch" error to contain "nuggit: MyFirstBranch"
