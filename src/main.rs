@@ -114,6 +114,24 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "cherry-pick range",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |prev_out| {
+                let prev_out = prev_out
+                    .clone()
+                    .expect("Required previous step output for cherry-pick range");
+                let cp_range_cmd = get_sh_codeblock_str(&prev_out).unwrap();
+                assert!(cp_range_cmd.starts_with("git cherry-pick"));
+                assert!(exec(&cp_range_cmd), "cherry-pick range should succeed");
+                assert!(
+                    file_contains("reset-hard.md", "nuggit: MountainCherryRange").unwrap(),
+                    "cherry-pick <range> should show nuggit"
+                );
+                assert!(redeem_nuggit("MountainCherryRange"));
+                None
+            },
+        )
+        .add_step(
             "reset --hard",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

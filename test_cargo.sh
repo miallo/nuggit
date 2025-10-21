@@ -220,13 +220,6 @@ expect 'echo "\$cherry_pick_abort_out"' to contain "nuggit: AllAbortTheCherryPic
 redeem_nuggit AllAbortTheCherryPickTrain
 EOF
 
-it 'chapter cherry-pick range' <<EOF
-cherry_pick_range_cmd="\$(get_sh_codeblock <(echo "\$cherry_pick_abort_out"))"
-cherry_pick_range_out="\$(\$cherry_pick_range_cmd 2>&1)"
-expect 'cat reset-hard.md' to contain "nuggit: MountainCherryRange"
-redeem_nuggit MountainCherryRange
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
