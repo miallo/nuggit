@@ -97,6 +97,7 @@ expect "GIT_EDITOR="cat" git commit" to succeed
 expect "git show" to contain "nuggit: BigCommitment"
 redeem_nuggit BigCommitment
 '
+########################
 
 it 'chapter diff' '
 diff_command="$(get_sh_codeblock <(git log --pretty=%B @~...))"
