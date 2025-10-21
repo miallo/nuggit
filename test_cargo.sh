@@ -236,13 +236,6 @@ expect "\$(get_sh_codeblock reset-soft.md)" error to contain "nuggit: SoftSkills
 redeem_nuggit SoftSkills
 EOF
 
-it 'chapter restore --staged' <<EOF
-restore_staged_command="\$(get_sh_codeblock <(git diff --staged -- restore-staged.md | sed "s/^.\\{1\\}//"))"
-restore_staged_output="\$(\$restore_staged_command 2>&1)"
-expect 'echo "\$restore_staged_output"' to contain "nuggit: StagingAReputationRestoration"
-redeem_nuggit StagingAReputationRestoration
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

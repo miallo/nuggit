@@ -196,3 +196,16 @@ pub fn test_exec(cmd: &str, contains: &str, in_stderr: bool) -> io::Result<bool>
     });
     Ok(out.contains(contains))
 }
+
+pub fn strip_first_char_of_line(str: &str) -> String {
+    str.lines()
+        .map(|line| {
+            if line.len() > 0 {
+                &line[1..] // Remove the first character
+            } else {
+                line // Return the line unchanged if empty
+            }
+        })
+        .collect::<Vec<&str>>()
+        .join("\n")
+}
