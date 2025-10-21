@@ -10,7 +10,7 @@ use steplib::{
     replace_copy, replace_hook, switch_detach, test_exec,
 };
 
-use crate::steplib::{exec_out, get_sh_codeblock_str};
+use crate::steplib::{exec_out, get_sh_codeblock_str, strip_first_char_of_line};
 
 const REPO_PATH: &str = "tutorial";
 const DOCDIR: &str = "./src";
@@ -113,6 +113,24 @@ fn create_build_steps() -> BuildStepper {
     //    },
     //);
     build_stepper
+        .add_step(
+            "restore --staged",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let diff_staged_out = exec_out("git diff --staged -- restore-staged.md", false);
+                let filtered_diff_staged_out = strip_first_char_of_line(&diff_staged_out, 1);
+                let restore_staged_command =
+                    get_sh_codeblock_str(&filtered_diff_staged_out).unwrap();
+                assert!(restore_staged_command.starts_with("git restore --staged"));
+                let out = exec_out(&restore_staged_command, true);
+                assert!(
+                    out.contains("nuggit: StagingAReputationRestoration"),
+                    "restore --staged should show nuggit"
+                );
+                assert!(redeem_nuggit("StagingAReputationRestoration"));
+                Some(out)
+            },
+        )
         .add_step(
             "restore",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
