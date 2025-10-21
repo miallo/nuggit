@@ -20,7 +20,10 @@ way 😉
 
 ## Build instructions
 
-Run these commands in your terminal:
+You need to follow this:
+
+- [install Rust](https://rust-lang.org/tools/install/)
+- run:
 
 ```sh
 git clone https://github.com/miallo/nuggit.git # Yay! You already learned about your first git command!

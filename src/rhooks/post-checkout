@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+
+PREV_HEAD="$1"
+NEXT_REF="$2"
+IS_SWITCH="$3"
+
+# is_triggered_by replaced by build setup, stub for shellcheck:
+is_triggered_by() { :; }
+
+if is_triggered_by "restore --theirs"; then
+  echo "nuggit: MineBrokeTheirsDidnt
+
+If you don't feel comfortable with your changes, you can always run:
+"'```sh
+git cherry-pick --abort
+```'
+  exit 0
+fi
+
+if is_triggered_by "restore --source"; then
+  echo 'nuggit: SourceOfAllEvil'
+  exit
+fi
+# keep quiet
+if is_triggered_by "restore --staged"; then
+  exit
+fi
+# plain restore has to come after "--source" test!
+if is_triggered_by "restore"; then
+  echo 'nuggit: PretendYouDidntDoIt
+
+You can also restore a file from a different commit:
+```sh
+git restore --source CHAPTER_RESTORE_SOURCE_FOLLOW -- CHAPTER_RESTORE_SOURCE_FILE
+```'
+  exit
+fi
+
+# switched to my-new-branch
+if [ "$(git rev-parse --abbrev-ref HEAD)" = "my-new-branch" ] && [ "$IS_SWITCH" = 1 ]; then
+    echo "nuggit: MyFirstBranch"
+    exit
+fi
+
+# switched to branches-explained
+if [ "$NEXT_REF" = "$(git rev-parse branches-explained)" ] && [ "$IS_SWITCH" = 1 ]; then
+    echo "nuggit: Switcheridoo"
+    exit
+fi

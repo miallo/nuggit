@@ -1,1 +1,7 @@
 /tutorial*
+# /src/nuggits.tsv
+/src/env
+
+# Added by cargo
+
+/target
