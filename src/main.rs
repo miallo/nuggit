@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "reset --soft",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let reset_soft_command = get_sh_codeblock("reset-soft.md").unwrap();
+                assert!(reset_soft_command.starts_with("git reset --soft"));
+                let out = exec_out(&reset_soft_command, true);
+                assert!(
+                    out.contains("nuggit: SoftSkills"),
+                    "reset --soft should show nuggit"
+                );
+                assert!(redeem_nuggit("SoftSkills"));
+                Some(out)
+            },
+        )
+        .add_step(
             "restore --staged",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

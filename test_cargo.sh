@@ -232,11 +232,6 @@ expect "\$(get_sh_codeblock reset-hard.md)" error to contain "nuggit: HardBreakH
 redeem_nuggit HardBreakHotel
 EOF
 
-it 'chapter reset --soft' <<EOF
-expect "\$(get_sh_codeblock reset-soft.md)" error to contain "nuggit: SoftSkills"
-redeem_nuggit SoftSkills
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
