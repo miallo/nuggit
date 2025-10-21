@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "restore --theirs",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let cmd = "git restore --theirs cherry-pick.md";
+                assert!(file_contains("cherry-pick.md", &cmd).unwrap());
+                let out = exec_out(cmd, true);
+                assert!(
+                    out.contains("nuggit: MineBrokeTheirsDidnt"),
+                    "restore --theirs should show nuggit"
+                );
+                assert!(redeem_nuggit("MineBrokeTheirsDidnt"));
+                Some(out)
+            },
+        )
+        .add_step(
             "cherry-pick --abort",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |prev_out| {

@@ -207,12 +207,6 @@ expect 'cat cherry-pick.md' to contain "nuggit: YoureACherryBlossom"
 redeem_nuggit YoureACherryBlossom
 EOF
 
-it 'chapter restore --theirs' <<EOF
-restore_theirs_out="\$(git restore --theirs cherry-pick.md 2>&1)"
-expect 'echo "\$restore_theirs_out"' to contain "nuggit: MineBrokeTheirsDidnt"
-redeem_nuggit MineBrokeTheirsDidnt
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
