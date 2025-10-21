@@ -44,6 +44,73 @@ fn create_build_steps() -> BuildStepper {
     //     },
     // );
 
+    //build_stepper.add_step(
+    //    "switch",
+    //    |repo: &git2::Repository, next: String| {
+    //        switch_detach(&repo, "main");
+    //        create_branch(repo, "branches-explained");
+    //        copy_file("04_branch/branch.md", "branch.md");
+    //        g_add(&repo, "branch.md").expect("could not add branch.md");
+    //        commit(
+    //            &repo,
+    //            "WIP: add description on branches\n\nnuggit: ShowMeMore",
+    //        )
+    //        .expect("could not commit branches");
+
+    //        Ok("branches-explained".to_string())
+    //    },
+    //    |_git: &mut Command| {
+    //        //TODO
+    //        assert!(
+    //            test_exec(
+    //                "git switch branches-explained",
+    //                "nuggit: Switcheridoo",
+    //                true
+    //            )
+    //            .expect("could not switch to branches-explained"),
+    //            "switch branches-explained did not contain nuggit"
+    //        );
+    //        assert!(
+    //            redeem_nuggit("Switcheridoo"),
+    //            "could not redeem Switcheridoo"
+    //        );
+    //    },
+    //);
+
+    //build_stepper.add_step(
+    //    "branches",
+    //    |repo: &git2::Repository, next: String| {
+    //        println!("branches next {next}");
+    //        switch_detach(&repo, "main");
+    //        create_branch(repo, "branches-explained");
+    //        copy_file("04_branch/branch.md", "branch.md");
+    //        g_add(&repo, "branch.md").expect("could not add branch.md");
+    //        commit(
+    //            &repo,
+    //            "WIP: add description on branches\n\nnuggit: ShowMeMore",
+    //        )
+    //        .expect("could not commit branches");
+
+    //        Ok("branches-explained".to_string())
+    //    },
+    //    |_git: &mut Command| {
+    //        //TODO
+    //        assert!(
+    //            test_exec(
+    //                "git switch branches-explained",
+    //                "nuggit: Switcheridoo",
+    //                true
+    //            )
+    //            .expect("could not switch to branches-explained"),
+    //            "switch branches-explained did not contain nuggit"
+    //        );
+    //        assert!(
+    //            redeem_nuggit("Switcheridoo"),
+    //            "could not redeem Switcheridoo"
+    //        );
+    //    },
+    //);
+
     build_stepper.add_step(
         "revert",
         |repo: &git2::Repository, next: String| {
@@ -80,44 +147,12 @@ fn create_build_steps() -> BuildStepper {
             assert!(redeem_nuggit("ToDoOrToUndo"));
         },
     );
-    build_stepper.add_step(
-        "branches",
-        |repo: &git2::Repository, next: String| {
-            println!("branches next {next}");
-            switch_detach(&repo, "main");
-            create_branch(repo, "branches-explained");
-            copy_file("04_branch/branch.md", "branch.md");
-            g_add(&repo, "branch.md").expect("could not add branch.md");
-            commit(
-                &repo,
-                "WIP: add description on branches\n\nnuggit: ShowMeMore",
-            )
-            .expect("could not commit branches");
-
-            Ok("branches-explained".to_string())
-        },
-        |_git: &mut Command| {
-            //TODO
-            assert!(
-                test_exec(
-                    "git switch branches-explained",
-                    "nuggit: Switcheridoo",
-                    true
-                )
-                .expect("could not switch to branches-explained"),
-                "switch branches-explained did not contain nuggit"
-            );
-            assert!(
-                redeem_nuggit("Switcheridoo"),
-                "could not redeem Switcheridoo"
-            );
-        },
-    );
 
     build_stepper.add_step(
         "merge",
         |repo: &git2::Repository, next: String| {
             //TODO
+            switch_detach(&repo, "main");
             replace_copy(
                 "13_merge/merge.md",
                 "merge.md",
@@ -127,7 +162,10 @@ fn create_build_steps() -> BuildStepper {
             g_add(&repo, "merge.md").expect("Could not add merge.md");
             commit(&repo, "Add description on `git merge`").expect("could not commit merge");
             fs::remove_file(&format!("{REPO_PATH}/merge.md")).expect("could not delete merge.md");
-            g_add(&repo, "merge.md").expect("Could not add removed merge.md");
+            repo.index()
+                .unwrap()
+                .remove_path(format!("{REPO_PATH}/merge.md").as_ref())
+                .unwrap();
             commit(&repo, "Remove description on `git merge`")
                 .expect("could not commit removed merge");
 
@@ -146,7 +184,10 @@ fn create_build_steps() -> BuildStepper {
     );
     build_stepper.add_step(
         "success",
-        |repo: &git2::Repository, _next: String| {
+        |repo: &git2::Repository, next: String| {
+            let head = repo.head().unwrap().peel_to_commit().unwrap().id();
+            repo.set_head_detached(head).unwrap();
+
             let empty_tree_oid = repo
                 .treebuilder(None)
                 .expect("could not create a root tree")
@@ -162,6 +203,7 @@ fn create_build_steps() -> BuildStepper {
             copy_file("credits/the-end.md", "success.md");
             g_add(&repo, "success.md").expect("could not add success.md");
             commit(&repo, "Success!").expect("could not commit success");
+
             Ok(get_hash_str(&repo.head()?))
         },
         |_git: &mut Command| {
@@ -170,7 +212,10 @@ fn create_build_steps() -> BuildStepper {
                     .expect("could not read success.md"),
                 "success.md did not contain ThisWasATriumph"
             );
-            assert!(redeem_nuggit("ThisWasATriumph"), "could not redeem ThisWasATriumph");
+            assert!(
+                redeem_nuggit("ThisWasATriumph"),
+                "could not redeem ThisWasATriumph"
+            );
         },
     );
     //build_stepper.add_step(
@@ -203,8 +248,8 @@ fn create_build_steps() -> BuildStepper {
 }
 
 fn main() {
-    let build_stepper = create_build_steps();
-    build_stepper.execute();
+    let _build_stepper = create_build_steps();
+    // build_stepper.execute();
 }
 
 #[cfg(test)]

@@ -21,7 +21,7 @@ build_challenge() {
             mv tutorial "$destination"
         fi
     else
-        ./build.sh --force
+        ./build_orig.sh --force
     fi
     cd "$destination"
     reproducibility_setup

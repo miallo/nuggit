@@ -57,21 +57,9 @@ replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-n
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #
-create_chapter final commit
-END_BLOB_HASH="$(git hash-object -w "$DOCDIR/credits/the-end.md")"
-END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktree)"
-END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
-# Write reflog entry for the end commit to avoid dangling references
-initialise_reflog "success" "$END_COMMIT" "commit (initial): Success!"
-
-# ------------------------------------------------------------------------------------------- #
-create_chapter branches
-# For reference in commit.md later
-CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
-
-# ------------------------------------------------------------------------------------------- #
 create_chapter working with branches
 git switch branches-explained
+CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
 echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally preferred nowadays.' >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on checkout"
