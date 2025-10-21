@@ -114,6 +114,24 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "restore",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |prev_out| {
+                let prev_out = prev_out
+                    .clone()
+                    .expect("Required previous step output for restore");
+                let restore_command = get_sh_codeblock_str(&prev_out).unwrap();
+                assert!(restore_command.starts_with("git restore"));
+                let out = exec_out(&restore_command, true);
+                assert!(
+                    out.contains("nuggit: PretendYouDidntDoIt"),
+                    "restore should show nuggit"
+                );
+                assert!(redeem_nuggit("PretendYouDidntDoIt"));
+                Some(out)
+            },
+        )
+        .add_step(
             "restore --source",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |prev_out| {

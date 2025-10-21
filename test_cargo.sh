@@ -243,13 +243,6 @@ expect 'echo "\$restore_staged_output"' to contain "nuggit: StagingAReputationRe
 redeem_nuggit StagingAReputationRestoration
 EOF
 
-it 'chapter restore' <<EOF
-restore_command="\$(get_sh_codeblock <(echo "\$restore_staged_output"))"
-restore_output="\$(\$restore_command 2>&1)"
-expect 'echo "\$restore_output"' to contain "nuggit: PretendYouDidntDoIt"
-redeem_nuggit PretendYouDidntDoIt
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
