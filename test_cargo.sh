@@ -213,13 +213,6 @@ expect 'echo "\$restore_theirs_out"' to contain "nuggit: MineBrokeTheirsDidnt"
 redeem_nuggit MineBrokeTheirsDidnt
 EOF
 
-it 'chapter cherry-pick --abort' <<EOF
-cherry_pick_abort_cmd="\$(get_sh_codeblock <(echo "\$restore_theirs_out"))"
-cherry_pick_abort_out="\$(\$cherry_pick_abort_cmd 2>&1)"
-expect 'echo "\$cherry_pick_abort_out"' to contain "nuggit: AllAbortTheCherryPickTrain"
-redeem_nuggit AllAbortTheCherryPickTrain
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

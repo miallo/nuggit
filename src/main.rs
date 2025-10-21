@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "cherry-pick --abort",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |prev_out| {
+                let prev_out = prev_out
+                    .clone()
+                    .expect("Required previous step output for cherry-pick abort");
+                let cp_abort_cmd = get_sh_codeblock_str(&prev_out).unwrap();
+                assert!(cp_abort_cmd == "git cherry-pick --abort");
+                let out = exec_out(&cp_abort_cmd, true);
+                assert!(out.contains("nuggit: AllAbortTheCherryPickTrain"),);
+                assert!(redeem_nuggit("AllAbortTheCherryPickTrain"));
+                Some(out)
+            },
+        )
+        .add_step(
             "cherry-pick range",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |prev_out| {
