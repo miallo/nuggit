@@ -208,7 +208,7 @@ fn create_build_steps() -> BuildStepper {
         },
         |_git: &mut Command| {
             assert!(
-                test_exec("cat success.md", "nuggit: ThisWasATriumph", true)
+                test_exec("cat success.md", "nuggit: ThisWasATriumph", false)
                     .expect("could not read success.md"),
                 "success.md did not contain ThisWasATriumph"
             );
