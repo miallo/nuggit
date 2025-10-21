@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "reset --hard",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let reset_hard_command = get_sh_codeblock("reset-hard.md").unwrap();
+                assert!(reset_hard_command.starts_with("git reset --hard"));
+                let out = exec_out(&reset_hard_command, true);
+                assert!(
+                    out.contains("nuggit: HardBreakHotel"),
+                    "reset --hard should show nuggit"
+                );
+                assert!(redeem_nuggit("HardBreakHotel"));
+                Some(out)
+            },
+        )
+        .add_step(
             "reset --soft",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

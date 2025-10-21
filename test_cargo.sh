@@ -227,11 +227,6 @@ expect 'cat reset-hard.md' to contain "nuggit: MountainCherryRange"
 redeem_nuggit MountainCherryRange
 EOF
 
-it 'chapter reset --hard' <<EOF
-expect "\$(get_sh_codeblock reset-hard.md)" error to contain "nuggit: HardBreakHotel"
-redeem_nuggit HardBreakHotel
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
