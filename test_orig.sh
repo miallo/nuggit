@@ -21,7 +21,7 @@ build_challenge() {
             mv tutorial "$destination"
         fi
     else
-        ./build.sh --force
+        ./build_orig.sh --force
     fi
     cd "$destination"
     reproducibility_setup
@@ -80,17 +80,6 @@ expect "\$(get_sh_codeblock README.md)" to succeed
 expect "git show nuggits" to contain "ReadTheDocs"
 expect "[ -e first-steps-with-git.md ]" to succeed
 EOF
-
-it 'An invalid nuggit should show an error' '
-expect "git nuggit redeem NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
-expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
-expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
-'
-
-it 'CuriosityKilledTheCat in redeem script' '
-expect "cat .git/redeem.nuggit" to contain CuriosityKilledTheCat
-redeem_nuggit CuriosityKilledTheCat
-'
 
 it 'LocalCodeExecution nuggit in hooks' '
 expect "cat .git/hooks/*" to contain "nuggit: LocalCodeExecution"
@@ -267,7 +256,31 @@ expect "\$restore_source_command" error to contain "nuggit: SourceOfAllEvil"
 redeem_nuggit SourceOfAllEvil
 EOF
 
-cargo test -- --nocapture
+it 'chapter revert' <<EOF
+expect "\$(get_sh_codeblock revert.md)" error to contain "nuggit: ToDoOrToUndo"
+redeem_nuggit ToDoOrToUndo
+EOF
+
+it 'chapter merge' <<EOF
+expect "\$(get_sh_codeblock merge.md)" error to contain "nuggit: MergersAndAcquisitions"
+redeem_nuggit MergersAndAcquisitions
+EOF
+
+it 'An invalid nuggit should show an error' '
+expect "git nuggit redeem NotANuggit" error to contain "Unfortunately that is not a valid nuggit"
+expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
+expect "git nuggit redeem NotANuggit" error to contain "It still isn'\''t a valid answer..."
+'
+
+it 'CuriosityKilledTheCat in redeem script' '
+expect "cat .git/redeem.nuggit" to contain CuriosityKilledTheCat
+redeem_nuggit CuriosityKilledTheCat
+'
+
+it 'ThisWasATripmph shown in end chapter' '
+expect "cat success.md" to contain "nuggit: ThisWasATriumph"
+redeem_nuggit ThisWasATriumph
+'
 
 check_redeem() {
     expect "git nuggit redeem ThisWasATriumph" to contain "You have found all the little nuggits?! Very impressive!"

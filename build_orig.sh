@@ -21,16 +21,31 @@ trap on_error TERM ABRT QUIT ERR EXIT
 
 shopt -s extglob
 
+if [ -e "$destination" ]; then
+    if [ "$delete_existing_dir" = true ]; then
+        rm -rf "$destination"
+    else
+        warn "'$destination' already exists. moving to ${destination}2..."
+        rm -rf "${destination}2"
+        mv "$destination" "${destination}2"
+    fi
+fi
+
+
 # ------------------------------------------------------------------------------------------- #
 create_chapter "add warning alias to root project!"
 git config --local --get alias.nuggit >/dev/null || git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
-
-cargo run
-
+git init "${git_init_params[@]}" tutorial
 cd tutorial
+reproducibility_setup
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter origin
+git init --bare "${git_init_params[@]}" ./.git/my-origin
+git remote add origin ./.git/my-origin
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter store nuggits
@@ -57,9 +72,33 @@ replace NUMBER_OF_NUGGITS CREDITS_TREE NUGGIT_DESCRIPTION_TREE "$DOCDIR/redeem-n
 chmod a=rx ./.git/redeem.nuggit
 
 # ------------------------------------------------------------------------------------------- #
+create_chapter final commit
+END_BLOB_HASH="$(git hash-object -w "$DOCDIR/credits/the-end.md")"
+END_TREE_HASH="$(printf "100644 blob %s	success.md" "$END_BLOB_HASH" | git mktree)"
+END_COMMIT="$(git commit-tree "$END_TREE_HASH" -m "Success!")"
+# Write reflog entry for the end commit to avoid dangling references
+initialise_reflog "success" "$END_COMMIT" "commit (initial): Success!"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter initial commit
+cp  "$DOCDIR/01_init/README.md" .
+git add .
+commit -m "Initial Commit"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter branches
+git switch main -c branches-explained
+cp "$DOCDIR/04_branch/branch.md" .
+git add branch.md
+commit -m "WIP: add description on branches
+
+nuggit: ShowMeMore"
+# For reference in commit.md later
+CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
 create_chapter working with branches
 git switch branches-explained
-CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
 echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally preferred nowadays.' >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on checkout"
@@ -79,6 +118,27 @@ replace CHAPTER_COMMIT_FOLLOW "$DOCDIR/03_commit/show.md" > show.md
 git add show.md
 commit -m 'Add description on `git show`'
 CHAPTER_DIFF_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter merge
+git switch --detach main
+CHAPTER_MERGE_FOLLOW="--allow-unrelated-histories $END_COMMIT"
+replace CHAPTER_MERGE_FOLLOW "$DOCDIR/13_merge/merge.md" > merge.md
+git add merge.md
+commit -m 'Add description on `git merge`'
+git rm merge.md
+commit -m 'Remove description on `git merge`'
+CHAPTER_REVERT_FOLLOW="$(git rev-parse --short @)"
+
+# ------------------------------------------------------------------------------------------- #
+create_chapter revert
+git switch --detach main
+replace CHAPTER_REVERT_FOLLOW "$DOCDIR/14_revert/revert.md" > revert.md
+git add revert.md
+commit -m 'Add description on `git revert`'
+CHAPTER_RESTORE_SOURCE_FOLLOW="$(git rev-parse --short @)"
+CHAPTER_RESTORE_SOURCE_FILE="revert.md"
+
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter restore staged
@@ -243,25 +303,13 @@ is_triggered_by_placeholder='^\# is_triggered_by replaced by build setup, stub f
 for filep in "$DOCDIR/hooks/"*; do
     file="$(basename "$filep")"
 
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks/$file" |
+    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_RESTORE_SOURCE_FOLLOW CHAPTER_RESTORE_SOURCE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks/$file" |
     sed "/$is_triggered_by_placeholder/ {n;d;}" |
     sed "/$is_triggered_by_placeholder/{
         s/$is_triggered_by_placeholder//g
         r $DOCDIR/hook_is_triggered_by.sh"'
     }' > ".git/nuggit-src/hooks/$file.orig"
 done
-
-# rust processed hooks
-for filep in "$DOCDIR/hooks_processed/"*; do
-    file="$(basename "$filep")"
-    replace CHAPTER_DIFF_FOLLOW CHAPTER_COMMIT_FOLLOW CHAPTER_RESTORE_FILE CHAPTER_CHERRY_PICK_ABORT_FOLLOW_1 CHAPTER_CHERRY_PICK_ABORT_FOLLOW_2 "$DOCDIR/hooks_processed/$file" |
-    sed "/$is_triggered_by_placeholder/ {n;d;}" |
-    sed "/$is_triggered_by_placeholder/{
-        s/$is_triggered_by_placeholder//g
-        r $DOCDIR/hook_is_triggered_by.sh"'
-    }' > ".git/nuggit-src/hooks/$file.orig"
-done
-
 while read -r hook; do
   replace LOCAL_CODE_EXECUTION_HASH "$DOCDIR/hook_preamble.sh" > ".git/nuggit-src/hooks/$hook"
 done < "$DOCDIR/all-git-hooks"
