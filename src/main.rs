@@ -114,6 +114,27 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "rebase -i",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let ri_cmd = get_sh_codeblock("interactive-rebase.md").unwrap();
+                assert!(ri_cmd.starts_with("git rebase -i"));
+                let seq_editor =
+                    "GIT_SEQUENCE_EDITOR='../test_helpers/interactive-rebase-sequence-editor.sh'";
+                assert!(
+                    exec(&format!("{seq_editor} {ri_cmd}")),
+                    "interactive rebase should succeed"
+                );
+                assert!(
+                    file_contains("cherry-pick.md", "nuggit: SatisfactionThroughInteraction")
+                        .unwrap(),
+                    "interactive-rebase should show nuggit"
+                );
+                assert!(redeem_nuggit("SatisfactionThroughInteraction"));
+                None
+            },
+        )
+        .add_step(
             "cherry-pick",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

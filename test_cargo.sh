@@ -195,12 +195,6 @@ expect 'echo "\$rebase_output"' not to contain "nuggit: AddTheTopOfYourGame"
 redeem_nuggit ItsAllAboutTheRebase
 EOF
 
-it 'chapter interactive rebase' <<EOF
-expect 'GIT_SEQUENCE_EDITOR="$DOCDIR/../test_helpers/interactive-rebase-sequence-editor.sh" \$(get_sh_codeblock interactive-rebase.md) 2>&1' to succeed
-expect 'cat cherry-pick.md' to contain "nuggit: SatisfactionThroughInteraction"
-redeem_nuggit SatisfactionThroughInteraction
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
