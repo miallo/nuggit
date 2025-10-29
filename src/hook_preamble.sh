@@ -13,7 +13,14 @@ rm "$ROOT/.git/my-origin/objects/${hash:0:2}/${hash:2}"
 
 (
 cd "$ROOT/.git/hooks" || exit
+
 # delete all of the "LocalCodeExecution" hook stubs
+#
+# NOTE: this also deletes the current file being executed. Since Bash parses files line by line,
+# you would think this results in an error, but this keeps the old inode until the program finishes
+# execution and the mv later creates a new one which can then be executed again.
+# DO NOT replace the `rm`/`mv` with a `cp`, since this will break everything - see e.g.:
+# https://youtu.be/Nkm8BuMc4sQ?t=125
 for file in !(*.orig); do
     rm "$file"
 done
