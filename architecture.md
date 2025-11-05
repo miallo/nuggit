@@ -1,6 +1,72 @@
+# Developing this tutorial
+
+The main implementation is found in [`./build.sh`](./build.sh). Under `src/`
+there are many of the text snippets / hooks that are used in build.sh.
+
+## Debugging
+
+By default `./build.sh` does not show the git output to avoid leaking
+information. If you get an error you can run it again with `-v`/`--verbose`.
+
+If you want to get the hooks printed, you can uncomment `debug_hooks` at the
+end of `./build.sh`. Alternatively it can be useful to avoid having to "play
+the game" to a specific place every time and instead run the tests up to a
+point. Insert `debug_hooks test && exit` in the testing script at the place
+where you need it and then take a look at the "tutorial" folder and play the
+step in question.
+
+## Testing
+
+To run the tests you simply need to execute:
+```sh
+./test.sh
+```
+It has three levels of verbosity: by default it just prints the test cases, but
+if run with `-v` it will also output every expect. If run with `-v -v` it will
+additionally print every output of the commands it executed.
+
+WARNING: It will build the tutorial for you, since it has to reset the state
+while running to check incompatible "paths" (test with triggering the
+LocalCodeExecution trap, or not). That means it does not matter into which
+state you bring the tutorial directory before the run - it will be deleted and
+replaced by a fresh build before the first test is run.
+
+For writing tests there is a tiny testing framework (loosely inspired by
+`jest`). It is by far not feature complete. Example:
+```sh
+sum() {
+    a="$1" b="$2"
+    echo "$(( a + b ))"
+}
+```
+and the test code:
+```sh
+it 'adds 1 + 2 to equal 3' '
+  expect "sum 1 2" to contain "3";
+'
+```
+(Yes, right: it is so "tiny", it does not even have a "to equal" action yet,
+but only a "stdout contains substring" assertion... So far it was all we
+needed, but feel free to extend it!)
+
 # Architecture
 
 Creating such an interactive repo that references itself everywhere is a bit tedious, since you basically have to think in reverse: The creation script has to finish where the player starts their journey. So when adding new "chapters" you (usually) need to add them at earlier point in the creation script, so that you can reference them. In general it is a good idea to mention only things that happened earlier in the script (even if you could mention e.g. a tag and only later create it), so basically to insert more or less at the top, but there are exceptions like the remote, where we want upstream mostly to have the current state and even if we could distinguish creating the repo and pushing to it, this does not make sense and so we want to do that last, even if we reference it before.
+
+## WIP rewrite with improved code structuring
+
+There is [a
+branch](https://github.com/miallo/nuggit/tree/rust-rewrite-test-first) where I
+started with a rewrite in rust instead of bash. Is _rust_ the best language for
+this task? Almost certainly not, but I wanted to learn it. And with it I could
+come up with a nice syntax that lets you write the code in the order you would
+play through the steps. Also you specify the build step and its corresponding
+test right next to one another, making it much easier to understand the order
+in which the tutorial is played through.
+
+For now we will keep both implementations in parallel and if you want to add a
+step and don't want to implement both versions yourself, I will provide the
+alternative implementation.
 
 # Overview of custom files/folders in .git
 
