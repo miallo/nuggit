@@ -155,12 +155,6 @@ expect "$diffu_cmd" to contain "nuggit: WhereIsTheLiveStream"
 redeem_nuggit WhereIsTheLiveStream
 '
 
-it 'chapter push' '
-push_cmd="$(get_sh_codeblock <($diffu_cmd | sed "s/^.//"))"
-expect "$push_cmd" error to contain "nuggit: PushItToTheLimits"
-redeem_nuggit PushItToTheLimits
-'
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

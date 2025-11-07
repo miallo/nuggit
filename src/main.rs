@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "push",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |prev_out| {
+                let prev_out = prev_out
+                    .clone()
+                    .expect("Required previous step output for `push`");
+                let prev_out = strip_first_char_of_line(&prev_out, 1);
+                let push_cmd = get_sh_codeblock_str(&prev_out).unwrap();
+                assert!(push_cmd == "git push");
+                assert!(exec_out(&push_cmd, true).contains("nuggit: PushItToTheLimits"));
+                assert!(redeem_nuggit("PushItToTheLimits"));
+                None
+            },
+        )
+        .add_step(
             "pull",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {
