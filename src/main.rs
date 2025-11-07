@@ -114,6 +114,20 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "tag",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                assert!(
+                    exec_out("git show the-first-tag", false)
+                        .contains("nuggit: AnnotateMeIfYouCan"),
+                    "tag must contain nuggit"
+                );
+                assert!(redeem_nuggit("AnnotateMeIfYouCan"));
+                assert!(exec("git switch --detach -q the-first-tag"));
+                None
+            },
+        )
+        .add_step(
             "rebase",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

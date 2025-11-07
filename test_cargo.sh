@@ -181,12 +181,6 @@ expect "\$(get_sh_codeblock <(echo "\$log_out"))" to contain "nuggit: LogCat"
 redeem_nuggit LogCat
 EOF
 
-it 'chapter tag' '
-expect "git show the-first-tag" to contain "nuggit: AnnotateMeIfYouCan"
-redeem_nuggit AnnotateMeIfYouCan
-expect "git switch --detach -q the-first-tag" to succeed
-'
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
