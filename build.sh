@@ -34,7 +34,7 @@ fi
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter "add warning alias to root project!"
-git config --local --get alias.nuggit >/dev/null || git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"'
+git config --local --get alias.nuggit >/dev/null || git config --local --add alias.nuggit '!echo "You need to run this command in the \"tutorial\" folder!"' || :
 
 # ------------------------------------------------------------------------------------------- #
 create_chapter initial setup
@@ -99,6 +99,8 @@ CHAPTER_COMMIT_FOLLOW="$(git rev-parse --short @)"
 # ------------------------------------------------------------------------------------------- #
 create_chapter working with branches
 git switch branches-explained
+pwd
+ls -la
 echo 'A slightly older alternative to `switch` is `checkout`, which also works, but it can do destructive things if you don'\''t pay attention, so that is why `switch` is generally preferred nowadays.' >> branch.md
 git add branch.md
 commit -m "WIP branch: add explanation on checkout"
@@ -283,7 +285,7 @@ git switch main
 # should be done as the last thing before installing the hooks
 remove_build_setup_from_config
 
-git config --local --add alias.nuggit '!$(git rev-parse --show-toplevel)/.git/nuggit.sh'
+git config --local --add alias.nuggit '!$(git rev-parse --show-toplevel)/.git/nuggit.sh' || :
 
 # origin hooks
 rm -f ".git/my-origin/hooks/"* # get rid of all the ".sample" files

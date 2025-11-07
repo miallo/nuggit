@@ -33,7 +33,7 @@ parse_opts() {
     done
 }
 
-ROOT="$(git rev-parse --show-toplevel)"
+ROOT="$(git rev-parse --show-toplevel || echo ..)"
 DOCDIR="$ROOT/src"
 
 export ROOT DOCDIR
