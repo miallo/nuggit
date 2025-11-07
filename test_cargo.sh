@@ -148,13 +148,6 @@ expect "git switch -c my-new-branch" error to contain "nuggit: MyFirstBranch"
 redeem_nuggit MyFirstBranch
 '
 
-it 'chapter upstream' '
-expect "git switch -q working-with-others" to succeed
-diffu_cmd="$(get_sh_codeblock working-with-others.md)"
-expect "$diffu_cmd" to contain "nuggit: WhereIsTheLiveStream"
-redeem_nuggit WhereIsTheLiveStream
-'
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

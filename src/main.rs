@@ -114,6 +114,19 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "upstream",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                assert!(exec("git switch -q working-with-others"));
+                let diffu_cmd = get_sh_codeblock("working-with-others.md").unwrap();
+                assert!(diffu_cmd == "git diff @{u}");
+                let diffu_out = exec_out(&diffu_cmd, false);
+                assert!(diffu_out.contains("nuggit: WhereIsTheLiveStream"));
+                assert!(redeem_nuggit("WhereIsTheLiveStream"));
+                Some(diffu_out)
+            },
+        )
+        .add_step(
             "push",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |prev_out| {
