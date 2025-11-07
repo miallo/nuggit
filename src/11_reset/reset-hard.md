@@ -1,8 +1,9 @@
 # Reset your changes
 
-`git reset` is a command used in Git to undo changes in your repository. It can modify the staging area and the working directory, allowing you to revert to a previous commit. There are three main modes: *soft*, which keeps changes in the staging area; *mixed*, which unstages changes but keeps them in the working directory; and *hard*, which discards all changes and resets the working directory to the specified commit.
+`git reset` is a command used in Git to undo changes in your repository. It can modify the staging area and the working directory, allowing you to revert to a previous commit. There are three main modes: _soft_, which keeps changes in the staging area; _mixed_, which unstages changes but keeps them in the working directory; and _hard_, which discards all changes and resets the working directory to the specified commit.
 
 You can use this to point the branch you have checked out to a different commit like:
+
 ```sh
 git reset --hard CHAPTER_RESET_HARD_FOLLOW
 ```

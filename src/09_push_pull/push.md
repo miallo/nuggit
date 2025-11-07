@@ -15,6 +15,7 @@ By default there is only one remote repo connected and it is called the "_origin
 Changes are not automatically synced in either way.
 
 The word "upstream" is also used for which remote branch a local one is connected to. You can refer to this branch by `@{upstream}` or in short `@{u}`, so e.g. to see the changes compared to what your git thinks the remote branch connected to this one is:
+
 ```sh
 git diff @{u}
 ```

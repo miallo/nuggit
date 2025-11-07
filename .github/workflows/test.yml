@@ -16,4 +16,3 @@ jobs:
         run: shellcheck tutorial/.git/redeem.nuggit tutorial/.git/nuggit-src/hooks/* tutorial/.git/*.sh
       - name: run tests
         run: ./test.sh -v
-

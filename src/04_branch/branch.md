@@ -6,7 +6,9 @@ In practise a branch in git is nothing more than a human readable label that poi
 You can check out what a branch really is for git: it is just a file with a hash. You can view it with whatever editor you use or just display the content with `cat .git/refs/heads/branches-explained` for the branch `"branches-explained"`.
 
 To switch to a branch you can e.g. run
+
 ```sh
 git switch branches-explained
 ```
+
 when you want to work on that feature.

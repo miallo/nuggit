@@ -12,7 +12,7 @@
 - add -p
 - tag (interactively)
 - config
-    - alias (explains "nuggit redeem")
+  - alias (explains "nuggit redeem")
 - submodule
 - rm / mv
 - worktree
@@ -34,17 +34,17 @@
 
 - reverted commit
 - different branch
-    - git log --all --decorate
+  - git log --all --decorate
 - tag
-    - `git describe`
-    - all tags
+  - `git describe`
+  - all tags
 - different remote
 - stash
 - .git/config (e.g. author)
-    - alias
+  - alias
 - hooks (e.g. automatically add nuggit to commit message)
-    - post-merge
-    - post-rewrite e.g. for commit --amend
+  - post-merge
+  - post-rewrite e.g. for commit --amend
 - `--word-diff --word-diff-regex=.` (nuggit hidden "inbetween" two commits)
 - submodule
 - `blame` first column
@@ -58,20 +58,19 @@
 - custom subcommand (requires setting up the $PATH)
 - git reflog => detached commit
 - random object in .git/objects (`git prune --dry-run` or hint of hash?)
-    - tree / file / blob
-    - git cat-file -p <hash>
-
+  - tree / file / blob
+  - git cat-file -p <hash>
 
 # Tools
 
 - noninteractive interactive rebase (for reflog)
-    - replace content of todo file with custom content:
-        - streameditor.sh:
-            ```sh
-            #!/usr/bin/env bash
-            cat > "$1" << EOF
-            r commit
-            pick commit2
-            EOF
-            ```
-        - `GIT_EDITOR="sed -i -e 's/old text in commit msg/fancy new text/g'" GIT_SEQUENCE_EDITOR="./streameditor.sh" git rebase -i HEAD~6`
+  - replace content of todo file with custom content:
+    - streameditor.sh:
+      ```sh
+      #!/usr/bin/env bash
+      cat > "$1" << EOF
+      r commit
+      pick commit2
+      EOF
+      ```
+    - `GIT_EDITOR="sed -i -e 's/old text in commit msg/fancy new text/g'" GIT_SEQUENCE_EDITOR="./streameditor.sh" git rebase -i HEAD~6`

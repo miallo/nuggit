@@ -7,6 +7,7 @@ An alternative view that git often shows to you for a commit is the dynamically 
 A commit can be addressed by a "hash". That is a seemingly random string of numbers and letters from a-f (hexadecimal numbers). The full length of a hash is 40 characters, but it can be truncated, as long as it is unique. That means that in many places 8-10 characters are enough.
 
 To view the commit message and diff for a commit there exists the command `git show`. By default it will show the last commit, but you can also show a specific one like this:
+
 ```sh
 git show CHAPTER_COMMIT_FOLLOW
 ```

@@ -1,4 +1,3 @@
-
 nuggit: PullMeUnder
 
 # Nomenclature: origin / upstream / remote
@@ -10,5 +9,6 @@ nuggit: PullMeUnder
 # Get other changes
 
 When you run `git pull`, two things happen, that git does automatically for you:
+
 - git downloads all changes that are in the server, that you don't know about and updates the local view of the branches (there is a separate comand that does only that: `git fetch`) - this does NOT update any of your branches.
 - if there were any updates to the upstream branch, it will update your current branch with the changes and also update all the files in your working directory for you. It can do that with a merge or a rebase (TODO: explain merge/rebase)

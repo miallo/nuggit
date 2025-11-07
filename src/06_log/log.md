@@ -2,6 +2,7 @@
 
 If you want to investigate the history of a commit there is `git log`.
 By default it will show the history of the current commit, but it can also view it for a different commit:
+
 ```sh
 git log CHAPTER_LOG_FOLLOW
 ```
