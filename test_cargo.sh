@@ -175,12 +175,6 @@ expect "\$log_cmd" to contain "nuggit: LogIcOfGit"
 redeem_nuggit LogIcOfGit
 EOF
 
-it 'chapter log -p' <<EOF
-log_out="\$(\$log_cmd | sed "s/^    //")"
-expect "\$(get_sh_codeblock <(echo "\$log_out"))" to contain "nuggit: LogCat"
-redeem_nuggit LogCat
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

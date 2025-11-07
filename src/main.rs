@@ -114,6 +114,21 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "log -p",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |prev_out| {
+                let prev_out = prev_out
+                    .clone()
+                    .expect("Required previous step output for `log -p`");
+                let prev_out = strip_first_char_of_line(&prev_out, 4);
+                let log_p_cmd = get_sh_codeblock_str(&prev_out).unwrap();
+                assert!(log_p_cmd.starts_with("git log -p"));
+                assert!(exec_out(&log_p_cmd, false).contains("nuggit: LogCat"),);
+                assert!(redeem_nuggit("LogCat"));
+                None
+            },
+        )
+        .add_step(
             "tag",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {
