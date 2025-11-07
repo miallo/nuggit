@@ -114,6 +114,19 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "log",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                assert!(exec("git switch history -q"));
+                let log_cmd = get_sh_codeblock("log.md").unwrap();
+                assert!(log_cmd.starts_with("git log"));
+                let log_out = exec_out(&log_cmd, false);
+                assert!(log_out.contains("nuggit: LogIcOfGit"),);
+                assert!(redeem_nuggit("LogIcOfGit"));
+                Some(log_out)
+            },
+        )
+        .add_step(
             "log -p",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |prev_out| {

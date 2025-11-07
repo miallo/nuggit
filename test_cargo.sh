@@ -168,13 +168,6 @@ expect "cat working-with-others.md" to contain "nuggit: PullMeUnder"
 redeem_nuggit PullMeUnder
 '
 
-it 'chapter log' <<EOF
-expect "git switch history -q" to succeed
-log_cmd="\$(get_sh_codeblock log.md)"
-expect "\$log_cmd" to contain "nuggit: LogIcOfGit"
-redeem_nuggit LogIcOfGit
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
