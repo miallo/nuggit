@@ -79,40 +79,32 @@ fn create_build_steps() -> BuildStepper {
     //    },
     //);
 
-    //build_stepper.add_step(
-    //    "branches",
-    //    |repo: &git2::Repository, next: String| {
-    //        println!("branches next {next}");
-    //        switch_detach(&repo, "main");
-    //        create_branch(repo, "branches-explained");
-    //        copy_file("04_branch/branch.md", "branch.md");
-    //        g_add(&repo, "branch.md").expect("could not add branch.md");
-    //        commit(
-    //            &repo,
-    //            "WIP: add description on branches\n\nnuggit: ShowMeMore",
-    //        )
-    //        .expect("could not commit branches");
-
-    //        Ok("branches-explained".to_string())
-    //    },
-    //    |_git: &mut Command| {
-    //        //TODO
-    //        assert!(
-    //            test_exec(
-    //                "git switch branches-explained",
-    //                "nuggit: Switcheridoo",
-    //                true
-    //            )
-    //            .expect("could not switch to branches-explained"),
-    //            "switch branches-explained did not contain nuggit"
-    //        );
-    //        assert!(
-    //            redeem_nuggit("Switcheridoo"),
-    //            "could not redeem Switcheridoo"
-    //        );
-    //    },
-    //);
     build_stepper
+        .add_step(
+            "branches",
+            |_repo: &git2::Repository, _next: String| {
+                Err(NotImplemented)
+                // switch_detach(&repo, "main");
+                // create_branch(repo, "branches-explained");
+                // copy_file("04_branch/branch.md", "branch.md");
+                // g_add(&repo, "branch.md").expect("could not add branch.md");
+                // commit(
+                //     &repo,
+                //     "WIP: add description on branches\n\nnuggit: ShowMeMore",
+                // )
+                // .expect("could not commit branches");
+
+                // Ok("branches-explained".to_string())
+            },
+            |_| {
+                assert!(
+                    exec_out("git switch branches-explained", true)
+                        .contains("nuggit: Switcheridoo")
+                );
+                assert!(redeem_nuggit("Switcheridoo"));
+                None
+            },
+        )
         .add_step(
             "create branch",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),

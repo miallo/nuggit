@@ -138,11 +138,6 @@ expect '\$show_cmd' to contain "nuggit: ShowMeMore"
 redeem_nuggit ShowMeMore
 EOF
 
-it 'chapter working with branches' '
-expect "git switch branches-explained" error to contain "nuggit: Switcheridoo"
-redeem_nuggit Switcheridoo
-'
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
