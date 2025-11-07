@@ -143,11 +143,6 @@ expect "git switch branches-explained" error to contain "nuggit: Switcheridoo"
 redeem_nuggit Switcheridoo
 '
 
-it 'MyFirstBranch when creating new branch' '
-expect "git switch -c my-new-branch" error to contain "nuggit: MyFirstBranch"
-redeem_nuggit MyFirstBranch
-'
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '

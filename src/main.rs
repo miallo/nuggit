@@ -114,6 +114,17 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "create branch",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                assert!(
+                    exec_out("git switch -c my-new-branch", true).contains("nuggit: MyFirstBranch")
+                );
+                assert!(redeem_nuggit("MyFirstBranch"));
+                None
+            },
+        )
+        .add_step(
             "upstream",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {
