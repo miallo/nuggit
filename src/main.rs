@@ -114,6 +114,22 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "rebase",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                let rb_cmd = get_sh_codeblock("combine_history.md").unwrap();
+                assert!(rb_cmd.starts_with("git rebase"));
+                let out = exec_out(&rb_cmd, true);
+                assert!(
+                    out.contains("nuggit: ItsAllAboutTheRebase"),
+                    "rebase must contain nuggit"
+                );
+                assert!(!out.contains("nuggit: AddTheTopOfYourGame"));
+                assert!(redeem_nuggit("ItsAllAboutTheRebase"));
+                None
+            },
+        )
+        .add_step(
             "rebase -i",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {

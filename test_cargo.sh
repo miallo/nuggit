@@ -187,14 +187,6 @@ redeem_nuggit AnnotateMeIfYouCan
 expect "git switch --detach -q the-first-tag" to succeed
 '
 
-it 'chapter rebase' <<EOF
-# do a rebase
-rebase_output="\$(\$(get_sh_codeblock combine_history.md) 2>&1)"
-expect 'echo "\$rebase_output"' to contain "nuggit: ItsAllAboutTheRebase"
-expect 'echo "\$rebase_output"' not to contain "nuggit: AddTheTopOfYourGame"
-redeem_nuggit ItsAllAboutTheRebase
-EOF
-
 cargo test -- --nocapture
 
 it 'An invalid nuggit should show an error' '
