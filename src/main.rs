@@ -114,6 +114,20 @@ fn create_build_steps() -> BuildStepper {
     //);
     build_stepper
         .add_step(
+            "pull",
+            |_repo: &git2::Repository, _next: String| Err(NotImplemented),
+            |_| {
+                assert!(
+                    !exec("git switch history -q"),
+                    "history branch should only exist after pull"
+                );
+                assert!(exec("git pull"));
+                assert!(file_contains(&"working-with-others.md", "PullMeUnder").unwrap());
+                assert!(redeem_nuggit("PullMeUnder"));
+                None
+            },
+        )
+        .add_step(
             "log",
             |_repo: &git2::Repository, _next: String| Err(NotImplemented),
             |_| {
