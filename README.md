@@ -46,10 +46,11 @@ into the quests (many of which are impossible in a fresh clone)…
 
 Alternatively: If you don't want to run this "build"-script yourself (it
 basically just executes a bunch of git commands to create the folder "tutorial"
-and fills it with all the information you need), you can download it:
+and fills it with all the information you need), you can download it from the
+release page: https://github.com/miallo/nuggit/releases
 
 ```sh
-curl https://nuggit.lohmann.sh/tutorial.zip --output tutorial.zip
+cd ~/Downloads
 unzip tutorial.zip
 tar --extract --file=tutorial.tar
 cd tutorial
