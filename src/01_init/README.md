@@ -26,6 +26,10 @@ Q: I want to learn more about a git command - how?
 
 A: As a first step, just run `git <command> --help` - otherwise: the internet is your friend.
 
+Q: Later in the game, how can I look things up?
+
+A: This file will stay here for the rest of the tutorial and you can always peek into it. It will not change though, so no need to check it ;)
+
 NOTE: This tutorial uses git hooks extensively for it to work. Because of the way you downloaded/built this repository they are enabled by default and could run arbitrary code.
 
 Also: if your editor of choice asks you if you want to "trust this project" - say yes, otherwise its git integration will not work ;)
@@ -45,7 +49,7 @@ Now lets start with redeeming your first
 nuggit: ReadTheDocs
 ```
 
-to set things up:
+to set things up, run:
 
 ```sh
 git nuggit redeem ReadTheDocs
